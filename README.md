@@ -33,4 +33,4 @@ python main.py
 ## Dankwoord (Acknowledgments)
 
 * StackOverflow
-* minor programmeren van de UvA
+* minor AI van de UvA
