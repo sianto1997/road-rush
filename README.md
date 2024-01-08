@@ -26,7 +26,9 @@ python main.py
 
 ## Auteurs (Authors)
 
-* Ik
+* Amber
+* Esmée
+* Simon
 
 ## Dankwoord (Acknowledgments)
 
