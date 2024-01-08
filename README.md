@@ -26,11 +26,11 @@ python main.py
 
 ## Auteurs (Authors)
 
-* Amber
+* Amber 
 * Esmée
 * Simon
 
 ## Dankwoord (Acknowledgments)
 
 * StackOverflow
-* minor programmeren van de UvA
+* minor heuristieken van de UvA
