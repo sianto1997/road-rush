@@ -1,0 +1,51 @@
+Opdracht 1:
+volgorde: ja & herhaling: nee.
+N = 20 verschillende tijdsloten
+r = 12 verschillende vakken die allemaal gevuld moeten worden
+20! / (20-12)! = 60.339.831.552.000
+
+Opdracht 2:
+volgorde: ja & herhaling: ja.
+N = 3 opties bij elk kruispunt (links, rechts, rechtdoor).
+r = 20 keer kiezen bij een kruispunt.
+3 ^ 20 = 3.486.784.401
+
+Opdracht 3:
+volgorde: nee & herhaling: ja.
+N = 3 verschillende dozen (water, fruit, broodjes)
+r = 25 verschillende dozen in één lading
+(25 + 3 - 1)! / 25! (3 - 1)! = 351
+
+Opdracht 4:
+volgorde: nee & herhaling: nee.
+N = 110 verschillende vakken
+r = 30, 31 of 32
+110! / 30! (110 - 30)! = 836.623.091.773.942.498.385.906.238
+110! / 31! (110 - 31)! = 2.159.027.333.610.174.189.382.983.840
+110! / 32! (110 - 32)! = 5.330.098.729.850.117.530.039.241.355
+Dus in totaal kan een student afstuderen op 8.325.749.155.234.234.217.808.131.433 verschillende manieren:
+836.623.091.773.942.498.385.906.238 + 2.159.027.333.610.174.189.382.983.840 + 5.330.098.729.850.117.530.039.241.355 = 8.325.749.155.234.234.217.808.131.433
+
+Opdracht 5:
+volgorde: ja & herhaling: nee.
+N = 26 letters
+r = 7
+26! / (26-7)! = 3.315.312.000
+Dus de kans op het lot DBFAECG is: 
+1 / 3.315.312.000 = 3.0163073641334510899728291032638858725815247554377989160597... × 10^-10
+
+Opdracht 6:
+volgorde: ja & herhaling: ja.
+N = 3 verschillende dozen (water, fruit en broodjes)
+r = 45 dozen passen in één lading
+Dus de hoeveelheid verschillende ladingen die je mee kan nemen, is de som van:
+2^45 
+3 ^ 1 * 2 ^ 44
+3 ^ 2 * 2 ^ 43
+......
+3 ^ 30 * 2 ^ 15 
+= 20.239.851.480.688.197.632
+
+Opdracht 7:
+Welke variabelen zijn er in de case?
+Bord grootte, oriëntatie van auto, lengte van auto, aantal auto's, positie van auto. De uitkomst variabel is aantal benodigde zetten.
