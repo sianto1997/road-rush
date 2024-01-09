@@ -49,3 +49,27 @@ Dus de hoeveelheid verschillende ladingen die je mee kan nemen, is de som van:
 Opdracht 7:
 Welke variabelen zijn er in de case?
 Bord grootte, oriëntatie van auto, lengte van auto, aantal auto's, positie van auto. De uitkomst variabel is aantal benodigde zetten.
+
+Beschrijf de eventuele versimpelende aannames die je maakt en waarom de werkelijke state-space grootte hier dan gegarandeerd nooit boven ligt.
+1. Auto's kunnen elkaar overlappen.
+
+De werkelijke state-space kan niet groter zijn dan de state-space met deze aannames. Dat komt door de aanname dat auto's op dezelfde plek kunnen staan, wat in de praktijk niet kan. Hierdoor zijn er meer mogelijkheden om auto's neer te zetten dan normaal gesproken zou kunnen. Dit geeft de bovengrens aan.
+
+Geef de formule voor de berekening van (de bovengrens van) de grootte van de state-space van je case.
+volgorde: nee (door onze aanname dat auto's op elkaar kunnen staan) & herhaling: ja.
+N = aantal keuzes (0, 1, 2, 3 stappen vooruit)
+r = aantal auto's op het bord
+
+Dus de formule om de state-space te bepalen is:
+(r + N -1)! / r! (n-1)!
+
+We kwamen erachter dat dit niet klopte toen we een simpel geval wilde uitvoeren om te laten zien dat de formule klopt, hierdoor hebben we zelf een formule hebben opgesteld.
+Nieuwe formule: 
+Het product van:
+Boardsize - (carsize - 1) -> per auto berekend.
+
+Laat in een klein voorbeeld zien dat de formule klopt. Het kan makkelijker zijn om dit te schetsen. Plaatjes daarvan kan je uploaden en via een url hieronder met ons delen.
+https://github.com/sianto1997/road-rush/blob/master/assignments/State%20space%20-%20Formule%20en%20rekenvoorbeelden.jpg
+
+Bereken de grootte van de state-space voor één of meer van de probleem-instanties in de case.
+https://github.com/sianto1997/road-rush/blob/master/assignments/State%20space%20-%20Uitgerekend%20voor%20Game%20%231.jpg
