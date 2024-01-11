@@ -43,8 +43,10 @@ class Car:
             # creates a rectangle in horizontal oriantion with the parameters of the object car 
             car = plt.Rectangle((self.column, self.row), self.length, 1, facecolor= self.colour, edgecolor='black', lw=5)
         else:
+
             # creates a rectangle in vertical oriantion with the parameters of the object car
             car = plt.Rectangle((self.column, self.row), 1, self.length, facecolor= self.colour, edgecolor='black', lw=5)
         
         # adds the made rectangles to the board
         board.add_patch(car) 
+        plt.text(self.column+0.5, self.row+0.5, self.id, fontsize = 10)
