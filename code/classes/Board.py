@@ -22,7 +22,7 @@ class Board:
 
         print(self.map_grid())
     
-    def visualize(self):
+    def visualize_board(self):
         """
         Visualizes the object board
         """
@@ -59,6 +59,9 @@ class Board:
 
         # deletes the axis numbers 
         ax.set_axis_off()
+
+        for car in self.cars:
+            car.visualize_car(ax)
       
         plt.show()
 
