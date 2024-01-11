@@ -11,8 +11,13 @@ class Board:
         - input_file = CSV, the file with information about the board 
         """ 
         
+        # get position of 'hour' in title of input file
         start = input_file.find('hour') + len('hour')
+        
+        # get position of 'x' in title of input file, starting from position 'hour'
         end = input_file.find('x', start)
+        
+        # extract substring between 'hour' and 'x', convert to  integer and remove whitespaces
         self.size = int(input_file[start:end].strip())
         self.exit_row = ceil(self.size / 2)
         self.cars = []
