@@ -1,3 +1,5 @@
+import random
+
 class Car:
     def __init__(self, id, orientation, column, row, length):
         self.id = id
@@ -9,10 +11,10 @@ class Car:
         if self.id == 'X':
             colour = 'red'
         else: 
-            colour = pass
+            colour = self.colours[random.randint(0,6)]
         
         self.colour = 'tab:' + colour
-        
+        print(colour)
         
     def visualize(self):
         pass

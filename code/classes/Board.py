@@ -4,10 +4,12 @@ from Car import Car
 class Board:
     def __init__(self, input_file):
         start = input_file.find('hour') + len('hour')
-        end = input_file.find('x', start_index)
+        end = input_file.find('x', start)
         self.size = int(input_file[start:end].strip())
         self.exit_row = self.size // 2
         self.cars = []
+        print(self.size, self.exit_row)
+
 
     def add_cars(self, csv):
         for index, row in csv.iterrows():
