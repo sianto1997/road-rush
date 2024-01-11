@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import pandas as pd
 from Car import Car 
 
 class Board:
@@ -12,7 +13,6 @@ class Board:
     def add_cars(self, csv):
         for index, row in csv.iterrows():
             car = Car(row.car, row.orientation, row.col, row.row, row.length)
-
             self.cars.append(car)
     
     def visualize(self):
