@@ -5,10 +5,20 @@ from math import ceil
 import numpy as np
 import time
 
-class Board:
+class Board:   
     def __init__(self, input_file):
+        """
+        Creates a board for the game Rush Hour
+        - input_file = CSV, the file with information about the board 
+        """ 
+        
+        # get position of 'hour' in title of input file
         start = input_file.find('hour') + len('hour')
+        
+        # get position of 'x' in title of input file, starting from position 'hour'
         end = input_file.find('x', start)
+        
+        # extract substring between 'hour' and 'x', convert to  integer and remove whitespaces
         self.size = int(input_file[start:end].strip())
         self.exit_row = ceil(self.size / 2)
         self.cars = []
@@ -16,8 +26,14 @@ class Board:
 
 
     def add_cars(self, csv):
+
+        # loops over the index and rows of the given dataframe 
         for index, row in csv.iterrows():
+
+            # creates the car obejct with the information of the dataframe
             car = Car(row.car, row.orientation, row.col, row.row, row.length)
+    
+            # appends the object car to the list self.cars 
             self.cars.append(car)
             if car.id == 'X':
                 self.red_car = car
