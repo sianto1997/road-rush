@@ -25,9 +25,9 @@ class Car:
             print(self.column, self.row)
         
         if self.orientation == 'H':
-            car = plt.Rectangle((self.column, self.row), self.length, 1, facecolor= self.colour, edgecolor='black')
+            car = plt.Rectangle((self.column, self.row), self.length, 1, facecolor= self.colour, edgecolor='black', lw=5)
         else:
-            car = plt.Rectangle((self.column, self.row), 1, self.length, facecolor= self.colour, edgecolor='black')
+            car = plt.Rectangle((self.column, self.row), 1, self.length, facecolor= self.colour, edgecolor='black', lw=5)
         board.add_patch(car) 
         board.text(0.5, 0.5, self.id, color='white', ha='center', va='center', fontsize=10, zorder=2)
         
