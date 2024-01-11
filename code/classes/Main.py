@@ -1,6 +1,6 @@
 import argparse
 import pandas as pd
-from Board import Board
+from board import Board
 
 def main(input_file):
     csv = pd.read_csv(input_file) 

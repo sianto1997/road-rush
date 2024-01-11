@@ -19,6 +19,20 @@ class Car:
         self.colour = 'tab:' + colour
         print(colour)
         
+    def update_grid(self, grid):
+        location_column = self.column
+        location_row = self.row
+
+        # _ signifies that the variable itself will not be used
+        for _ in range(1, self.length):
+            grid[location_column - 1][location_row - 1] = 1
+            if self.orientation == 'H':
+                location_column += 1
+            else:
+                location_row += 1
+    
+        return grid
+    
     def visualize_car(self, board):
         
         if self.id == 'X':
@@ -30,7 +44,3 @@ class Car:
             car = plt.Rectangle((self.column, self.row), 1, self.length, facecolor= self.colour, edgecolor='black', lw=5)
         board.add_patch(car) 
         board.text(0.5, 0.5, self.id, color='white', ha='center', va='center', fontsize=10, zorder=2)
-        
-        
-        
-    

@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-from Car import Car 
+from car import Car 
 from math import ceil
+import numpy as np
 
 class Board:
     def __init__(self, input_file):
@@ -17,6 +18,9 @@ class Board:
         for index, row in csv.iterrows():
             car = Car(row.car, row.orientation, row.col, row.row, row.length)
             self.cars.append(car)
+
+
+        print(self.map_grid())
     
     def visualize_board(self):
         """
@@ -61,6 +65,12 @@ class Board:
       
         plt.show()
 
-        
+    def move_possible(self, start_location, car_size, steps):
+        return False 
 
-        
+    def map_grid(self):
+        grid = np.zeros((self.size, self.size))
+        for car in self.cars:
+            grid = car.update_grid(grid)
+
+        return grid
