@@ -20,7 +20,7 @@ class Board:
     
     def visualize(self):
         board = plt.figure(figsize=[self.size+0.5,self.size+0.5])
-        board.patch.set_facecolor((1,1,.8))
+        board.patch.set_facecolor('gray')
         ax = board.add_subplot()
         ax.invert_yaxis()
         for x in range(1,self.size+1):
