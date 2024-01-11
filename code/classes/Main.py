@@ -5,7 +5,7 @@ from Board import Board
 def main(input_file):
     csv = pd.read_csv(input_file) 
 
-    board = Board(6)
+    board = Board(input_file)
     board.add_cars(csv) 
 
     board.visualize() 
