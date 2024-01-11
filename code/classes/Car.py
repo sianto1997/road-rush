@@ -24,8 +24,8 @@ class Car:
         location_row = self.row
 
         # _ signifies that the variable itself will not be used
-        for _ in range(1, self.length):
-            grid[location_column - 1][location_row - 1] = 1
+        for _ in range(self.length):
+            grid[location_row - 1][location_column - 1] = 1
             if self.orientation == 'H':
                 location_column += 1
             else:
