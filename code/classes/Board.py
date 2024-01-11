@@ -4,8 +4,13 @@ from car import Car
 from math import ceil
 import numpy as np
 
-class Board:
+class Board:   
     def __init__(self, input_file):
+        """
+        Creates a board for the game Rush Hour
+        - input_file = CSV, the file with information about the board 
+        """ 
+        
         start = input_file.find('hour') + len('hour')
         end = input_file.find('x', start)
         self.size = int(input_file[start:end].strip())
@@ -15,8 +20,14 @@ class Board:
 
 
     def add_cars(self, csv):
+
+        # loops over the index and rows of the given dataframe 
         for index, row in csv.iterrows():
+
+            # creates the car obejct with the information of the dataframe
             car = Car(row.car, row.orientation, row.col, row.row, row.length)
+    
+            # appends the object car to the list self.cars 
             self.cars.append(car)
 
 

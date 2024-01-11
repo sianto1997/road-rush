@@ -8,15 +8,14 @@ class Car:
         self.column = column 
         self.row = row
         self.length = length 
-        self.colours = ['blue', 'orange', 'green', 'purple', 'brown', 'pink', 'olive', 'cyan']
+        self.colours = ['blue', 'orange', 'green', 'purple', 'brown', 'pink', 'olive', 'cyan','yellow','gold', 'violet', 'plum', 'slateblue', 'navy', 'orchid', 'plum']
         if self.id == 'X':
             colour = 'red'
         else: 
             index = ord(self.id[-1]) % len(self.colours) 
             colour = self.colours[index]
-        
-        
-        self.colour = 'tab:' + colour
+
+        self.colour = colour
         print(colour)
         
     def update_grid(self, grid):
@@ -34,13 +33,18 @@ class Car:
         return grid
     
     def visualize_car(self, board):
-        
-        if self.id == 'X':
-            print(self.column, self.row)
-        
+        """
+        creates a simple representation of a car 
+        """
+
+        # checks the orientation of the car object       
         if self.orientation == 'H':
+
+            # creates a rectangle in horizontal oriantion with the parameters of the object car 
             car = plt.Rectangle((self.column, self.row), self.length, 1, facecolor= self.colour, edgecolor='black', lw=5)
         else:
+            # creates a rectangle in vertical oriantion with the parameters of the object car
             car = plt.Rectangle((self.column, self.row), 1, self.length, facecolor= self.colour, edgecolor='black', lw=5)
+        
+        # adds the made rectangles to the board
         board.add_patch(car) 
-        board.text(0.5, 0.5, self.id, color='white', ha='center', va='center', fontsize=10, zorder=2)
