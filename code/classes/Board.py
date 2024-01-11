@@ -31,7 +31,7 @@ class Board:
         # creates the grid place
         ax = board.add_subplot()
 
-        # inverts the values of the y axis
+        # inverts the values of the y-axis
         ax.invert_yaxis()
 
         # loops over the values of the x-axis
