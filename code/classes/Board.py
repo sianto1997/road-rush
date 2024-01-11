@@ -9,6 +9,8 @@ class Board:
         self.size = int(input_file[start:end].strip())
         self.exit_row = self.size // 2
         self.cars = []
+        print(self.size, self.exit_row)
+
 
     def add_cars(self, csv):
         for index, row in csv.iterrows():
