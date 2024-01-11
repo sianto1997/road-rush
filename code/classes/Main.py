@@ -8,7 +8,7 @@ def main(input_file):
     board = Board(input_file)
     board.add_cars(csv) 
 
-    board.visualize() 
+    board.visualize_board() 
 
 if __name__ == "__main__":
     # Set-up parsing command line arguments

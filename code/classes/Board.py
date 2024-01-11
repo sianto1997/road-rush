@@ -18,7 +18,7 @@ class Board:
             car = Car(row.car, row.orientation, row.col, row.row, row.length)
             self.cars.append(car)
     
-    def visualize(self):
+    def visualize_board(self):
         """
         Visualizes the object board
         """
@@ -55,6 +55,9 @@ class Board:
 
         # deletes the axis numbers 
         ax.set_axis_off()
+
+        for car in self.cars:
+            car.visualize_car(ax)
       
         plt.show()
 
