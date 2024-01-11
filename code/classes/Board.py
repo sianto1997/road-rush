@@ -3,6 +3,7 @@ import pandas as pd
 from car import Car 
 from math import ceil
 import numpy as np
+import time
 
 class Board:
     def __init__(self, input_file):
@@ -18,6 +19,8 @@ class Board:
         for index, row in csv.iterrows():
             car = Car(row.car, row.orientation, row.col, row.row, row.length)
             self.cars.append(car)
+            if car.id == 'X':
+                self.red_car = car
 
 
         print(self.map_grid())
@@ -63,10 +66,35 @@ class Board:
         for car in self.cars:
             car.visualize_car(ax)
       
-        plt.show()
+        # plt.show()
+        plt.draw()
+        plt.pause(0.01)
 
-    def move_possible(self, start_location, car_size, steps):
-        return False 
+        ax.cla()
+
+
+
+    def try_move(self, car, steps):
+        time.sleep(1.5)
+
+        grid = self.map_grid()
+        step_size = 1
+        start = 1
+        if steps < 0:
+            step_size = -1
+            start = -1
+
+        for movement in range(start, steps + 1, step_size):
+            # if 0 >= car.begin_and_end >= self.size 
+            if not car.try_move(grid, movement):
+                print(f'Move of car {car.id} ({car.orientation}) unsuccessful at step {movement}, goal was {steps}')
+                return False
+
+        
+        car.move(steps)
+        self.visualize_board()
+
+        return True
 
     def map_grid(self):
         grid = np.zeros((self.size, self.size))
@@ -74,3 +102,16 @@ class Board:
             grid = car.update_grid(grid)
 
         return grid
+
+    def start_experiment(self):
+        # self.try_move(self.cars[0], -1)
+        
+        
+        # self.try_move(self.cars[1], -1)
+
+           
+        
+        # self.try_move(self.cars[2], 1)
+
+        self.try_move(self.cars[-4], -1)
+        self.try_move(self.cars[-5], 2)

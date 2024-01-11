@@ -1,6 +1,7 @@
 import argparse
 import pandas as pd
 from board import Board
+import time
 
 def main(input_file):
     csv = pd.read_csv(input_file) 
@@ -9,6 +10,11 @@ def main(input_file):
     board.add_cars(csv) 
 
     board.visualize_board() 
+
+    board.start_experiment()
+
+    time.sleep(10)
+
 
 if __name__ == "__main__":
     # Set-up parsing command line arguments
