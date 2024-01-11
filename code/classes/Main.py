@@ -2,16 +2,14 @@ import argparse
 import pandas as pd
 from Board import Board
 
-
 def main(input_file):
     csv = pd.read_csv(input_file) 
     
-    board = Board(6) 
+    board = Board(6)
+    board.add_cars(csv) 
 
-    board.visualize()
+    board.visualize() 
 
-    
-    
 if __name__ == "__main__":
     # Set-up parsing command line arguments
     parser = argparse.ArgumentParser(description = "reads in csv file")
