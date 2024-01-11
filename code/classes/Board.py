@@ -34,7 +34,7 @@ class Board:
         # inverts the values of the y axis
         ax.invert_yaxis()
 
-        # loops over the values of the x
+        # loops over the values of the x-axis
         for x in range(1,self.size+1):
             
             # makes a black line on the places of the x in a particular range 
@@ -44,7 +44,7 @@ class Board:
         ax.plot([self.size+1, self.size+1], [1,self.exit_row], 'k')
         ax.plot([self.size+1, self.size+1], [self.exit_row+1,self.size+1], 'k')
 
-        # loops over the values of y 
+        # loops over the values of y-axis
         for y in range(1,self.size+2):
 
             # makes a black line on the places of the y in a particular range
