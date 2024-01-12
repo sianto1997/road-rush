@@ -9,14 +9,18 @@ class Car:
         self.row = row
         self.length = length 
         self.colours = ['blue', 'orange', 'green', 'purple', 'brown', 'pink', 'olive', 'cyan','yellow','gold', 'violet', 'plum', 'slateblue', 'navy', 'orchid', 'plum']
+        
+        # checks if car.id is 'X', if true car.colour is set to 'red'
         if self.id == 'X':
             colour = 'red'
+        
+        # if car.id is not 'X', car.colour is set to a colour out of the self.colours list in order. Cars adjesent to eachother will have a 
+        # smaller change of getting the same colour  
         else: 
             index = ord(self.id[-1]) % len(self.colours) 
             colour = self.colours[index]
 
         self.colour = colour
-        # print(self.id, colour, 'Column:', self.column, 'Row:',self.row)
         
     def update_collision_map(self, collision_map):
         location_column = self.column
