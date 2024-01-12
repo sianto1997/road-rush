@@ -47,7 +47,7 @@ class Car:
         else:
             collision_map_slice = collision_map[:,self.column]
             start_pos = self.row
-        
+
         offset = 0
         if steps > 0:
             offset = self.length
