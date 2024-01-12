@@ -16,7 +16,6 @@ class Car:
             colour = self.colours[index]
 
         self.colour = colour
-        print(colour)
         
     def update_grid(self, grid):
         location_column = self.column
@@ -39,7 +38,6 @@ class Car:
 
         
     def try_move(self, grid, steps):
-        
 
         if self.orientation == 'H':
             grid_slice = grid[:, self.row]
@@ -52,8 +50,6 @@ class Car:
         
         # Disable the car's own area to 0 (otherwise it will say it cannot move because the own car is there)
         grid_slice[start_pos:self.length] = 0
-
-        
         
         if steps < 0:
             start_pos -= steps
