@@ -24,9 +24,6 @@ def main(input, amount_of_moves, output_directory):
     experiment = Experiment(board, amount_of_moves, input, output_directory)
     experiment.start_random_experiment()
 
-    time.sleep(12)
-
-
 if __name__ == "__main__":
     # Set-up parsing command line arguments
     parser = argparse.ArgumentParser(description = "reads in csv file")
