@@ -28,14 +28,12 @@ class Board:
         if (visualize):
             self.init_visualization()
 
-    def record_move(self):
-        # TODO for Esmée
-
-        pass
+    def record_move(self, car_id, step):
+        self.moves = []
+        self.moves.append((car_id,step))
+        print(self.moves)
 
     def save_moves(self, output_filename):
-        # TODO for Esmée
-
         pass
 
     def add_cars(self, csv):
@@ -68,7 +66,6 @@ class Board:
 
         # creates the grid place
         self.ax = board.add_subplot()
-
 
 
     def draw(self):
@@ -115,7 +112,7 @@ class Board:
      
         if car.try_move(grid, steps):
             self.draw()
-            self.record_move()
+            self.record_move(car.id, steps)
 
     def get_collision_map(self):
         row_bound = np.ones((1, self.size))

@@ -31,20 +31,9 @@ class Car:
                 location_row += 1
     
         return collision_map
-<<<<<<< HEAD
-    
-    # def get_end_pos(self):
-    #     if self.orientation == 'H':
-    #         return self.column + self.length
-        
-    #     return self.row + self.length
-
-=======
->>>>>>> 15cf3037c4aeff886e0349981991b4ca0586b790
         
     def try_move(self, collision_map, steps):
         
-
         if self.orientation == 'H':
             collision_map_slice = collision_map[self.row]
             start_pos = self.column
