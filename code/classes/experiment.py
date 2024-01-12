@@ -45,6 +45,6 @@ class Experiment:
                 break
 
         # Save for 
-        self.board.save_moves(f'{self.output_directory}/{self.file_name}_{solved}_{self.board.get_amount_of_moves()}_{self.start_time}.csv')
+        self.board.save_moves(f'{self.output_directory}/{self.file_name}_Random_Algorithm_{solved}_{self.board.get_amount_of_moves()}_{self.start_time}.csv')
         # Save location for check 50
         self.board.save_moves(f'output.csv')
