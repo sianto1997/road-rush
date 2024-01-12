@@ -16,7 +16,7 @@ class Car:
             colour = self.colours[index]
 
         self.colour = colour
-        print(self.id, colour, 'Column:', self.column, 'Row:',self.row)
+        # print(self.id, colour, 'Column:', self.column, 'Row:',self.row)
         
     def update_collision_map(self, collision_map):
         location_column = self.column

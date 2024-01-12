@@ -38,7 +38,6 @@ class Board:
         df.to_csv('output_filename')
 
 
-
     def add_cars(self, csv):
 
         # loops over the index and rows of the given dataframe 
@@ -159,8 +158,8 @@ class Board:
         for car in self.cars:
             collision_map = car.update_collision_map(collision_map)
 
-        print('Printing current grid (occupied positions)')
-        print(collision_map)
+        # print('Printing current grid (occupied positions)')
+        # print(collision_map)
 
         return collision_map
 
