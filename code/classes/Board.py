@@ -25,6 +25,9 @@ class Board:
 
         # TODO for Esmée
         # self.moves = 
+
+        self.is_finished = self.can_finish()
+
         if (visualize):
             self.init_visualization()
 
@@ -137,3 +140,10 @@ class Board:
 
         return collision_map
 
+    def can_finish(self):
+        if self.red_car.try_move(+6):
+            moves = 0
+            print(f'Game can be finished! It took {moves} moves')
+            return True
+        
+        return False
