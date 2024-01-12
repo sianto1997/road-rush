@@ -16,6 +16,9 @@ class Experiment:
 
 
     def simple_experiment(self):
+        """
+        Simple manual experiment
+        """
         self.move(self.cars[0], -1)
         
         self.move(self.cars[1], -1)
@@ -28,6 +31,9 @@ class Experiment:
         self.move(self.cars[-5], 2)
 
     def start_random_experiment(self):
+        """
+        Start random experiment
+        """
         solved = False
         while self.board.get_amount_of_moves() < self.max_moves:
             
@@ -38,5 +44,7 @@ class Experiment:
                 solved = True
                 break
 
+        # Save for 
         self.board.save_moves(f'{self.output_directory}/{self.file_name}_{self.start_time}_{solved}_{self.board.get_amount_of_moves()}.csv')
+        # Save location for check 50
         self.board.save_moves(f'output.csv')

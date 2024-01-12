@@ -5,7 +5,14 @@ from experiment import Experiment
 import time
 
 def main(input, amount_of_moves, output_directory):
+    """
+    Main function the program.
 
+    Input:
+    - input: Filename of board
+    - amount_of_moves: Amount of moves before cut_off of the experiment
+    - output_directory: Which folder to save the moves to
+    """
     # reads the csv and turns it into a dataframe
     csv = pd.read_csv(input) 
 
@@ -26,7 +33,7 @@ if __name__ == "__main__":
 
     # Adding arguments
     parser.add_argument("input", help = "input file (csv)")
-    parser.add_argument("--amount_of_moves", help = "amount of moves to try", required=False, type=int, default=10 ** 4)
+    parser.add_argument("--amount_of_moves", help = "amount of moves to try", required=False, type=int, default=1000)
     parser.add_argument("--output_directory", help = "output directory", required=False, default = "data")
 
     # Read arguments from command line
