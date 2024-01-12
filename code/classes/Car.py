@@ -31,6 +31,7 @@ class Car:
                 location_row += 1
     
         return collision_map
+    
     # def get_end_pos(self):
     #     if self.orientation == 'H':
     #         return self.column + self.length
