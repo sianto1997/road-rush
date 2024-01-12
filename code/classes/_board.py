@@ -37,7 +37,10 @@ class Board:
         print(self.moves)
 
     def save_moves(self, output_filename):
-        pass
+        df = pd.DataFrame(self.moves, columns=['car', 'move']) 
+        df.to_csv('output_filename')
+
+
 
     def add_cars(self, csv):
 
