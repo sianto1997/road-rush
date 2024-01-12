@@ -25,8 +25,7 @@ class Board:
 
         # TODO for Esmée
         # self.moves = 
-
-        self.is_finished = self.can_finish()
+        self.red_car = None
 
         if (visualize):
             self.init_visualization()
@@ -50,8 +49,8 @@ class Board:
             # appends the object car to the list self.cars 
             self.cars.append(car)
 
-            # Saving m
-            if car.id == 'X':
+            # Saving the red car to later check for finish
+            if row.car == 'X':
                 self.red_car = car
 
 
@@ -110,12 +109,46 @@ class Board:
 
         self.ax.cla()
 
-    def try_move(self, car, steps):
-        grid = self.get_collision_map()
-     
-        if car.try_move(grid, steps):
+    def move(self, car, steps):
+        collision_map = self.get_collision_map()
+        
+        if car.orientation == 'H':
+            collision_map_slice = collision_map[car.row]
+            start_pos = car.column
+        else:
+            collision_map_slice = collision_map[:,car.column]
+            start_pos = car.row
+
+        offset = 0
+        if steps > 0:
+            offset = car.length
+        else:
+            offset = steps
+
+        # print(self.column, self.row)
+        # print(offset, start_pos, steps, start_pos + steps, abs(steps))
+        start_pos = max(0, start_pos + offset)
+        end_pos = min(start_pos+abs(steps), len(collision_map_slice))
+        # print(start_pos, end_pos, abs(steps))
+        target_area = collision_map_slice[start_pos:end_pos] == 1
+        
+        # print(target_area)
+        if not target_area.any() and len(target_area) > 0:
+            if car.orientation == 'H':
+                car.column += steps
+            else:
+                car.row += steps
+            
+            print(f'Move of car {car.id} ({car.orientation}) successful: {steps}')
             self.draw()
             self.record_move(car.id, steps)
+            return True
+
+        print(f'Move of car {car.id} ({car.orientation}) was unsuccessful: {steps}')
+        return False
+
+
+        
 
     def get_collision_map(self):
         row_bound = np.ones((1, self.size))
@@ -137,8 +170,8 @@ class Board:
 
         return collision_map
 
-    def can_finish(self):
-        if self.red_car.try_move(+6):
+    def finish(self):
+        if self.move(self.red_car, self.size):
             moves = 0
             print(f'Game can be finished! It took {moves} moves')
             return True

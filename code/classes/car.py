@@ -31,41 +31,7 @@ class Car:
                 location_row += 1
     
         return collision_map
-        
-    def try_move(self, collision_map, steps):
-        
-        if self.orientation == 'H':
-            collision_map_slice = collision_map[self.row]
-            start_pos = self.column
-        else:
-            collision_map_slice = collision_map[:,self.column]
-            start_pos = self.row
 
-        offset = 0
-        if steps > 0:
-            offset = self.length
-        else:
-            offset = steps
-
-        # print(self.column, self.row)
-        # print(offset, start_pos, steps, start_pos + steps, abs(steps))
-        start_pos = max(0, start_pos + offset)
-        end_pos = min(start_pos+abs(steps), len(collision_map_slice))
-        # print(start_pos, end_pos, abs(steps))
-        target_area = collision_map_slice[start_pos:end_pos] == 1
-        
-        print(target_area)
-        if not target_area.any() and len(target_area) > 0:
-            if self.orientation == 'H':
-                self.column += steps
-            else:
-                self.row += steps
-            
-            print(f'Move of car {self.id} ({self.orientation}) successful: {steps}')
-            return True
-
-        print(f'Move of car {self.id} ({self.orientation}) was unsuccessful: {steps}')
-        return False
     
     def draw(self, board):
         """
