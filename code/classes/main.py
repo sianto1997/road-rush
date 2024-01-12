@@ -1,6 +1,6 @@
 import argparse
 import pandas as pd
-from code.classes._board import Board
+from board import Board
 from experiment import Experiment
 import time
 
