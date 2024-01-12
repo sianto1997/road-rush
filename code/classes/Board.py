@@ -95,6 +95,7 @@ class Board:
 
         # loops over the values of y-axis
         for y in range(1, self.size + 2):
+
             # makes a black line on the places of the y in a particular range
             self.ax.plot([1, self.size + 1], [y,y], 'k')
         
@@ -131,7 +132,6 @@ class Board:
         # Unblock exit row
         collision_map[self.exit_row][self.size+1] = 0
         
-
         for car in self.cars:
             collision_map = car.update_collision_map(collision_map)
 
