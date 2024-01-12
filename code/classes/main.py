@@ -5,11 +5,14 @@ from experiment import Experiment
 import time
 
 def main(input_file):
+
+    # reads the csv and turns it into a dataframe
     csv = pd.read_csv(input_file) 
 
+    # creates a object of the class Board 
     board = Board(input_file, True)
     board.add_cars(csv) 
-
+    
     board.draw() 
 
     experiment = Experiment(board, 10 ** 100, input_file)
