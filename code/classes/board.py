@@ -207,7 +207,10 @@ class Board:
         return collision_map
 
     def finish(self):
-        if self.move(self.red_car, self.size):
+        """
+        """
+        # Discuss with TA: check50 reports car hit a wall where there is no wall
+        if self.move(self.red_car, self.size - self.red_car.column):
             moves = len(self.moves)
             print(f'Game is finished! It took {moves} moves')
             return True
