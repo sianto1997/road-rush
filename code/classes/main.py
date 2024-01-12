@@ -15,7 +15,7 @@ def main(input_file):
     experiment = Experiment(board, 10, input_file)
     experiment.start_random_experiment()
 
-    time.sleep(2)
+    time.sleep(120)
 
 
 if __name__ == "__main__":
