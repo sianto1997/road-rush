@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 
 class Car:
     """
@@ -8,7 +9,11 @@ class Car:
         Initializes a new class
         
         Parameters:
-        - id
+        - id: Name of the car
+        - orientation: H (horizontal) or V (vertical)
+        - column: current position of car (starts with 1)
+        - row: current position of car (starts with 1)
+        - lenght: length of car (2 or three)
         """
         self.id = id
         self.orientation = orientation
@@ -42,9 +47,12 @@ class Car:
         return collision_map
 
     
-    def draw(self, board):
+    def draw(self, canvas):
         """
-        creates a simple representation of a car 
+        Creates a simple representation of a car on an existing canvas.
+
+        Input:
+        - Canvas object (plt subplot)
         """
 
         # checks the orientation of the car object       
@@ -58,7 +66,7 @@ class Car:
             car = plt.Rectangle((self.column, self.row), 1, self.length, facecolor= self.colour, edgecolor='black', lw=5)
         
         # adds the made rectangles to the board
-        board.add_patch(car)
+        canvas.add_patch(car)
 
         # shows the id of the car in the plot 
         plt.text(self.column+0.5, self.row+0.5, self.id, fontsize = 10)

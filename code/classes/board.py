@@ -7,7 +7,9 @@ import numpy as np
 class Board:   
     def __init__(self, input_file, visualize=False):
         """
-        Creates a board for the game Rush Hour
+        Creates a board for the game Rush Hour.
+
+        Input:
         - input_file = CSV, the file with information about the board 
         """ 
         self.visualize = visualize
@@ -35,6 +37,9 @@ class Board:
         df = pd.DataFrame(self.moves, columns=['car', 'move']) 
         df.to_csv(output_filename)
 
+    def get_amount_of_moves(self):
+        return len(self.moves)
+
     def add_cars(self, csv):
         # loops over the index and rows of the given dataframe 
         for index, row in csv.iterrows():
@@ -54,13 +59,13 @@ class Board:
         Initializes the board so that only one display is created
         """
         # give the range to the figure
-        board = plt.figure(figsize=[self.size + 0.5, self.size + 0.5])
+        canvas = plt.figure(figsize=[self.size + 0.5, self.size + 0.5])
 
         # makes the background colour of the figure gray
-        board.patch.set_facecolor('gray')
+        canvas.patch.set_facecolor('gray')
 
         # creates the grid place
-        self.ax = board.add_subplot()
+        self.ax = canvas.add_subplot()
 
 
     def draw(self):
