@@ -21,6 +21,8 @@ class Board:
         
         # extract substring between 'hour' and 'x', convert to  integer and remove whitespaces
         self.size = int(input_file[start:end].strip())
+
+        # devides the self.size by 2, if answer is float then number is rounded upwards 
         self.exit_row = ceil(self.size / 2)
         self.cars = []
 
@@ -31,9 +33,22 @@ class Board:
             self.init_visualization()
 
     def record_move(self, car_id, step):
+        """
+        Appends a tuple of made moves and id of a car to a list 
+
+        Input:
+        - car_id = str, the id of the object car 
+        - step = int, the move the car makes on the board 
+        """
         self.moves.append((car_id,step))
 
     def save_moves(self, output_filename):
+        """ 
+        Exports the made moves to a csv file 
+
+        Input:
+        - output_filename = str, the name + place where the file is being saved 
+        """
         df = pd.DataFrame(self.moves, columns=['car', 'move']) 
         print(df)
         df.to_csv(output_filename, index=False)
