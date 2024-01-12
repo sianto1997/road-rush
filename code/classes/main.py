@@ -12,7 +12,7 @@ def main(input_file):
 
     board.draw() 
 
-    experiment = Experiment(board, 10 ** 5, input_file)
+    experiment = Experiment(board, 10, input_file)
     experiment.start_random_experiment()
 
     time.sleep(2)
