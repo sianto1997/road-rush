@@ -2,7 +2,7 @@ import random
 from datetime import datetime
 
 class Experiment:
-    def __init__(self, board, max_moves, input_file):
+    def __init__(self, board, max_moves, input_file, output_directory):
         """
         Initializing experiment
         """
@@ -11,6 +11,7 @@ class Experiment:
         self.file_name = input_file.split('/')[-1]
         self.start_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         print(self.file_name)
+        self.output_directory = output_directory
 
 
 
@@ -28,7 +29,7 @@ class Experiment:
 
     def start_random_experiment(self):
         solved = False
-        for _ in range(self.max_moves):
+        while self.board.get_amount_of_moves() < self.max_moves:
             
             car_index = random.randint(0, len(self.board.cars) - 1)
             # print(len(self.cars), car_index)
@@ -37,5 +38,5 @@ class Experiment:
                 solved = True
                 break
 
-        self.board.save_moves(f'output/{self.file_name}_{self.start_time}_{solved}_{self.board.get_amount_of_moves()}.csv')
-        self.board.save_moves(f'output/output.csv')
+        self.board.save_moves(f'{self.output_directory}/{self.file_name}_{self.start_time}_{solved}_{self.board.get_amount_of_moves()}.csv')
+        self.board.save_moves(f'{self.output_directory}/output.csv')

@@ -4,17 +4,17 @@ from board import Board
 from experiment import Experiment
 import time
 
-def main(input_file, amount_of_moves, output_folder):
+def main(input, amount_of_moves, output_directory):
 
     # reads the csv and turns it into a dataframe
-    csv = pd.read_csv(input_file) 
+    csv = pd.read_csv(input) 
 
     # creates a object of the class Board 
-    board = Board(input_file, csv, True)
+    board = Board(input, csv, True)
     
     board.draw() 
 
-    experiment = Experiment(board, amount_of_moves, input_file, output_folder)
+    experiment = Experiment(board, amount_of_moves, input, output_directory)
     experiment.start_random_experiment()
 
     time.sleep(12)
@@ -31,6 +31,7 @@ if __name__ == "__main__":
 
     # Read arguments from command line
     args = parser.parse_args()
+    print(args)
 
     # Run main with provide arguments
-    main(args.input)
+    main(args.input, args.amount_of_moves, args.output_directory)
