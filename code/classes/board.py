@@ -21,7 +21,6 @@ class Board:
         self.size = int(input_file[start:end].strip())
         self.exit_row = ceil(self.size / 2)
         self.cars = []
-        print(self.size, self.exit_row)
 
         # TODO for Esmée
         # self.moves = 
@@ -33,7 +32,6 @@ class Board:
     def record_move(self, car_id, step):
         self.moves = []
         self.moves.append((car_id,step))
-        print(self.moves)
 
     def save_moves(self, output_filename):
         df = pd.DataFrame(self.moves, columns=['car', 'move']) 
@@ -55,9 +53,6 @@ class Board:
             # Saving the red car to later check for finish
             if row.car == 'X':
                 self.red_car = car
-
-
-        # print(self.map_grid())
     
     def init_visualization(self):
         """
@@ -108,7 +103,7 @@ class Board:
             car.draw(self.ax)
       
         plt.draw()
-        plt.pause(0.07)
+        plt.pause(0.0001)
 
         self.ax.cla()
 
@@ -128,26 +123,22 @@ class Board:
         else:
             offset = steps
 
-        # print(self.column, self.row)
-        # print(offset, start_pos, steps, start_pos + steps, abs(steps))
         start_pos = max(0, start_pos + offset)
         end_pos = min(start_pos+abs(steps), len(collision_map_slice))
-        # print(start_pos, end_pos, abs(steps))
         target_area = collision_map_slice[start_pos:end_pos] == 1
         
-        # print(target_area)
         if not target_area.any() and len(target_area) > 0:
             if car.orientation == 'H':
                 car.column += steps
             else:
                 car.row += steps
             
-            print(f'Move of car {car.id} ({car.orientation}) successful: {steps}')
+            # print(f'Move of car {car.id} ({car.orientation}) successful: {steps}')
             self.draw()
             self.record_move(car.id, steps)
             return True
 
-        print(f'Move of car {car.id} ({car.orientation}) was unsuccessful: {steps}')
+        # print(f'Move of car {car.id} ({car.orientation}) was unsuccessful: {steps}')
         return False
 
 

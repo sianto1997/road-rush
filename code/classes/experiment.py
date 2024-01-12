@@ -12,11 +12,11 @@ class Experiment:
 
 
     def simple_experiment(self):
-        # self.try_move(self.cars[0], -1)
+        self.move(self.cars[0], -1)
         
-        # self.try_move(self.cars[1], -1)
+        self.move(self.cars[1], -1)
 
-        # self.try_move(self.cars[2], 1)
+        self.move(self.cars[2], 1)
 
         self.move(self.cars[-4], -1)
         self.move(self.cars[-5], 2)
@@ -34,4 +34,4 @@ class Experiment:
                 solved = True
                 break
 
-        self.board.save_moves(self, f'data/{self.file_name}_{self.start_time}_{solved}.csv')
+        self.board.save_moves(f'data/{self.file_name}_{self.start_time}_{solved}.csv')
