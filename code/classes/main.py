@@ -10,8 +10,7 @@ def main(input_file):
     csv = pd.read_csv(input_file) 
 
     # creates a object of the class Board 
-    board = Board(input_file, True)
-    board.add_cars(csv) 
+    board = Board(input_file, csv, True)
     
     board.draw() 
 

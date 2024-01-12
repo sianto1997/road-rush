@@ -5,12 +5,14 @@ from math import ceil
 import numpy as np
 
 class Board:   
-    def __init__(self, input_file, visualize=False):
+    def __init__(self, input_file, car_csv, visualize=False):
         """
         Creates a board for the game Rush Hour.
 
         Input:
         - input_file = CSV, the file with information about the board 
+        - car_csv = parsed CSV of cars
+        - visualize = show visualization (do not display by default)
         """ 
         self.visualize = visualize
         # get position of 'hour' in title of input file
@@ -23,6 +25,7 @@ class Board:
         self.size = int(input_file[start:end].strip())
         self.exit_row = ceil(self.size / 2)
         self.cars = []
+        self.init_cars(car_csv)
 
         self.moves = []
         self.red_car = None
@@ -41,7 +44,13 @@ class Board:
     def get_amount_of_moves(self):
         return len(self.moves)
 
-    def add_cars(self, csv):
+    def init_cars(self, csv):
+        """
+            Initializes all cars
+        
+            Input:
+            csv = parsed CSV of cars in board
+        """
         # loops over the index and rows of the given dataframe 
         for index, row in csv.iterrows():
 
@@ -104,11 +113,20 @@ class Board:
             car.draw(self.ax)
       
         plt.draw()
+        # Pause to be able to show the visualization
         plt.pause(0.0001)
 
         self.ax.cla()
 
     def move(self, car, steps):
+        """
+        Moves a car in steps direction
+        Input:
+        - car (Car-object)
+        - steps (a number between -board_size and board_size)
+        Output:
+        - success (True or False)
+        """
         collision_map = self.get_collision_map()
         
         if car.orientation == 'H':
@@ -141,14 +159,20 @@ class Board:
 
         # print(f'Move of car {car.id} ({car.orientation}) was unsuccessful: {steps}')
         return False
-
-
         
 
     def get_collision_map(self):
+        """
+        Gets the current collision map
+
+        TODO for Simon: make more efficient by only creating map at init, and edit at move()
+        """
+
+        # Create bounds for top, bottom and and sides
         row_bound = np.ones((1, self.size))
         column_bound = np.ones((self.size + 2, 1))
 
+        # Create empty collision map
         collision_map = np.zeros((self.size, self.size))
 
         collision_map = np.vstack((row_bound, collision_map, row_bound))
@@ -157,9 +181,11 @@ class Board:
         # Unblock exit row
         collision_map[self.exit_row][self.size+1] = 0
         
+        # Loop through all cars and get their position
         for car in self.cars:
             collision_map = car.update_collision_map(collision_map)
 
+        # Debug
         # print('Printing current grid (occupied positions)')
         # print(collision_map)
 

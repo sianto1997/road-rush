@@ -3,6 +3,7 @@ from datetime import datetime
 
 class Experiment:
     def __init__(self, board, max_moves, input_file):
+        
         self.board = board
         self.max_moves = max_moves
         self.file_name = input_file.split('/')[-1]
