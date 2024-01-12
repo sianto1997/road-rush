@@ -6,7 +6,7 @@ class Experiment:
         self.board = board
         self.max_moves = max_moves
         self.file_name = input_file.split('/')[-1]
-        self.start_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        self.start_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         print(self.file_name)
 
 
