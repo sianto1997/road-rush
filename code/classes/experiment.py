@@ -12,11 +12,11 @@ class Experiment:
 
 
     def simple_experiment(self):
-        # self.try_move(self.cars[0], -1)
+        self.move(self.cars[0], -1)
         
-        # self.try_move(self.cars[1], -1)
+        self.move(self.cars[1], -1)
 
-        # self.try_move(self.cars[2], 1)
+        self.move(self.cars[2], 1)
 
         self.move(self.cars[-4], -1)
         self.move(self.cars[-5], 2)
