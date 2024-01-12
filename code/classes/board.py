@@ -108,7 +108,7 @@ class Board:
             car.draw(self.ax)
       
         plt.draw()
-        plt.pause(0.7)
+        plt.pause(0.07)
 
         self.ax.cla()
 

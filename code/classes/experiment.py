@@ -2,9 +2,9 @@ import random
 from datetime import datetime
 
 class Experiment:
-    def __init__(self, board, move_tries, input_file):
+    def __init__(self, board, max_moves, input_file):
         self.board = board
-        self.move_tries = move_tries
+        self.max_moves = max_moves
         self.file_name = input_file.split('/')[-1]
         self.start_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         print(self.file_name)
@@ -25,7 +25,7 @@ class Experiment:
 
     def start_random_experiment(self):
         solved = False
-        for _ in range(self.move_tries):
+        for _ in range(self.max_moves):
             
             car_index = random.randint(0, len(self.board.cars) - 1)
             # print(len(self.cars), car_index)
