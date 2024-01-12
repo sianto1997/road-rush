@@ -34,4 +34,4 @@ class Experiment:
                 solved = True
                 break
 
-        self.board.save_moves(f'data/{self.file_name}_{self.start_time}_{solved}.csv')
+        self.board.save_moves(f'results/{self.file_name}_{self.start_time}_{solved}.csv')
