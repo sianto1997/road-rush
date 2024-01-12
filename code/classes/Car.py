@@ -34,7 +34,6 @@ class Car:
         
     def try_move(self, collision_map, steps):
         
-
         if self.orientation == 'H':
             collision_map_slice = collision_map[self.row]
             start_pos = self.column
