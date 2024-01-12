@@ -27,10 +27,10 @@ class Board:
         # devides the self.size by 2, if answer is float then number is rounded upwards 
         self.exit_row = ceil(self.size / 2)
         self.cars = []
+        self.red_car = None
         self.init_cars(car_csv)
 
         self.moves = []
-        self.red_car = None
 
         if (visualize):
             self.init_visualization()
