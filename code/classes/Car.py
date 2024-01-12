@@ -90,5 +90,7 @@ class Car:
             car = plt.Rectangle((self.column, self.row), 1, self.length, facecolor= self.colour, edgecolor='black', lw=5)
         
         # adds the made rectangles to the board
-        board.add_patch(car) 
+        board.add_patch(car)
+
+        # shows the id of the car in the plot 
         plt.text(self.column+0.5, self.row+0.5, self.id, fontsize = 10)
