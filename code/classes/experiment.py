@@ -38,3 +38,4 @@ class Experiment:
                 break
 
         self.board.save_moves(f'output/{self.file_name}_{self.start_time}_{solved}_{self.board.get_amount_of_moves()}.csv')
+        self.board.save_moves(f'output/output.csv')
