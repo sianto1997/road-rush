@@ -5,12 +5,12 @@ from math import ceil
 import numpy as np
 
 class Board:   
-    def __init__(self, input_file):
+    def __init__(self, input_file, visualize=False):
         """
         Creates a board for the game Rush Hour
         - input_file = CSV, the file with information about the board 
         """ 
-        
+        self.visualize = visualize
         # get position of 'hour' in title of input file
         start = input_file.find('hour') + len('hour')
         
@@ -25,8 +25,8 @@ class Board:
 
         # TODO for Esmée
         # self.moves = 
-
-        self.init_visualization()
+        if (visualize):
+            self.init_visualization()
 
     def record_move(self):
         # TODO for Esmée
@@ -48,6 +48,8 @@ class Board:
     
             # appends the object car to the list self.cars 
             self.cars.append(car)
+
+            # Saving m
             if car.id == 'X':
                 self.red_car = car
 
@@ -69,10 +71,12 @@ class Board:
 
 
 
-    def visualize_board(self):
+    def draw(self):
         """
         Draws the object board to the current state
         """
+        if not self.visualize:
+            return
         
         # inverts the values of the y-axis
         self.ax.invert_yaxis()
@@ -98,20 +102,18 @@ class Board:
         self.ax.set_axis_off()
 
         for car in self.cars:
-            car.visualize_car(self.ax)
+            car.draw(self.ax)
       
         plt.draw()
         plt.pause(0.7)
 
         self.ax.cla()
 
-
-
     def try_move(self, car, steps):
         grid = self.get_collision_map()
      
         if car.try_move(grid, steps):
-            self.visualize_board()
+            self.draw()
             self.record_move()
 
     def get_collision_map(self):

@@ -7,10 +7,10 @@ import time
 def main(input_file):
     csv = pd.read_csv(input_file) 
 
-    board = Board(input_file)
+    board = Board(input_file, True)
     board.add_cars(csv) 
 
-    board.visualize_board() 
+    board.draw() 
 
     experiment = Experiment(board, 10 ** 1000)
     experiment.start_random_experiment()

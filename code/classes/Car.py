@@ -31,12 +31,6 @@ class Car:
                 location_row += 1
     
         return collision_map
-    # def get_end_pos(self):
-    #     if self.orientation == 'H':
-    #         return self.column + self.length
-        
-    #     return self.row + self.length
-
         
     def try_move(self, collision_map, steps):
         
@@ -74,7 +68,7 @@ class Car:
         print(f'Move of car {self.id} ({self.orientation}) was unsuccessful: {steps}')
         return False
     
-    def visualize_car(self, board):
+    def draw(self, board):
         """
         creates a simple representation of a car 
         """
