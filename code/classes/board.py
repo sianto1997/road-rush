@@ -22,21 +22,18 @@ class Board:
         self.exit_row = ceil(self.size / 2)
         self.cars = []
 
-        # TODO for Esmée
-        # self.moves = 
+        self.moves = []
         self.red_car = None
 
         if (visualize):
             self.init_visualization()
 
     def record_move(self, car_id, step):
-        self.moves = []
         self.moves.append((car_id,step))
 
     def save_moves(self, output_filename):
         df = pd.DataFrame(self.moves, columns=['car', 'move']) 
         df.to_csv('output_filename')
-
 
     def add_cars(self, csv):
 
