@@ -12,10 +12,10 @@ def main(input_file):
 
     board.draw() 
 
-    experiment = Experiment(board, 10, input_file)
+    experiment = Experiment(board, 10 ** 100, input_file)
     experiment.start_random_experiment()
 
-    time.sleep(120)
+    time.sleep(12)
 
 
 if __name__ == "__main__":

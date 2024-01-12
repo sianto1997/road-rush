@@ -1,13 +1,22 @@
 
-import matplotlib.pyplot as plt
-
 class Car:
+    """
+    The car class
+    """
     def __init__(self, id, orientation, column, row, length):
+        """
+        Initializes a new class
+        
+        Parameters:
+        - id
+        """
         self.id = id
         self.orientation = orientation
         self.column = column 
         self.row = row
         self.length = length 
+
+        # Discuss with TA: move colour assignment to board class?
         self.colours = ['blue', 'orange', 'green', 'purple', 'brown', 'pink', 'olive', 'cyan','yellow','gold', 'violet', 'plum', 'slateblue', 'navy', 'orchid', 'plum']
         if self.id == 'X':
             colour = 'red'

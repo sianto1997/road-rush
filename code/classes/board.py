@@ -36,7 +36,6 @@ class Board:
         df.to_csv(output_filename)
 
     def add_cars(self, csv):
-
         # loops over the index and rows of the given dataframe 
         for index, row in csv.iterrows():
 
@@ -162,8 +161,8 @@ class Board:
 
     def finish(self):
         if self.move(self.red_car, self.size):
-            moves = 0
-            print(f'Game can be finished! It took {moves} moves')
+            moves = len(self.moves)
+            print(f'Game is finished! It took {moves} moves')
             return True
         
         return False
