@@ -23,7 +23,9 @@ class Experiment:
             
             car_index = random.randint(0, len(self.board.cars) - 1)
             # print(len(self.cars), car_index)
-            self.board.try_move(self.board.cars[car_index], random.randint(-6,6))
+            self.board.try_move(self.board.cars[car_index], random.randint(-self.board.size,self.board.size))
+            if self.board.can_finish():
+                break
 
 
         self.board.save_moves(self, 'data/1.csv')
