@@ -1,6 +1,7 @@
 import argparse
 import pandas as pd
 from board import Board
+from experiment import Experiment
 import time
 
 def main(input_file):
@@ -11,9 +12,10 @@ def main(input_file):
 
     board.visualize_board() 
 
-    board.start_experiment()
+    experiment = Experiment(board, 10 ** 1000)
+    experiment.start_random_experiment()
 
-    time.sleep(10)
+    time.sleep(2)
 
 
 if __name__ == "__main__":

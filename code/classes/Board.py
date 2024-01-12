@@ -3,7 +3,6 @@ import pandas as pd
 from car import Car 
 from math import ceil
 import numpy as np
-import time
 
 class Board:   
     def __init__(self, input_file):
@@ -24,6 +23,20 @@ class Board:
         self.cars = []
         print(self.size, self.exit_row)
 
+        # TODO for Esmée
+        # self.moves = 
+
+        self.init_visualization()
+
+    def record_move(self):
+        # TODO for Esmée
+
+        pass
+
+    def save_moves(self, output_filename):
+        # TODO for Esmée
+
+        pass
 
     def add_cars(self, csv):
 
@@ -39,95 +52,86 @@ class Board:
                 self.red_car = car
 
 
-        print(self.map_grid())
+        # print(self.map_grid())
     
-    def visualize_board(self):
+    def init_visualization(self):
         """
-        Visualizes the object board
+        Initializes the board so that only one display is created
         """
         # give the range to the figure
-        board = plt.figure(figsize=[self.size+0.5,self.size+0.5])
+        board = plt.figure(figsize=[self.size + 0.5, self.size + 0.5])
 
         # makes the background colour of the figure gray
         board.patch.set_facecolor('gray')
 
         # creates the grid place
-        ax = board.add_subplot()
+        self.ax = board.add_subplot()
 
+
+
+    def visualize_board(self):
+        """
+        Draws the object board to the current state
+        """
+        
         # inverts the values of the y-axis
-        ax.invert_yaxis()
-
+        self.ax.invert_yaxis()
         # loops over the values of the x-axis
         for x in range(1,self.size+1):
             
             # makes a black line on the places of the x in a particular range 
-            ax.plot([x, x], [1,self.size+1], 'k')
+            self.ax.plot([x, x], [1, self.size + 1], 'k')
         
         # makes the exit row line
-        ax.plot([self.size+1, self.size+1], [1,self.exit_row], 'k')
-        ax.plot([self.size+1, self.size+1], [self.exit_row+1,self.size+1], 'k')
+        self.ax.plot([self.size+1, self.size+1], [1,self.exit_row], 'k')
+        self.ax.plot([self.size+1, self.size+1], [self.exit_row+1,self.size+1], 'k')
 
         # loops over the values of y-axis
-        for y in range(1,self.size+2):
-
+        for y in range(1, self.size + 2):
             # makes a black line on the places of the y in a particular range
-            ax.plot([1, self.size+1], [y,y], 'k')
+            self.ax.plot([1, self.size + 1], [y,y], 'k')
         
         # create marges around the grid 
-        ax.set_position([0,0,1,1])
+        self.ax.set_position([0, 0, 1, 1])
 
         # deletes the axis numbers 
-        ax.set_axis_off()
+        self.ax.set_axis_off()
 
         for car in self.cars:
-            car.visualize_car(ax)
+            car.visualize_car(self.ax)
       
-        # plt.show()
         plt.draw()
-        plt.pause(0.01)
+        plt.pause(0.7)
 
-        ax.cla()
+        self.ax.cla()
 
 
 
     def try_move(self, car, steps):
-        time.sleep(1.5)
+        grid = self.get_collision_map()
+     
+        if car.try_move(grid, steps):
+            self.visualize_board()
+            self.record_move()
 
-        grid = self.map_grid()
-        step_size = 1
-        start = 1
-        if steps < 0:
-            step_size = -1
-            start = -1
+    def get_collision_map(self):
+        row_bound = np.ones((1, self.size))
+        column_bound = np.ones((self.size + 2, 1))
 
-        for movement in range(start, steps + 1, step_size):
-            # if 0 >= car.begin_and_end >= self.size 
-            if not car.try_move(grid, movement):
-                print(f'Move of car {car.id} ({car.orientation}) unsuccessful at step {movement}, goal was {steps}')
-                return False
+        collision_map = np.zeros((self.size, self.size))
 
+        collision_map = np.vstack((row_bound, collision_map, row_bound))
+        collision_map = np.hstack((column_bound, collision_map, column_bound))
+
+        # Unblock exit row
+        collision_map[self.exit_row][self.size+1] = 0
         
-        car.move(steps)
-        self.visualize_board()
 
-        return True
-
-    def map_grid(self):
-        grid = np.zeros((self.size, self.size))
         for car in self.cars:
-            grid = car.update_grid(grid)
+            collision_map = car.update_collision_map(collision_map)
 
-        return grid
+        print('Printing current grid (occupied positions)')
+        print(collision_map)
 
-    def start_experiment(self):
-        # self.try_move(self.cars[0], -1)
-        
-        
-        # self.try_move(self.cars[1], -1)
+        return collision_map
 
-           
-        
-        # self.try_move(self.cars[2], 1)
-
-        self.try_move(self.cars[-4], -1)
-        self.try_move(self.cars[-5], 2)
