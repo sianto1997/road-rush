@@ -65,12 +65,12 @@ class Board:
             Initializes all cars
         
             Input:
-            csv = parsed CSV of cars in board
+            csv = Dataframe, parsed CSV of cars in board
         """
         # loops over the index and rows of the given dataframe 
         for index, row in csv.iterrows():
 
-            # creates the car obejct with the information of the dataframe
+            # creates the car object with the information of the dataframe
             car = Car(row.car, row.orientation, row.col, row.row, row.length)
     
             # appends the object car to the list self.cars 
