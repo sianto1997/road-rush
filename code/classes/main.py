@@ -17,7 +17,7 @@ def main(input, amount_of_moves, output_directory):
     csv = pd.read_csv(input) 
 
     # creates a object of the class Board 
-    board = Board(input, csv)
+    board = Board(input, csv, True)
     
     board.draw() 
 
