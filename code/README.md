@@ -1,3 +1,3 @@
 # Code
 
-Hier leg ik uit welke code waar te vinden is.
+A directory where our made code is stored. Orderd into two maps, namly Classes and Algoritmes 
