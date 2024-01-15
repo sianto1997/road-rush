@@ -15,6 +15,7 @@ class Board:
         - visualize = show visualization (do not display by default)
         """ 
         self.visualize = visualize
+
         # get position of 'hour' in title of input file
         start = input_file.find('hour') + len('hour')
         
@@ -53,7 +54,7 @@ class Board:
         - output_filename = str, the name + place where the file is being saved 
         """
         df = pd.DataFrame(self.moves, columns=['car', 'move']) 
-        print(df)
+        
         df.to_csv(output_filename, index=False)
 
     def get_amount_of_moves(self):
@@ -64,12 +65,12 @@ class Board:
             Initializes all cars
         
             Input:
-            csv = parsed CSV of cars in board
+            csv = Dataframe, parsed CSV of cars in board
         """
         # loops over the index and rows of the given dataframe 
         for index, row in csv.iterrows():
 
-            # creates the car obejct with the information of the dataframe
+            # creates the car object with the information of the dataframe
             car = Car(row.car, row.orientation, row.col, row.row, row.length)
     
             # appends the object car to the list self.cars 

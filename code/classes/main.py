@@ -35,7 +35,7 @@ if __name__ == "__main__":
     parser.add_argument("--output_check50", help = "save as output.csv (used for check50)", required=False, type=bool, default=False)
     parser.add_argument("--visualize", help = "show visual board", required=False, type=bool, default=False)
 
-    # Read arguments from command line
+    # Read arguments from command line 
     args = parser.parse_args()
     print(args)
 
