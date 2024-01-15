@@ -15,6 +15,7 @@ class Board:
         - visualize = show visualization (do not display by default)
         """ 
         self.visualize = visualize
+        
         # get position of 'hour' in title of input file
         start = input_file.find('hour') + len('hour')
         
