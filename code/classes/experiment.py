@@ -62,25 +62,30 @@ class Experiment:
             # time.sleep(100)
 
             solved = False
-            while solved or self.board.get_amount_of_moves() < self.max_moves:
+        
+            while not solved and self.board.get_amount_of_moves() < self.max_moves - 1:
                 car_index = random.randint(0, len(self.board.cars) - 1)
 
                 if MoveMethods(move_method) == MoveMethods.RandomAll:
                     steps = random.randint(-self.board.size,self.board.size)
                 else:
                     steps = random.randint(-move_method,move_method)
-                
-                self.board.move(self.board.cars[car_index], steps)
-                if self.board.finish():
-                    solved = True
-                    
+
+
+                if steps != 0:
+                    self.board.move(self.board.cars[car_index], steps)
+                    if self.board.finish():
+                        solved = True
+
             self.board.close_visualization()
 
-            amount_of_moves = self.board.get_amount_of_moves()
-            moves.add(amount_of_moves)
+            
+            # print(moves)
 
+            amount_of_moves = self.board.get_amount_of_moves()
             # Applying save_threshold to not save long (bad) solutions
-            if amount_of_moves <= save_threshold:
+            if amount_of_moves <= save_threshold and solved:
+                moves.add(amount_of_moves)
                 # Save location for check 50
                 if self.output_check50:
                     self.board.save_moves(f'output.csv')
@@ -89,4 +94,4 @@ class Experiment:
                     self.board.save_moves(f'{self.output_directory}/{self.file_name}_{MoveMethods(move_method).name}_{solved}_{amount_of_moves}_{self.start_time}.csv')
 
         # Print the top solutions for comparison to other experiments 
-        # print(amount_of_moves)
+        print(sorted(moves)[:5])

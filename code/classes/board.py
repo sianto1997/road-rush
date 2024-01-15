@@ -135,7 +135,8 @@ class Board:
         self.ax.cla()
 
     def close_visualization(self):
-        plt.close(self.canvas)
+        if self.visualize:
+            plt.close(self.canvas)
 
     def move(self, car, steps):
         """
@@ -147,7 +148,7 @@ class Board:
         - success (True or False)
         """
         collision_map = self.get_collision_map()
-        print(car.id, steps)
+        # print(car.id, steps)
         
         if car.orientation == 'H':
             collision_map_slice = collision_map[car.row]
