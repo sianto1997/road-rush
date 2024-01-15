@@ -11,6 +11,9 @@ def main(input, amount_of_moves, output_directory, amount_of_experiments, move_m
     - amount_of_moves: Amount of moves before cut_off of the experiment
     - output_directory: Which folder to save the moves to
     - move_method: Way to move
+    - save_threshold: Save solutions only when at or lower than threshold
+    - output_check50: Save as output.csv to satisfy check50 required output filename
+    - visualize: Show visualization (disabled by default)
     """
     # reads the csv and turns it into a dataframe
     csv = pd.read_csv(input) 
@@ -27,7 +30,7 @@ if __name__ == "__main__":
     parser.add_argument("--amount_of_moves", help = "amount of moves to try", required=False, type=int, default=1000)
     parser.add_argument("--output_directory", help = "output directory", required=False, default = "output")
     parser.add_argument("--amount_of_experiments", help = "amount of experiments to try", required=False, type=int, default=1)
-    parser.add_argument("--move_method", help = "move method (0 = RandomMax, 1 = RandomOne, 2 = RandomTwo), default is RandomMax", required=False, type=int, default=0)
+    parser.add_argument("--move_method", help = "move method (0 = RandomAll, 1 = RandomOne, 2 = RandomTwo), default is RandomMax", required=False, type=int, default=0)
     parser.add_argument("--save_threshold", help = "save run of the experiment when amount of moves is at or below number (default=100) ", required=False, type=int, default=100)
     parser.add_argument("--output_check50", help = "save as output.csv (used for check50)", required=False, type=bool, default=False)
     parser.add_argument("--visualize", help = "show visual board", required=False, type=bool, default=False)

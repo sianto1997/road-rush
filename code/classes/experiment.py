@@ -5,7 +5,7 @@ from enum import Enum
 import time
 
 class MoveMethods(Enum):
-    RandomMax = 0
+    RandomAll = 0
     RandomOne = 1
     RandomTwo = 2
 
@@ -45,8 +45,13 @@ class Experiment:
         Start random experiment
 
         Input:
-        - move_method: Inputs which limitation is used for running simulations.
+        - input: Input filename (used for extracting board size)
+        - csv: Input of file (used for initializeing cars)
+        - move_method: Inputs which limitation is used for running simulations
+        - save_threshold: Save result only if amount of moves is lower than this threshold
         """
+        # print(move_method, MoveMethods.RandomAll, MoveMethods(move_method) == MoveMethods.RandomAll)
+        # return
         moves = set()
         for i in range(self.amount_of_experiments):
             # creates a object of the class Board 
@@ -60,15 +65,16 @@ class Experiment:
             while solved or self.board.get_amount_of_moves() < self.max_moves:
                 car_index = random.randint(0, len(self.board.cars) - 1)
 
-                if move_method == MoveMethods.RandomMax:
+                if MoveMethods(move_method) == MoveMethods.RandomAll:
                     steps = random.randint(-self.board.size,self.board.size)
                 else:
                     steps = random.randint(-move_method,move_method)
                 
                 self.board.move(self.board.cars[car_index], steps)
                 if self.board.finish():
-                    print('x')
                     solved = True
+                    
+            self.board.close_visualization()
 
             amount_of_moves = self.board.get_amount_of_moves()
             moves.add(amount_of_moves)
@@ -83,4 +89,4 @@ class Experiment:
                     self.board.save_moves(f'{self.output_directory}/{self.file_name}_{MoveMethods(move_method).name}_{solved}_{amount_of_moves}_{self.start_time}.csv')
 
         # Print the top solutions for comparison to other experiments 
-        print(moves)
+        # print(amount_of_moves)
