@@ -31,7 +31,7 @@ if __name__ == "__main__":
     # Adding arguments
     parser.add_argument("input", help = "input file (csv)")
     parser.add_argument("--amount_of_moves", help = "amount of moves to try", required=False, type=int, default=1000)
-    parser.add_argument("--output_directory", help = "output directory", required=False, default = "data")
+    parser.add_argument("--output_directory", help = "output directory", required=False, default = "output")
 
     # Read arguments from command line
     args = parser.parse_args()
