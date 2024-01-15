@@ -1,23 +1,26 @@
 import random
 from datetime import datetime
-
+from board import Board
 from enum import Enum
+import time
 
 class MoveMethods(Enum):
     RandomMax = 0
     RandomOne = 1
+    RandomTwo = 2
 
 class Experiment:
-    def __init__(self, board, max_moves, input_file, output_directory):
+    def __init__(self, max_moves, amount_of_experiments, input_file, output_directory, output_check50):
         """
         Initializing experiment
         """
-        self.board = board
         self.max_moves = max_moves
         self.file_name = input_file.split('/')[-1]
         self.start_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        print(self.file_name)
+        # print(self.file_name)
         self.output_directory = output_directory
+        self.output_check50 = output_check50
+        self.amount_of_experiments = amount_of_experiments
 
 
 
@@ -36,23 +39,44 @@ class Experiment:
         self.move(self.cars[-5], -1)
         self.move(self.cars[-5], 2)
 
-    def start_random_experiment(self, move_method=MoveMethods.RandomOne):
+    def start_random_experiment(self, input, csv, move_method, save_threshold):
         """
         Start random experiment
+
+        Input:
+        - move_method: Inputs which limitation is used for running simulations.
         """
-        solved = False
-        while self.board.get_amount_of_moves() < self.max_moves:
+        for i in range(self.amount_of_experiments):
+            # creates a object of the class Board 
+            self.board = Board(input, csv, False)
             
-            MoveMethods.RandomOne
+            self.board.draw() 
+            
+            # time.sleep(100)
 
-            car_index = random.randint(0, len(self.board.cars) - 1)
-            # print(len(self.cars), car_index)
-            self.board.move(self.board.cars[car_index], random.randint(-self.board.size,self.board.size))
-            if self.board.finish():
-                solved = True
-                break
+            solved = False
+            while self.board.get_amount_of_moves() < self.max_moves:
+                
+                MoveMethods.RandomOne
 
-        # Save for 
-        self.board.save_moves(f'{self.output_directory}/{self.file_name}_Random_Algorithm_{solved}_{self.board.get_amount_of_moves()}_{self.start_time}.csv')
-        # Save location for check 50
-        self.board.save_moves(f'output.csv')
+                car_index = random.randint(0, len(self.board.cars) - 1)
+
+                
+                if move_method == MoveMethods.RandomMax:
+                    steps = random.randint(-self.board.size,self.board.size)
+                else:
+                    steps = random.randint(-move_method,move_method)
+                
+                self.board.move(self.board.cars[car_index], steps)
+
+                if self.board.finish():
+                    solved = True
+                    break
+
+            amount_of_moves = self.board.get_amount_of_moves()
+            if amount_of_moves <= save_threshold:
+                # Save location for check 50
+                if self.output_check50:
+                    self.board.save_moves(f'output.csv')
+                else:
+                    self.board.save_moves(f'{self.output_directory}/{self.file_name}_{MoveMethods(move_method).name}_{solved}_{amount_of_moves}_{self.start_time}.csv')
