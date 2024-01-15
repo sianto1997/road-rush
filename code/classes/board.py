@@ -85,13 +85,13 @@ class Board:
         Initializes the board so that only one display is created
         """
         # give the range to the figure
-        canvas = plt.figure(figsize=[self.size + 0.5, self.size + 0.5])
+        self.canvas = plt.figure(figsize=[self.size + 0.5, self.size + 0.5])
 
         # makes the background colour of the figure gray
-        canvas.patch.set_facecolor('gray')
+        self.canvas.patch.set_facecolor('gray')
 
         # creates the grid place
-        self.ax = canvas.add_subplot()
+        self.ax = self.canvas.add_subplot()
 
 
     def draw(self):
@@ -135,8 +135,7 @@ class Board:
         self.ax.cla()
 
     def close_visualization(self):
-        # self.ax.close
-        pass
+        plt.close(self.canvas)
 
     def move(self, car, steps):
         """
