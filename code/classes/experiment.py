@@ -1,6 +1,12 @@
 import random
 from datetime import datetime
 
+from enum import Enum
+
+class MoveMethods(Enum):
+    RandomMax = 0
+    RandomOne = 1
+
 class Experiment:
     def __init__(self, board, max_moves, input_file, output_directory):
         """
@@ -30,13 +36,15 @@ class Experiment:
         self.move(self.cars[-5], -1)
         self.move(self.cars[-5], 2)
 
-    def start_random_experiment(self):
+    def start_random_experiment(self, move_method=MoveMethods.RandomOne):
         """
         Start random experiment
         """
         solved = False
         while self.board.get_amount_of_moves() < self.max_moves:
             
+            MoveMethods.RandomOne
+
             car_index = random.randint(0, len(self.board.cars) - 1)
             # print(len(self.cars), car_index)
             self.board.move(self.board.cars[car_index], random.randint(-self.board.size,self.board.size))

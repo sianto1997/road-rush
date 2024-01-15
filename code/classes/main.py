@@ -1,7 +1,7 @@
 import argparse
 import pandas as pd
 from board import Board
-from experiment import Experiment
+from experiment import Experiment, MoveMethods
 import time
 
 def main(input, amount_of_moves, output_directory):
@@ -21,7 +21,7 @@ def main(input, amount_of_moves, output_directory):
     
     board.draw() 
 
-    experiment = Experiment(board, amount_of_moves, input, output_directory)
+    experiment = Experiment(board, amount_of_moves, input, output_directory, move_method=MoveMethods.RandomMax)
     experiment.start_random_experiment()
 
 if __name__ == "__main__":
