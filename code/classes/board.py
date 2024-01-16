@@ -211,7 +211,6 @@ class Board:
         Output:
         - List of tuples (car.id, steps)
         """
-        moves = []
         board_states = []
         for car in self.cars:
             i = -1
@@ -220,16 +219,16 @@ class Board:
                 steps = 0
                 while possible and steps < self.size * i:
                     steps += 1 * i
-                    old_state = copy.deepcopy(self)
-                    if self.move(car, steps):
-                        new_state = move.oldstate(car, steps, True)
+                    if self.move(car, steps, False):
+                        new_state = copy.deepcopy(self)
+                        print(new_state)
+                        new_state.move(car, steps)
                         board_states.append(new_state)
-                        moves.append((car.id, steps))
                     else:
                         possible = False
                 i += 2
 
-        return moves
+        return board_states
 
 
     def init_empty_collision_map(self):
