@@ -4,6 +4,7 @@ from code.classes.board import Board
 from enum import Enum
 import math
 import time
+import pandas as pd
 
 class MoveMethods(Enum):
     RandomAll = 0
@@ -56,7 +57,7 @@ class Experiment:
         """
         # print(move_method, MoveMethods.RandomAll, MoveMethods(move_method) == MoveMethods.RandomAll)
         # return
-        moves = set()
+        moves = []
         for i in range(self.amount_of_experiments):
             # creates a object of the class Board 
             self.board = Board(input, csv, self.visualize)
@@ -88,9 +89,11 @@ class Experiment:
             # print(moves)
 
             amount_of_moves = self.board.get_amount_of_moves()
+            if solved:
+                moves.append(amount_of_moves)
+
             # Applying save_threshold to not save long (bad) solutions
             if amount_of_moves <= save_threshold and solved:
-                moves.add(amount_of_moves)
                 # Save location for check 50
                 if self.output_check50:
                     self.board.save_moves(f'output.csv')
@@ -101,5 +104,10 @@ class Experiment:
         # Print the top solutions for comparison to other experiments 
         print(sorted(moves)[:5])
 
+        # print(f'Average amount of moves neccesary to solve  {sum(moves) / len(moves)}')
+
+        
+        df = pd.DataFrame(moves, columns=['move']) 
+        df.to_csv('random_experiments', index=False)
         # TODO: Print solve rate 
         # TODO: Print solve rate below threshold
