@@ -221,7 +221,6 @@ class Board:
 
                     if self.move(car, steps, False):
                         moves.append((car.id, steps))
-                        print('a')
                     else:
                         possible = False
                 i += 2
