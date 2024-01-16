@@ -3,6 +3,7 @@ import pandas as pd
 from code.classes.car import Car 
 from math import ceil
 import numpy as np
+import copy
 
 class Board:   
     def __init__(self, input_file, car_csv, visualize=False):
@@ -211,6 +212,7 @@ class Board:
         - List of tuples (car.id, steps)
         """
         moves = []
+        board_states = []
         for car in self.cars:
             i = -1
             while i <= 1:
@@ -218,8 +220,10 @@ class Board:
                 steps = 0
                 while possible and steps < self.size * i:
                     steps += 1 * i
-
-                    if self.move(car, steps, False):
+                    old_state = copy.deepcopy(self)
+                    if self.move(car, steps):
+                        new_state = move.oldstate(car, steps, True)
+                        board_states.append(new_state)
                         moves.append((car.id, steps))
                     else:
                         possible = False
