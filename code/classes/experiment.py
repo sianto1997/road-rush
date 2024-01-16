@@ -2,6 +2,7 @@ import random
 from datetime import datetime
 from board import Board
 from enum import Enum
+import math
 import time
 import pandas as pd
 
@@ -15,7 +16,10 @@ class Experiment:
         """
         Initializing experiment
         """
-        self.max_moves = max_moves
+        if max_moves == 0:
+            self.max_moves = math.inf
+        else:
+            self.max_moves = max_moves
         self.file_name = input_file.split('/')[-1]
         self.start_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         # print(self.file_name)
@@ -60,26 +64,27 @@ class Experiment:
             
             self.board.draw() 
             
-            # time.sleep(100)
 
             solved = False
         
-            while not solved and self.board.get_amount_of_moves() < self.max_moves - 1:
-                car_index = random.randint(0, len(self.board.cars) - 1)
-
-                if MoveMethods(move_method) == MoveMethods.RandomAll:
-                    steps = random.randint(-self.board.size,self.board.size)
+            while not solved and self.board.get_amount_of_moves() < self.max_moves:
+                if self.board.solve():
+                    solved = True
                 else:
-                    steps = random.randint(-move_method,move_method)
+                    car_index = random.randint(0, len(self.board.cars) - 1)
 
+                    if MoveMethods(move_method) == MoveMethods.RandomAll:
+                        steps = random.randint(-self.board.size,self.board.size)
+                    else:
+                        steps = random.randint(-move_method,move_method)
 
-                if steps != 0:
-                    self.board.move(self.board.cars[car_index], steps)
-                    if self.board.finish():
-                        solved = True
+                    if steps != 0:
+                        self.board.move(self.board.cars[car_index], steps)
+                    
 
             self.board.close_visualization()
 
+            # time.sleep(10)
             
             # print(moves)
 
@@ -104,3 +109,5 @@ class Experiment:
         
         df = pd.DataFrame(moves, columns=['move']) 
         df.to_csv('random_experiments', index=False)
+        # TODO: Print solve rate 
+        # TODO: Print solve rate below threshold

@@ -29,6 +29,9 @@ class Board:
         self.exit_row = ceil(self.size / 2)
         self.cars = []
         self.red_car = None
+
+        self.init_empty_collision_map()
+
         self.init_cars(car_csv)
 
         self.moves = []
@@ -76,9 +79,19 @@ class Board:
             # appends the object car to the list self.cars 
             self.cars.append(car)
 
+             # Loop through all cars and get their position
+            self.collision_map = car.update_collision_map(self.collision_map)
+            # print(self.collision_map)
+
+        # Debug
+        # print('Printing current grid (occupied positions)')
+
+
             # Saving the red car to later check for finish
             if row.car == 'X':
                 self.red_car = car
+        # print(self.collision_map)
+
     
     def init_visualization(self):
         """
@@ -92,7 +105,6 @@ class Board:
 
         # creates the grid place
         self.ax = self.canvas.add_subplot()
-
 
     def draw(self):
         """
@@ -147,30 +159,38 @@ class Board:
         Output:
         - success (True or False)
         """
-        collision_map = self.get_collision_map()
-        # print(car.id, steps)
-        
+        # print(f'Moving car {car.id} ({car.orientation}) len {car.length} col {car.column} row {car.row} with {steps} steps')
         if car.orientation == 'H':
-            collision_map_slice = collision_map[car.row]
+            collision_map_slice = self.collision_map[car.row]
             start_pos = car.column
+            # end_pos = car.column
         else:
-            collision_map_slice = collision_map[:,car.column]
+            collision_map_slice = self.collision_map[:,car.column]
             start_pos = car.row
+            # end_pos = car.row
 
-        offset = 0
+
+        # offset = 0
         if steps > 0:
-            offset = car.length
+            end_pos = start_pos + car.length + steps
         else:
-            offset = steps
+            start_pos += steps
+            end_pos = start_pos + abs(steps) + car.length #- 1
+         
+        start_pos = max(0, start_pos)
+        end_pos = min(end_pos, len(collision_map_slice))
 
-        start_pos = max(0, start_pos + offset)
-        end_pos = min(start_pos+abs(steps), len(collision_map_slice))
-        target_area = collision_map_slice[start_pos:end_pos] == 1
+        replace_slice = collision_map_slice[start_pos:end_pos]
         
-        if not target_area.any() and len(target_area) > 0:
+        if replace_slice.sum() == car.length and replace_slice.shape[0] != car.length:
+            replace_slice = np.flip(replace_slice)
+            # print(replace_slice)
+
             if car.orientation == 'H':
+                self.collision_map[car.row][start_pos:end_pos] = replace_slice
                 car.column += steps
             else:
+                self.collision_map[:,car.column][start_pos:end_pos]  = replace_slice
                 car.row += steps
             
             # print(f'Move of car {car.id} ({car.orientation}) successful: {steps}')
@@ -178,11 +198,10 @@ class Board:
             self.record_move(car.id, steps)
             return True
 
-        # print(f'Move of car {car.id} ({car.orientation}) was unsuccessful: {steps}')
         return False
         
 
-    def get_collision_map(self):
+    def init_empty_collision_map(self):
         """
         Gets the current collision map
 
@@ -194,25 +213,15 @@ class Board:
         column_bound = np.ones((self.size + 2, 1))
 
         # Create empty collision map
-        collision_map = np.zeros((self.size, self.size))
+        self.collision_map = np.zeros((self.size, self.size))
 
-        collision_map = np.vstack((row_bound, collision_map, row_bound))
-        collision_map = np.hstack((column_bound, collision_map, column_bound))
+        self.collision_map = np.vstack((row_bound, self.collision_map, row_bound))
+        self.collision_map = np.hstack((column_bound, self.collision_map, column_bound))
 
         # Unblock exit row
-        collision_map[self.exit_row][self.size+1] = 0
-        
-        # Loop through all cars and get their position
-        for car in self.cars:
-            collision_map = car.update_collision_map(collision_map)
+        self.collision_map[self.exit_row][self.size+1] = 0
 
-        # Debug
-        # print('Printing current grid (occupied positions)')
-        # print(collision_map)
-
-        return collision_map
-
-    def finish(self):
+    def solve(self):
         """
         """
         # Discuss with TA: check50 reports car hit a wall where there is no wall
