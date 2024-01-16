@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-from car import Car 
+from code.classes.car import Car 
 from math import ceil
 import numpy as np
 

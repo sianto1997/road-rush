@@ -1,6 +1,6 @@
 import random
 from datetime import datetime
-from board import Board
+from code.classes.board import Board
 from enum import Enum
 import math
 import time

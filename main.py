@@ -1,40 +1,43 @@
-# voeg de huidige structuur toe aan path
-import os, sys
-directory = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(os.path.join(directory, "code"))
-sys.path.append(os.path.join(directory, "code", "classes"))
-sys.path.append(os.path.join(directory, "code", "algoritmes"))
+import argparse
+import pandas as pd
+from code.classes.experiment import Experiment, MoveMethods
 
-# importeer de gebruikte structuur
-from datastructuur import DataStructuur
-from bruteforce import randomize
-from hillclimber import hill_climber
-from breadthfirst import breadth_first
-from genetic import genetic
-from score import score
+def main(input, amount_of_moves, output_directory, amount_of_experiments, move_method, save_threshold, output_check50, visualize):
+    """
+    Main function the program.
 
-def main():
-    A = DataStructuur("voorbeeld.csv")
+    Input:
+    - input (string): Filename of board
+    - amount_of_moves (int): Amount of moves before cut_off of the experiment
+    - output_directory (string): Which folder to save the moves to
+    - move_method (int): Way to move
+    - save_threshold (int): Save solutions only when at or lower than threshold
+    - output_check50 (bool): Save as output.csv to satisfy check50 required output filename
+    - visualize (bool): Show visualization (disabled by default)
+    """
+    # reads the csv and turns it into a dataframe
+    csv = pd.read_csv(input) 
 
-    # probeer verschillende algoritmes
-    # brute force
-    B = randomize(A)
-
-    # iteratief
-    C = hill_climber(A)
-
-    # constructief
-    D = breadth_first(A)
-
-    # evolutionair
-    E = genetic(A)
-
-    print("score van random:                {}\n"
-          "score van hill_climber:          {}\n"
-          "score van breadth_first:         {}\n"
-          "score van genetisch algoritme1:  {}\n".format(
-        score(B), score(C), score(D), score(E)
-    ))
+    experiment = Experiment(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize)
+    experiment.start_random_experiment(input, csv, move_method, save_threshold)
 
 if __name__ == "__main__":
-    main()
+    # Set-up parsing command line arguments
+    parser = argparse.ArgumentParser(description = "Reads in csv file")
+
+    # Adding arguments
+    parser.add_argument("input", help = "Input file (csv)")
+    parser.add_argument("--amount_of_moves", help = "Amount of moves to try (0 is unlimited)", required=False, type=int, default=0)
+    parser.add_argument("--output_directory", help = "Output directory", required=False, default = "output")
+    parser.add_argument("--amount_of_experiments", help = "Amount of experiments to try", required=False, type=int, default=1)
+    parser.add_argument("--move_method", help = "Move method (0 = RandomAll, 1 = RandomOne, 2 = RandomTwo), default is RandomMax", required=False, type=int, default=0)
+    parser.add_argument("--save_threshold", help = "Save run of the experiment when amount of moves is at or below number (default=100) ", required=False, type=int, default=100)
+    parser.add_argument("--output_check50", help = "Save as output.csv (used for check50)", required=False, type=bool, default=False)
+    parser.add_argument("--visualize", help = "Show visual board", required=False, type=bool, default=False)
+
+    # Read arguments from command line 
+    args = parser.parse_args()
+    print(args)
+
+    # Run main with provide arguments
+    main(args.input, args.amount_of_moves, args.output_directory, args.amount_of_experiments, args.move_method, args.save_threshold, args.output_check50, args.visualize)
