@@ -3,6 +3,7 @@ import pandas as pd
 from code.classes.car import Car 
 from math import ceil
 import numpy as np
+import copy
 
 class Board:   
     def __init__(self, input_file, car_csv, visualize=False):
@@ -206,7 +207,7 @@ class Board:
         Output:
         - List of tuples (car.id, steps)
         """
-        moves = []
+        board_states = []
         for car in self.cars:
             i = -1
             while i <= 1:
@@ -214,15 +215,16 @@ class Board:
                 steps = 0
                 while possible and steps < self.size * i:
                     steps += 1 * i
-
                     if self.move(car, steps, False):
-                        moves.append((car.id, steps))
-                        print('a')
+                        new_state = copy.deepcopy(self)
+                        print(new_state)
+                        new_state.move(car, steps)
+                        board_states.append(new_state)
                     else:
                         possible = False
                 i += 2
 
-        return moves
+        return board_states
 
 
     def init_empty_collision_map(self):
