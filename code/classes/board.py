@@ -38,6 +38,7 @@ class Board:
 
         if (visualize):
             self.init_visualization()
+            self.draw()
 
     def record_move(self, car_id, step):
         """
@@ -150,29 +151,28 @@ class Board:
         if self.visualize:
             plt.close(self.canvas)
 
-    def move(self, car, steps):
+    def move(self, car, steps, execute=True):
         """
         Moves a car in steps direction
+
         Input:
-        - car (Car-object)
-        - steps (a number between -board_size and board_size)
+        - car (Car): The car that gets moved
+        - steps (int): A number between -board_size and board_size
+        - execute (bool): Execute the move (default: False)
         Output:
         - success (True or False)
         """
         if steps == 0:
             return False
-        # print(f'Moving car {car.id} ({car.orientation}) len {car.length} col {car.column} row {car.row} with {steps} steps')
+
         if car.orientation == 'H':
             collision_map_slice = self.collision_map[car.row]
             start_pos = car.column
-            # end_pos = car.column
         else:
             collision_map_slice = self.collision_map[:,car.column]
             start_pos = car.row
-            # end_pos = car.row
 
 
-        # offset = 0
         if steps > 0:
             end_pos = start_pos + car.length + steps
         else:
@@ -185,23 +185,49 @@ class Board:
         replace_slice = collision_map_slice[start_pos:end_pos]
         
         if replace_slice.sum() == car.length and replace_slice.shape[0] != car.length:
-            replace_slice = np.flip(replace_slice)
-            # print(replace_slice)
+            if execute:
+                replace_slice = np.flip(replace_slice)
 
-            if car.orientation == 'H':
-                self.collision_map[car.row][start_pos:end_pos] = replace_slice
-                car.column += steps
-            else:
-                self.collision_map[:,car.column][start_pos:end_pos]  = replace_slice
-                car.row += steps
-            
-            # print(f'Move of car {car.id} ({car.orientation}) successful: {steps}')
-            self.draw()
-            self.record_move(car.id, steps)
+                if car.orientation == 'H':
+                    self.collision_map[car.row][start_pos:end_pos] = replace_slice
+                    car.column += steps
+                else:
+                    self.collision_map[:,car.column][start_pos:end_pos]  = replace_slice
+                    car.row += steps
+                
+                # print(f'Move of car {car.id} ({car.orientation}) successful: {steps}')
+                self.draw()
+                self.record_move(car.id, steps)
+
             return True
 
         return False
         
+    def get_moves(self):
+        """
+        Get all possible moves for the current state.
+
+        Output:
+        - List of tuples (car.id, steps)
+        """
+        moves = []
+        for car in self.cars:
+            i = -1
+            while i <= 1:
+                possible = True
+                steps = 0
+                while possible and steps < self.size * i:
+                    steps += 1 * i
+
+                    if self.move(car, steps, False):
+                        moves.append((car.id, steps))
+                        print('a')
+                    else:
+                        possible = False
+                i += 2
+
+        return moves
+
 
     def init_empty_collision_map(self):
         """

@@ -2,6 +2,8 @@ import argparse
 import pandas as pd
 from code.classes.runner import Runner
 from code.algorithms.random import Random, MoveMethods
+from code.classes.board import Board
+import time
 
 def main(input, amount_of_moves, output_directory, amount_of_experiments, move_method, save_threshold, output_check50, visualize):
     """
@@ -24,6 +26,11 @@ def main(input, amount_of_moves, output_directory, amount_of_experiments, move_m
         kwargs['move_method'] = move_method
 
     # print(kwargs)
+
+    b = Board(input, csv, True)
+
+    print(b.get_moves())
+    time.sleep(30)
 
     runner = Runner(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize)
     runner.run(input, csv, Random, save_threshold, **kwargs)

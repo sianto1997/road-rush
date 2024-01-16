@@ -49,13 +49,10 @@ class Runner:
         - move_method: Inputs which limitation is used for running simulations
         - save_threshold: Save result only if amount of moves is lower than this threshold
         """
-        # print(move_method, MoveMethods.RandomAll, MoveMethods(move_method) == MoveMethods.RandomAll)
         moves = []
         for i in range(self.amount_of_experiments):
             # Creates a object of the class Board 
             self.board = Board(input, csv, self.visualize)
-            
-            self.board.draw() 
             
             algorithm = algorithm_type(**kwargs)
             solved = False
@@ -69,10 +66,6 @@ class Runner:
                     
 
             self.board.close_visualization()
-
-            # time.sleep(10)
-            
-            # print(moves)
 
             amount_of_moves = self.board.get_amount_of_moves()
             if solved:

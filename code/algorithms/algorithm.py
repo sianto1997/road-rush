@@ -1,6 +1,5 @@
 from typing import Protocol
 
-
 class Algorithm(Protocol):
     def __init__(self, **kwargs) -> None:
         """Kwargs are used for algorithm specific parameters, kwargs can be left empty if not required"""
