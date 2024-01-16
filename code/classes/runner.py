@@ -39,7 +39,7 @@ class Runner:
         self.move(self.cars[-5], -1)
         self.move(self.cars[-5], 2)
 
-    def run(self, input, csv, algorithm_type, move_method, save_threshold):
+    def run(self, input, csv, algorithm_type, save_threshold, **kwargs):
         """
         Start random experiment
 
@@ -57,14 +57,14 @@ class Runner:
             
             self.board.draw() 
             
-            algorithm = algorithm_type(self.board)
+            algorithm = algorithm_type(**kwargs)
             solved = False
         
             while not solved and self.board.get_amount_of_moves() < self.max_moves:
                 if self.board.solve():
                     solved = True
                 else:
-                    algorithm.run()
+                    algorithm.run(self.board)
                     
                     
 
@@ -85,7 +85,7 @@ class Runner:
                     self.board.save_moves(f'output.csv')
                 # Save in readable format
                 else:
-                    self.board.save_moves(f'{self.output_directory}/{self.file_name}_{MoveMethods(move_method).name}_{solved}_{amount_of_moves}_{self.start_time}.csv')
+                    self.board.save_moves(f'{self.output_directory}/{self.file_name}_{algorithm.get_name()}_{solved}_{amount_of_moves}_{self.start_time}.csv')
 
         # Print the top solutions for comparison to other experiments 
         print(sorted(moves)[:5])
