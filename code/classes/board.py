@@ -173,13 +173,16 @@ class Board:
             end_pos = start_pos + car.length + steps
         else:
             start_pos += steps
+            start_pos = max(0, start_pos)
             end_pos = start_pos + abs(steps) + car.length
          
-        start_pos = max(0, start_pos)
         end_pos = min(end_pos, len(collision_map_slice))
 
         replace_slice = collision_map_slice[start_pos:end_pos]
         replacable_tf = replace_slice != b''
+        # if not execute:
+        #     print(car.id, car.orientation, car.column, car.row, steps, start_pos, end_pos)
+        #     print(collision_map_slice, replace_slice, replacable_tf)
 
         if replacable_tf.sum() == car.length and replace_slice.shape[0] != car.length:
             if execute:
@@ -208,18 +211,25 @@ class Board:
         - List of tuples (car.id, steps)
         """
         board_states = []
-        for car in self.cars:
+        for c in range(len(self.cars)):
             i = -1
-            while i <= 1:
+            while i < 1:
                 possible = True
                 steps = 0
-                while possible and steps < self.size * i:
+                while possible and abs(steps) < self.size:
                     steps += 1 * i
-                    if self.move(car, steps, False):
+                    move_possible = self.move(self.cars[c], steps, False)
+                    if move_possible:
                         new_state = copy.deepcopy(self)
-                        print(new_state)
-                        new_state.move(car, steps)
+                        # new_state.exit_row = 5
+                        # print(new_state.exit_row, self.exit_row)
+                        # new_state.visualization = False
+                        # new_state.close_visualization()
+                        # print(self.cars[c].id, steps, move_possible)
+
+                        new_state.move(new_state.cars[c], steps)
                         board_states.append(new_state)
+                        # print(car.id, steps)
                     else:
                         possible = False
                 i += 2

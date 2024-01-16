@@ -3,6 +3,7 @@ import pandas as pd
 from code.classes.runner import Runner
 from code.algorithms.random import Random, MoveMethods
 from code.classes.board import Board
+from code.tests.repr import ReprTester
 import time
 
 def main(input, amount_of_moves, output_directory, amount_of_experiments, move_method, save_threshold, output_check50, visualize):
@@ -25,27 +26,7 @@ def main(input, amount_of_moves, output_directory, amount_of_experiments, move_m
     if move_method >= 0:
         kwargs['move_method'] = move_method
 
-    # print(kwargs)
-
-    a = Board(input, csv, False)
-    b = Board(input, csv, False)
-
-    print('a == b', a.__repr__(), a.__repr__() == b.__repr__(), b.__repr__())
-
-    c = Board(input, csv, True)
-    print('a == c', a.__repr__(), a.__repr__() == c.__repr__(), c.__repr__())
-
-    c.move(c.cars[0], -1)
-
-    print('a != c (after a move)', a.__repr__(), a.__repr__() != c.__repr__(), c.__repr__())
-    c.move(c.cars[0], 1)
-    print('a == c (after backmove)', a.__repr__(), a.__repr__() == c.__repr__(), c.__repr__())
-
-
-
-
-
-    time.sleep(30)
+    ReprTester.get_moves()
 
     runner = Runner(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize)
     runner.run(input, csv, Random, save_threshold, **kwargs)
