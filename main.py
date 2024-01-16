@@ -1,6 +1,7 @@
 import argparse
 import pandas as pd
-from code.classes.experiment import Experiment, MoveMethods
+from code.classes.runner import Runner
+from code.algorithms.random import Random, MoveMethods
 
 def main(input, amount_of_moves, output_directory, amount_of_experiments, move_method, save_threshold, output_check50, visualize):
     """
@@ -18,8 +19,8 @@ def main(input, amount_of_moves, output_directory, amount_of_experiments, move_m
     # reads the csv and turns it into a dataframe
     csv = pd.read_csv(input) 
 
-    experiment = Experiment(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize)
-    experiment.start_random_experiment(input, csv, move_method, save_threshold)
+    experiment = Runner(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize)
+    experiment.run(input, csv, Random, move_method, save_threshold)
 
 if __name__ == "__main__":
     # Set-up parsing command line arguments

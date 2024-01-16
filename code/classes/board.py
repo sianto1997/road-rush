@@ -159,6 +159,8 @@ class Board:
         Output:
         - success (True or False)
         """
+        if steps == 0:
+            return False
         # print(f'Moving car {car.id} ({car.orientation}) len {car.length} col {car.column} row {car.row} with {steps} steps')
         if car.orientation == 'H':
             collision_map_slice = self.collision_map[car.row]

@@ -1,35 +1,30 @@
-import random
 from datetime import datetime
 from code.classes.board import Board
-from enum import Enum
 import math
 import time
 import pandas as pd
 
-class MoveMethods(Enum):
-    RandomAll = 0
-    RandomOne = 1
-    RandomTwo = 2
 
-class Experiment:
+class Runner:
     def __init__(self, max_moves, amount_of_experiments, input_file, output_directory, output_check50, visualize):
         """
-        Initializing experiment
+        Initializing runner
         """
         if max_moves == 0:
             self.max_moves = math.inf
         else:
             self.max_moves = max_moves
+
         self.file_name = input_file.split('/')[-1]
         self.start_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        # print(self.file_name)
+
         self.output_directory = output_directory
         self.output_check50 = output_check50
         self.amount_of_experiments = amount_of_experiments
         self.visualize = visualize
 
 
-
+    # Deprecated
     def simple_experiment(self):
         """
         Simple manual experiment
@@ -37,7 +32,6 @@ class Experiment:
         self.move(self.cars[0], -1)
         
         self.move(self.cars[1], -1)
-
         self.move(self.cars[2], 1)
 
         self.move(self.cars[-4], -1)
@@ -45,7 +39,7 @@ class Experiment:
         self.move(self.cars[-5], -1)
         self.move(self.cars[-5], 2)
 
-    def start_random_experiment(self, input, csv, move_method, save_threshold):
+    def run(self, input, csv, algorithm_type, move_method, save_threshold):
         """
         Start random experiment
 
@@ -56,30 +50,22 @@ class Experiment:
         - save_threshold: Save result only if amount of moves is lower than this threshold
         """
         # print(move_method, MoveMethods.RandomAll, MoveMethods(move_method) == MoveMethods.RandomAll)
-        # return
         moves = []
         for i in range(self.amount_of_experiments):
-            # creates a object of the class Board 
+            # Creates a object of the class Board 
             self.board = Board(input, csv, self.visualize)
             
             self.board.draw() 
             
-
+            algorithm = algorithm_type(self.board)
             solved = False
         
             while not solved and self.board.get_amount_of_moves() < self.max_moves:
                 if self.board.solve():
                     solved = True
                 else:
-                    car_index = random.randint(0, len(self.board.cars) - 1)
-
-                    if MoveMethods(move_method) == MoveMethods.RandomAll:
-                        steps = random.randint(-self.board.size,self.board.size)
-                    else:
-                        steps = random.randint(-move_method,move_method)
-
-                    if steps != 0:
-                        self.board.move(self.board.cars[car_index], steps)
+                    algorithm.run()
+                    
                     
 
             self.board.close_visualization()
