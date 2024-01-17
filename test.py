@@ -5,7 +5,8 @@ import pandas as pd
 
 df = pd.read_csv('random_experiments.csv')
 
-# df_sorted = df.sort_values(by='move', ascending=False)
+df_sorted = df.sort_values(by='move', ascending=False)
+print(df_sorted.head(5))
 
 # plt.figure(figsize=(20,10))
 
@@ -20,7 +21,7 @@ df = pd.read_csv('random_experiments.csv')
 
 # plot.set_xticklabels(plot.get_xticklabels(), rotation=45, ha="right")
 
-print(df['move'].mean())
+#mean = df['move'].mean()
 
 # plt.axhline(y=mean, color='black', label='Mean move')
             
