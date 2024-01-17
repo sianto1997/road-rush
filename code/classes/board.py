@@ -85,14 +85,9 @@ class Board:
             self.collision_map = car.update_collision_map(self.collision_map)
             # print(self.collision_map)
 
-        # Debug
-        # print('Printing current grid (occupied positions)')
-
-
             # Saving the red car to later check for finish
             if row.car == 'X':
                 self.red_car = car
-        # print(self.collision_map)
 
     
     def init_visualization(self):
@@ -178,14 +173,18 @@ class Board:
             end_pos = start_pos + car.length + steps
         else:
             start_pos += steps
-            end_pos = start_pos + abs(steps) + car.length #- 1
+            start_pos = max(0, start_pos)
+            end_pos = start_pos + abs(steps) + car.length
          
-        start_pos = max(0, start_pos)
         end_pos = min(end_pos, len(collision_map_slice))
 
         replace_slice = collision_map_slice[start_pos:end_pos]
-        
-        if replace_slice.sum() == car.length and replace_slice.shape[0] != car.length:
+        replacable_tf = replace_slice != b''
+        # if not execute:
+        #     print(car.id, car.orientation, car.column, car.row, steps, start_pos, end_pos)
+        #     print(collision_map_slice, replace_slice, replacable_tf)
+
+        if replacable_tf.sum() == car.length and replace_slice.shape[0] != car.length:
             if execute:
                 replace_slice = np.flip(replace_slice)
 
@@ -212,17 +211,25 @@ class Board:
         - List of tuples (car.id, steps)
         """
         board_states = []
-        for car in self.cars:
+        for c in range(len(self.cars)):
             i = -1
-            while i <= 1:
+            while i < 1:
                 possible = True
                 steps = 0
-                while possible and steps < self.size * i:
+                while possible and abs(steps) < self.size:
                     steps += 1 * i
-                    if self.move(car, steps, False):
-                        new_state = copy.shallowcopy(self)
-                        new_state.move(car, steps)
+                    move_possible = self.move(self.cars[c], steps, False)
+                    if move_possible:
+                        new_state = copy.deepcopy(self)
+                        # new_state.exit_row = 5
+                        # print(new_state.exit_row, self.exit_row)
+                        # new_state.visualization = False
+                        # new_state.close_visualization()
+                        # print(self.cars[c].id, steps, move_possible)
+
+                        new_state.move(new_state.cars[c], steps)
                         board_states.append(new_state)
+                        # print(car.id, steps)
                     else:
                         possible = False
                 i += 2
@@ -236,19 +243,27 @@ class Board:
 
         TODO for Simon: make more efficient by only creating map at init, and edit at move()
         """
-
+        
         # Create bounds for top, bottom and and sides
-        row_bound = np.ones((1, self.size))
-        column_bound = np.ones((self.size + 2, 1))
+        # row_bound = np.ones((1, self.size))
+        # column_bound = np.ones((self.size + 2, 1))
+        
+        row_bound =  np.chararray((1, self.size), itemsize=2) 
+        row_bound[:] = '-'
+
+        column_bound = np.chararray((self.size + 2, 1), itemsize=2)  
+        column_bound[:] = '-'
+
 
         # Create empty collision map
-        self.collision_map = np.zeros((self.size, self.size))
+        self.collision_map = np.chararray((self.size, self.size), itemsize=2) #np.zeros((self.size, self.size))
+        self.collision_map[:] = ''
 
         self.collision_map = np.vstack((row_bound, self.collision_map, row_bound))
         self.collision_map = np.hstack((column_bound, self.collision_map, column_bound))
 
         # Unblock exit row
-        self.collision_map[self.exit_row][self.size+1] = 0
+        # self.collision_map[self.exit_row][self.size+1] = 0
 
     def solve(self):
         """
@@ -260,3 +275,7 @@ class Board:
             return True
         
         return False
+
+    def __repr__(self):
+        # print(str(self.collision_map))
+        return str(hash(str(self.collision_map)))

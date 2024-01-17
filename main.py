@@ -3,6 +3,7 @@ import pandas as pd
 from code.classes.runner import Runner
 from code.algorithms.random import Random, MoveMethods
 from code.classes.board import Board
+from code.tests.repr import ReprTester
 import time
 
 def main(input, amount_of_moves, output_directory, amount_of_experiments, move_method, save_threshold, output_check50, visualize):
@@ -25,6 +26,7 @@ def main(input, amount_of_moves, output_directory, amount_of_experiments, move_m
     if move_method >= 0:
         kwargs['move_method'] = move_method
 
+    ReprTester.get_moves()
     # print(kwargs)
 
     b = Board(input, csv)

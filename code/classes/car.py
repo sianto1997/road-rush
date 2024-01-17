@@ -48,7 +48,7 @@ class Car:
 
         # _ signifies that the variable itself will not be used
         for _ in range(self.length):
-            collision_map[location_row][location_column] = 1
+            collision_map[location_row][location_column] = self.id
             if self.orientation == 'H':
                 location_column += 1
             else:
