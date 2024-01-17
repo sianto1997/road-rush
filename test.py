@@ -5,14 +5,21 @@ import pandas as pd
 
 df = pd.read_csv('random_experiments.csv')
 
+df.
+
 plt.figure(figsize=(20,10))
 
 # makes the plot with the information from the dataframe
-plot = sns.barplot(data = df, x=, y='move')
+plot = sns.barplot(data = df, x=df.index ,y='move')
 
 # makes sure the labels are at an angle and that they are readable
-plot.set_xticklabels(plot.get_xticklabels(), rotation=40, ha="right")
+num_bars = len(df)
+x_ticks = np.arange(0, num_bars, 1000)
+plot.set_xticks(x_ticks)
+plot.set_xticklabels(x_ticks)
+
+plot.set_xticklabels(plot.get_xticklabels(), rotation=45, ha="right")
 plt.tight_layout()
 
 # saves the outcome of the plot into a png file
-plt.savefig(output_file)
+plt.savefig('graph-sorted.png')
