@@ -203,14 +203,7 @@ class Board:
             return True
 
         return False
-    
-    def copy_board(self):
-        new_board = self
-        new_board.collision_map = np.copy(self.collision_map)
-        new_board.cars = [Car(car.id, car.orientation, car.length, car.row, car.column) for car in self.cars]
-        return new_board
-
-
+        
     def get_moves(self):
         """
         Get all possible moves for the current state.
@@ -227,7 +220,7 @@ class Board:
                 while possible and steps < self.size * i:
                     steps += 1 * i
                     if self.move(car, steps, False):
-                        new_state = self.copy_board()
+                        new_state = copy.shallowcopy(self)
                         new_state.move(car, steps)
                         board_states.append(new_state)
                     else:
