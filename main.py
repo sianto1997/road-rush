@@ -27,10 +27,10 @@ def main(input, amount_of_moves, output_directory, amount_of_experiments, move_m
 
     # print(kwargs)
 
-    b = Board(input, csv, True)
+    b = Board(input, csv)
 
     print(b.get_moves())
-    time.sleep(30)
+    #time.sleep(30)
 
     runner = Runner(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize)
     runner.run(input, csv, Random, save_threshold, **kwargs)
