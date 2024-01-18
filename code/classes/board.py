@@ -89,7 +89,6 @@ class Board:
             if row.car == 'X':
                 self.red_car = car
 
-    
     def init_visualization(self):
         """
         Initializes the board so that only one display is created
@@ -203,14 +202,19 @@ class Board:
 
         return False
         
-    def get_moves(self):
+    def get_moves(self, output_as_states=False):
         """
         Get all possible moves for the current state.
 
+        Input:
+        - output_as_states (bool): Output the possible moves as new states. (disabled by default)
         Output:
         - List of tuples (car.id, steps)
+        OR
+        - List of states (Board-object with the executed move)
         """
         board_states = []
+        moves = []
         for c in range(len(self.cars)):
             i = -1
             while i < 1:
@@ -220,22 +224,19 @@ class Board:
                     steps += 1 * i
                     move_possible = self.move(self.cars[c], steps, False)
                     if move_possible:
-                        new_state = copy.deepcopy(self)
-                        # new_state.exit_row = 5
-                        # print(new_state.exit_row, self.exit_row)
-                        # new_state.visualization = False
-                        # new_state.close_visualization()
-                        # print(self.cars[c].id, steps, move_possible)
-
-                        new_state.move(new_state.cars[c], steps)
-                        board_states.append(new_state)
-                        # print(car.id, steps)
+                        if output_as_states:
+                            new_state = copy.deepcopy(self)
+                            new_state.move(new_state.cars[c], steps)
+                            board_states.append(new_state)
+                        else:
+                            moves.append(self.cars[c].id, steps)
                     else:
                         possible = False
                 i += 2
-
-        return board_states
-
+        if output_as_states:
+            return board_states
+        
+        return moves
 
     def init_empty_collision_map(self):
         """
