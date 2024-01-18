@@ -229,13 +229,13 @@ class Board:
                             new_state.move(new_state.cars[c], steps)
                             board_states.append(new_state)
                         else:
-                            moves.append(self.cars[c].id, steps)
+                            moves.append((self.cars[c].id, steps))
                     else:
                         possible = False
                 i += 2
         if output_as_states:
             return board_states
-        
+
         return moves
 
     def init_empty_collision_map(self):

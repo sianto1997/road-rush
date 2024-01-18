@@ -18,7 +18,6 @@ class MoveMethods(Enum):
 class Random(Algorithm):
     def __init__(self, move_method = MoveMethods.RandomAll):
         self.move_method = move_method
-        print(self.get_name())
             
 
     def run(self, board):
