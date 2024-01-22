@@ -24,21 +24,6 @@ class Runner:
         self.visualize = visualize
 
 
-    # Deprecated
-    def simple_experiment(self):
-        """
-        Simple manual experiment
-        """
-        self.move(self.cars[0], -1)
-        
-        self.move(self.cars[1], -1)
-        self.move(self.cars[2], 1)
-
-        self.move(self.cars[-4], -1)
-        self.move(self.cars[-5], 2)
-        self.move(self.cars[-5], -1)
-        self.move(self.cars[-5], 2)
-
     def run(self, input, csv, algorithm_type, save_threshold, **kwargs):
         """
         Start random experiment
@@ -54,15 +39,17 @@ class Runner:
             # Creates a object of the class Board 
             self.board = Board(input, csv, self.visualize)
             
-            algorithm = algorithm_type(**kwargs)
+            algorithm = algorithm_type(self.board, **kwargs)
             solved = False
-        
-            while not solved and self.board.get_amount_of_moves() < self.max_moves:
+            quit = False
+
+            while not solved and self.board.get_amount_of_moves() < self.max_moves or quit:
                 if self.board.solve():
                     solved = True
                 else:
-                    algorithm.run(self.board)
+                    quit = algorithm.run()
                     
+            time.sleep(10)
                     
 
             self.board.close_visualization()
@@ -87,6 +74,6 @@ class Runner:
 
         
         df = pd.DataFrame(moves, columns=['move']) 
-        df.to_csv('random_experiments', index=False)
+        df.to_csv('random_experiments.csv', index=False)
         # TODO: Print solve rate 
         # TODO: Print solve rate below threshold

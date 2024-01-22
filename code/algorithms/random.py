@@ -16,12 +16,12 @@ class MoveMethods(Enum):
     RandomThree = 3
 
 class Random(Algorithm):
-    def __init__(self, move_method = MoveMethods.RandomAll):
+    def __init__(self, board, move_method = MoveMethods.RandomAll):
+        self.board = board
         self.move_method = move_method
             
 
-    def run(self, board):
-        self.board = board
+    def run(self):
         car_index = random.randint(0, len(self.board.cars) - 1)
 
         if MoveMethods(self.move_method) == MoveMethods.RandomAll:
