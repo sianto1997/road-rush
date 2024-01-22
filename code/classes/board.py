@@ -102,7 +102,7 @@ class Board:
         # creates the grid place
         self.ax = self.canvas.add_subplot()
 
-    def draw(self):
+    def draw(self, ms=0.0001):
         """
         Draws the object board to the current state
         """
@@ -141,6 +141,15 @@ class Board:
         plt.pause(0.0001)
 
         self.ax.cla()
+
+    def pause(self, ms):
+
+        self.draw(ms)
+        # plt.draw()
+
+        # plt.pause(ms)
+        # self.ax.cla()
+
 
     def close_visualization(self):
         if self.visualize:
@@ -204,7 +213,7 @@ class Board:
         
     def get_moves(self, output_as_states=False):
         """
-        Get all possible moves for the current state.
+        Get all possible moves for the current state. Discuss with TA about output as states.
 
         Input:
         - output_as_states (bool): Output the possible moves as new states. (disabled by default)
