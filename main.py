@@ -2,11 +2,14 @@ import argparse
 import pandas as pd
 from code.classes.runner import Runner
 from code.algorithms.random import Random, MoveMethods
+from code.algorithms.amber_manual import AmberManual
 from code.classes.board import Board
 from code.tests.repr import ReprTester
 import time
 
-def main(input, amount_of_moves, output_directory, amount_of_experiments, move_method, save_threshold, output_check50, visualize):
+import pickle
+
+def main(input, amount_of_moves, output_directory, amount_of_experiments, move_method, save_threshold, output_check50, visualize, resume):
     """
     Main function the program.
 
@@ -18,6 +21,7 @@ def main(input, amount_of_moves, output_directory, amount_of_experiments, move_m
     - save_threshold (int): Save solutions only when at or lower than threshold
     - output_check50 (bool): Save as output.csv to satisfy check50 required output filename
     - visualize (bool): Show visualization (disabled by default)
+    - resume (bool): Resume previous experiment
     """
     # reads the csv and turns it into a dataframe
     csv = pd.read_csv(input) 
@@ -26,16 +30,20 @@ def main(input, amount_of_moves, output_directory, amount_of_experiments, move_m
     if move_method >= 0:
         kwargs['move_method'] = move_method
 
-    ReprTester.get_moves()
+    # ReprTester.get_moves()
     # print(kwargs)
 
-    b = Board(input, csv)
+    # b = Board(input, csv)
 
-    print(b.get_moves())
+    # print(b.get_moves())
     #time.sleep(30)
-
-    runner = Runner(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize)
-    runner.run(input, csv, Random, save_threshold, **kwargs)
+    if not resume:
+        runner = Runner(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize, input, csv, Random, save_threshold, **kwargs)
+    else:
+        with open('output/runner.pickle', 'rb') as pickle_file:
+            runner = pickle.load(pickle_file)
+    runner.run()
+    time.sleep(10)
 
 if __name__ == "__main__":
     # Set-up parsing command line arguments
@@ -47,13 +55,14 @@ if __name__ == "__main__":
     parser.add_argument("--output_directory", help = "Output directory", required=False, default = "output")
     parser.add_argument("--amount_of_experiments", help = "Amount of experiments to try", required=False, type=int, default=1)
     parser.add_argument("--move_method", help = "Move method (0 = RandomAll, 1 = RandomOne, 2 = RandomTwo), default is RandomAll", required=False, type=int, default=-1)
-    parser.add_argument("--save_threshold", help = "Save run of the experiment when amount of moves is at or below number (default=100) ", required=False, type=int, default=100)
+    parser.add_argument("--save_threshold", help = "Save run of the experiment when amount of moves is at or below number (default=100). Input of 0 means save all.", required=False, type=int, default=100)
     parser.add_argument("--output_check50", help = "Save as output.csv (used for check50)", required=False, type=bool, default=False)
     parser.add_argument("--visualize", help = "Show visual board", required=False, type=bool, default=False)
+    parser.add_argument("--resume", help = "Resume previous experiment", required=False, type=bool, default=False)
 
     # Read arguments from command line 
     args = parser.parse_args()
     print(args)
 
     # Run main with provide arguments
-    main(args.input, args.amount_of_moves, args.output_directory, args.amount_of_experiments, args.move_method, args.save_threshold, args.output_check50, args.visualize)
+    main(args.input, args.amount_of_moves, args.output_directory, args.amount_of_experiments, args.move_method, args.save_threshold, args.output_check50, args.visualize, args.resume)

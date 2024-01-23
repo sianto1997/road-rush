@@ -3,10 +3,11 @@ from code.classes.board import Board
 import math
 import time
 import pandas as pd
-
+import pickle
+import copy
 
 class Runner:
-    def __init__(self, max_moves, amount_of_experiments, input_file, output_directory, output_check50, visualize):
+    def __init__(self, max_moves, amount_of_experiments, input_file, output_directory, output_check50, visualize, input, csv, algorithm_type, save_threshold, **kwargs):
         """
         Initializing runner
         """
@@ -22,24 +23,15 @@ class Runner:
         self.output_check50 = output_check50
         self.amount_of_experiments = amount_of_experiments
         self.visualize = visualize
+        self.i = 0
+        self.input = input
+        self.csv = csv
+        self.algorithm_type = algorithm_type
+        self.save_threshold = save_threshold
+        self.kwargs = kwargs
 
 
-    # Deprecated
-    def simple_experiment(self):
-        """
-        Simple manual experiment
-        """
-        self.move(self.cars[0], -1)
-        
-        self.move(self.cars[1], -1)
-        self.move(self.cars[2], 1)
-
-        self.move(self.cars[-4], -1)
-        self.move(self.cars[-5], 2)
-        self.move(self.cars[-5], -1)
-        self.move(self.cars[-5], 2)
-
-    def run(self, input, csv, algorithm_type, save_threshold, **kwargs):
+    def run(self):
         """
         Start random experiment
 
@@ -50,35 +42,47 @@ class Runner:
         - save_threshold: Save result only if amount of moves is lower than this threshold
         """
         moves = []
-        for i in range(self.amount_of_experiments):
+        while self.i < self.amount_of_experiments:
             # Creates a object of the class Board 
-            self.board = Board(input, csv, self.visualize)
-            
-            algorithm = algorithm_type(**kwargs)
-            solved = False
-        
-            while not solved and self.board.get_amount_of_moves() < self.max_moves:
-                if self.board.solve():
-                    solved = True
-                else:
-                    algorithm.run(self.board)
-                    
-                    
+            try:
+                # print(self.i)
+                self.board = Board(self.input, self.csv, self.visualize)
+                
+                algorithm = self.algorithm_type(self.board, **self.kwargs)
+                solved = False
+                quit = False
 
-            self.board.close_visualization()
+                while not solved and self.board.get_amount_of_moves() < self.max_moves or quit:
+                    if self.board.solve():
+                        solved = True
+                    else:
+                        quit = algorithm.run()
+                self.i += 1
 
-            amount_of_moves = self.board.get_amount_of_moves()
-            if solved:
-                moves.append(amount_of_moves)
+                # time.sleep(10)
 
-            # Applying save_threshold to not save long (bad) solutions
-            if amount_of_moves <= save_threshold and solved:
-                # Save location for check 50
-                if self.output_check50:
-                    self.board.save_moves(f'output.csv')
-                # Save in readable format
-                else:
-                    self.board.save_moves(f'{self.output_directory}/{self.file_name}_{algorithm.get_name()}_{solved}_{amount_of_moves}_{self.start_time}.csv')
+                self.board.close_visualization()
+
+                amount_of_moves = self.board.get_amount_of_moves()
+                if solved:
+                    moves.append(amount_of_moves)
+
+                # Applying save_threshold to not save long (bad) solutions
+                if (self.save_threshold == 0 or amount_of_moves <= self.save_threshold) and solved:
+                    # Save location for check 50
+                    if self.output_check50:
+                        self.board.save_moves(f'output.csv')
+                    # Save in readable format
+                    else:
+                        self.board.save_moves(f'{self.output_directory}/{self.file_name}_{algorithm.get_name()}_{solved}_{amount_of_moves}_{self.start_time}.csv')
+            except (KeyboardInterrupt, SystemExit):
+                # Save when quitting
+                self.save_object()
+                exit()
+
+            # Save each iteration while running
+            self.save_object()
+
 
         # Print the top solutions for comparison to other experiments 
         print(sorted(moves)[:5])
@@ -87,6 +91,10 @@ class Runner:
 
         
         df = pd.DataFrame(moves, columns=['move']) 
-        df.to_csv('random_experiments', index=False)
+        df.to_csv('random_experiments.csv', index=False)
         # TODO: Print solve rate 
         # TODO: Print solve rate below threshold
+    def save_object(self):
+        backup = copy.deepcopy(self) #(in ons geval runner instance)
+        with open('output/runner.pickle', 'wb') as pickle_file:
+            pickle.dump(backup, pickle_file)
