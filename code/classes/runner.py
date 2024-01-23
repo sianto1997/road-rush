@@ -45,7 +45,7 @@ class Runner:
         while self.i < self.amount_of_experiments:
             # Creates a object of the class Board 
             try:
-                print(self.i)
+                # print(self.i)
                 self.board = Board(self.input, self.csv, self.visualize)
                 
                 algorithm = self.algorithm_type(self.board, **self.kwargs)

@@ -281,7 +281,7 @@ class Board:
         # Discuss with TA: check50 reports car hit a wall where there is no wall
         if self.move(self.red_car, self.size - self.red_car.column - 1):
             moves = len(self.moves)
-            print(f'Game is finished! It took {moves} moves')
+            # print(f'Game is finished! It took {moves} moves')
             return True
         
         return False
