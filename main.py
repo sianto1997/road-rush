@@ -42,7 +42,9 @@ def main(input, amount_of_moves, output_directory, amount_of_experiments, move_m
     else:
         with open('output/runner.pickle', 'rb') as pickle_file:
             runner = pickle.load(pickle_file)
+
     runner.run()
+    
     time.sleep(10)
 
 if __name__ == "__main__":
