@@ -139,6 +139,7 @@ class Board:
         plt.draw()
         # Pause to be able to show the visualization
         plt.pause(0.0001)
+        plt.savefig('foto-for-esmee')
 
         self.ax.cla()
 
