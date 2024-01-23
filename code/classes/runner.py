@@ -91,7 +91,7 @@ class Runner:
 
         
         df = pd.DataFrame(moves, columns=['move']) 
-        df.to_csv('random_experiments.csv', index=False)
+        df.to_csv(f'{self.file_name}_{algorithm.get_name()}_random_experiments_S{self.start_time}_E{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv', index=False)
         # TODO: Print solve rate 
         # TODO: Print solve rate below threshold
     def save_object(self):
