@@ -7,18 +7,18 @@ df = pd.read_csv('random_experiments.csv')
 
 df_sorted = df.sort_values(by='move', ascending=False)
 
-plt.figure(figsize=(20,10))
-
 # makes the plot with the information from the dataframe
-plt.hist(df, bins=30, color='skyblue', edgecolor='black')
+test = plt.hist(df, bins=500, color='skyblue')
 
 mean = df['move'].mean()
+min = df['move'].min()
+print(min)
 
-plt.axhline(y=mean, color='black', label='Mean move')
+plt.axvline(mean, color='k', label='Mean move', linestyle='dashed', linewidth=1)
             
-plt.xlabel("Amount of experiments")
-plt.ylabel("Made moves")
+plt.xlabel("Amount of moves")
+plt.ylabel("Count")
 plt.title("Random Experiment results")
 
 
-plt.savefig('graph-mean-sorted.png')
+plt.savefig('hist-random-results.png')
