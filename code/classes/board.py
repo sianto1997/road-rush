@@ -37,6 +37,8 @@ class Board:
 
         self.moves = []
 
+        self.archive = set()
+
         if (visualize):
             self.init_visualization()
             self.draw()
@@ -65,6 +67,9 @@ class Board:
     def get_amount_of_moves(self):
         return len(self.moves)
 
+    def get_amount_of_states(self):
+        return len(self.archive)
+    
     def init_cars(self, csv):
         """
             Initializes all cars
@@ -206,6 +211,7 @@ class Board:
                 
                 # print(f'Move of car {car.id} ({car.orientation}) successful: {steps}')
                 self.draw()
+                self.archive.add(self.__repr__())
                 self.record_move(car.id, steps)
 
             return True

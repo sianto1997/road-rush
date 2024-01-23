@@ -74,7 +74,7 @@ class Runner:
                         self.board.save_moves(f'output.csv')
                     # Save in readable format
                     else:
-                        self.board.save_moves(f'{self.output_directory}/{self.file_name}_{algorithm.get_name()}_{solved}_{amount_of_moves}_{self.start_time}.csv')
+                        self.board.save_moves(f'{self.output_directory}/{self.file_name}_{algorithm.get_name()}_{solved}_M{amount_of_moves}_S{self.board.get_amount_of_states()}_{self.start_time}.csv')
             except (KeyboardInterrupt, SystemExit):
                 # Save when quitting
                 self.save_object()
