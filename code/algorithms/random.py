@@ -29,7 +29,7 @@ class Random(Algorithm):
         else:
             steps = random.randint(-self.move_method,self.move_method)
 
-        self.board.move(self.board.cars[car_index], steps)
+        self.board.move(self.board.get_car(car_index), steps)
 
     def get_name(self):
         return MoveMethods(self.move_method).name
