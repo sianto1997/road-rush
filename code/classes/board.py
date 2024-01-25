@@ -154,12 +154,13 @@ class Board:
 
         return False
         
-    def get_moves(self, output_as_states=False):
+    def get_moves(self, output_as_states=False, car=None):
         '''
         Get all possible moves for the current state. Discuss with TA about output as states.
 
         Input:
         - output_as_states (bool): Output the possible moves as new states. (disabled by default)
+        - car (Car): Show only the possible moves for this car
         Output:
         - List of tuples (car.id, steps)
         OR
@@ -167,7 +168,12 @@ class Board:
         '''
         board_states = []
         moves = []
-        for car in self.cars:
+        if car == None:
+            cars = self.cars 
+        else:
+            cars = [car.id]
+
+        for car in cars:
             i = -1
             while i <= 1:
                 possible = True
@@ -240,27 +246,36 @@ class Board:
         # Positive component
         max_positive_score = 128
         max_pos = self.size - 1
-        print('mp', max_pos)
-        print('rcp', self.red_car.get_pos())
+        # print('mp', max_pos)
+        # print('rcp', self.red_car.get_pos())
+        # red_car_pos = 
+        # if  == max_pos:
+        #     score += max_positive_score
+        # else:
+            # moved = False
+        move = self.red_car.column - max_pos
+        possible_moves = self.get_moves(True, self.red_car)
+        highest_possible_pos = self.red_car.get_pos()
+        for move in possible_moves:
+            red_car_pos = move.red_car.get_pos()
+            if red_car_pos > highest_possible_pos:
+                highest_possible_pos = red_car_pos
+        print(self.red_car.get_pos(), highest_possible_pos)
+        print(max_pos)
+        # print()
+            # print(possible_moves)
 
-        if self.red_car.get_pos() == max_pos:
-            score += max_positive_score
-        else:
-            moved = False
-            move = self.red_car.column - max_pos
-            possible_moves = self.get_moves()
-            print(possible_moves)
-
-            possible_moves = possible_moves == 'X'
-            print(possible_moves)
+            # possible_moves = possible_moves == 'X'
+            # print(possible_moves)
             
-            while not moved and move > 0:
-                moved = self.move(self.red_car, move, False)
-                move -= 1
+            # while not moved and move > 0:
+            #     moved = self.move(self.red_car, move, False)
+            #     move -= 1
 
-            possible_positive_score = max_positive_score / (self.red_car.column + move)
-            if possible_positive_score >= max_positive_score / 4:
-                score += possible_positive_score
+        possible_positive_score = max_positive_score / (max_pos - highest_possible_pos + 1)
+        if possible_positive_score >= max_positive_score / 4:
+            score += possible_positive_score
+
         print('p', score)
         # Negative component
         obstructions = []
