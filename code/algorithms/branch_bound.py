@@ -1,9 +1,10 @@
-from typing import Protocol
 import copy
-import 
 
-class BranchAndBound(Protocol):
-    def __init__(self, board):
+from code.classes.board import Board
+
+
+class BranchAndBound(Algorithm):
+    def __init__(self, board: Board):
         self.board = copy.deepcopy(board)
 
         self.states = [copy.deepcopy(self.board)]
@@ -16,11 +17,10 @@ class BranchAndBound(Protocol):
     def get_children(self):
 
         # receives the list of all the next possible nodes 
-        childs = self.board.get_moves(True)
+        childs = self.board.get_moves(output_as_states=True)
 
         for child in childs:
-            new_board = copy.deepcopy(child)
-            self.states.append(new_board)
+            self.states.append(child)
 
     def run(self):
         pass

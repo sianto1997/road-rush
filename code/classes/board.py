@@ -156,7 +156,6 @@ class Board:
         # plt.pause(ms)
         # self.ax.cla()
 
-
     def close_visualization(self):
         if self.visualize:
             plt.close(self.canvas)
