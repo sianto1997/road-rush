@@ -9,6 +9,8 @@ from code.classes.board import Board
 from code.tests.repr import ReprTester
 import time
 
+from code.algorithms.branch_bound import BranchAndBound
+
 import pickle
 
 def main(input, amount_of_moves, output_directory, amount_of_experiments, move_method, save_threshold, output_check50, visualize, resume):
