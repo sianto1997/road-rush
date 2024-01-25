@@ -57,24 +57,26 @@ class Runner:
                 
                 algorithm = self.algorithm_type(self.board, **self.kwargs)
                 solved = False
-                quit = False
+                no_quit = True
 
-                while not solved and self.board.get_amount_of_moves() < self.max_moves or quit:
+                while (not solved and self.board.get_amount_of_moves() < self.max_moves) and no_quit:
                     if self.board.solve():
                         solved = True
                     else:
-                        self.board = algorithm.run()
+                        (self.board, no_quit) = algorithm.run()
                         
                     if self.visualize:
                         self.visualization.draw()
 
                 self.i += 1
 
-                # time.sleep(10)
                 if self.visualize:
                     self.visualization.close()
 
+                self.board.pause(100000)
+
                 amount_of_moves = self.board.get_amount_of_moves()
+                print(amount_of_moves)
                 if solved:
                     moves.append(amount_of_moves)
 

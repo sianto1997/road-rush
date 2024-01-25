@@ -169,7 +169,7 @@ class Board:
         moves = []
         for car in self.cars:
             i = -1
-            while i < 1:
+            while i <= 1:
                 possible = True
                 steps = 0
                 while possible and abs(steps) < self.size:

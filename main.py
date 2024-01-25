@@ -4,6 +4,7 @@ from code.classes.runner import Runner
 from code.algorithms.random import Random, MoveMethods
 from code.algorithms.amber_manual import AmberManual
 from code.algorithms.greedy import Greedy
+from code.algorithms.breadthfirst import BreadthFirst
 from code.classes.board import Board
 from code.tests.repr import ReprTester
 import time
@@ -31,22 +32,14 @@ def main(input, amount_of_moves, output_directory, amount_of_experiments, move_m
     if move_method >= 0:
         kwargs['move_method'] = move_method
 
-    # ReprTester.get_moves()
-    # print(kwargs)
-
-    # b = Board(input, csv)
-
-    # print(b.get_moves())
-    #time.sleep(30)
     if not resume:
-        runner = Runner(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize, input, csv, Random, save_threshold, **kwargs)
+        runner = Runner(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize, input, csv, BreadthFirst, save_threshold, **kwargs)
     else:
         with open('output/runner.pickle', 'rb') as pickle_file:
             runner = pickle.load(pickle_file)
 
     runner.run()
 
-    time.sleep(10)
 
 if __name__ == "__main__":
     # Set-up parsing command line arguments
