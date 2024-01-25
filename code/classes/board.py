@@ -28,7 +28,7 @@ class Board:
 
         # devides the self.size by 2, if answer is float then number is rounded upwards 
         self.exit_row = ceil(self.size / 2)
-        self.cars = []
+        self.cars = {}
         self.red_car = None
 
         self.init_empty_collision_map()
@@ -36,6 +36,8 @@ class Board:
         self.init_cars(car_csv)
 
         self.moves = []
+
+        self.archive = set()
 
         if (visualize):
             self.init_visualization()
@@ -65,6 +67,9 @@ class Board:
     def get_amount_of_moves(self):
         return len(self.moves)
 
+    def get_amount_of_states(self):
+        return len(self.archive)
+    
     def init_cars(self, csv):
         """
             Initializes all cars
@@ -79,7 +84,7 @@ class Board:
             car = Car(row.car, row.orientation, row.col, row.row, row.length)
     
             # appends the object car to the list self.cars 
-            self.cars.append(car)
+            self.cars[row.car] = car
 
              # Loop through all cars and get their position
             self.collision_map = car.update_collision_map(self.collision_map)
@@ -139,6 +144,7 @@ class Board:
         plt.draw()
         # Pause to be able to show the visualization
         plt.pause(0.0001)
+        plt.savefig('foto-for-esmee')
 
         self.ax.cla()
 
@@ -149,11 +155,26 @@ class Board:
 
         # plt.pause(ms)
         # self.ax.cla()
-
+    
+    def get_car(self, number_or_id):
+        if isinstance(number_or_id, int):
+            return self.cars[list(self.cars.keys())[number_or_id]]
+        else:
+            return self.cars[number_or_id]
 
     def close_visualization(self):
         if self.visualize:
             plt.close(self.canvas)
+
+
+    def get_collision_map_slice_and_start_pos(self, car):
+        if car.orientation == 'H':
+            collision_map_slice = self.collision_map[car.row]
+            start_pos = car.column
+        else:
+            collision_map_slice = self.collision_map[:,car.column]
+            start_pos = car.row
+        return (collision_map_slice, start_pos)
 
     def move(self, car, steps, execute=True):
         """
@@ -168,14 +189,8 @@ class Board:
         """
         if steps == 0:
             return False
-
-        if car.orientation == 'H':
-            collision_map_slice = self.collision_map[car.row]
-            start_pos = car.column
-        else:
-            collision_map_slice = self.collision_map[:,car.column]
-            start_pos = car.row
-
+        
+        (collision_map_slice, start_pos) = self.get_collision_map_slice_and_start_pos(car)
 
         if steps > 0:
             end_pos = start_pos + car.length + steps
@@ -205,6 +220,7 @@ class Board:
                 
                 # print(f'Move of car {car.id} ({car.orientation}) successful: {steps}')
                 self.draw()
+                self.archive.add(self.__repr__())
                 self.record_move(car.id, steps)
 
             return True
@@ -275,13 +291,19 @@ class Board:
         # Unblock exit row
         # self.collision_map[self.exit_row][self.size+1] = 0
 
-    def solve(self):
+    def solve(self, execute=True):
         """
+        Looks if the board is solvable
+
+        Input:
+        - execute (bool, optional): Execute the solve
+        
+        Output:
+        - bool: Success
         """
-        # Discuss with TA: check50 reports car hit a wall where there is no wall
-        if self.move(self.red_car, self.size - self.red_car.column - 1):
+        if self.move(self.red_car, self.size - self.red_car.column - 1, execute=execute):
             moves = len(self.moves)
-            print(f'Game is finished! It took {moves} moves')
+            # print(f'Game is finished! It took {moves} moves')
             return True
         
         return False
@@ -289,3 +311,72 @@ class Board:
     def __repr__(self):
         # print(str(self.collision_map))
         return str(hash(str(self.collision_map)))
+    
+    def calculate_value(self):
+        """
+        Calculates current value of board according to greedy scoring.
+        """
+        score = 0
+
+        # Positive component
+        max_positive_score = 128
+        max_pos = self.size - 1
+        if self.red_car == max_pos:
+            score += max_positive_score
+        else:
+            moved = False
+            move = self.red_car.column - max_pos
+            while not moved and move > 0:
+                moved = self.move(self.red_car, move, False)
+                move -= 1
+
+            possible_positive_score = max_positive_score / (self.red_car.column + move)
+            if possible_positive_score >= max_positive_score / 4:
+                score += possible_positive_score
+
+        # Negative component
+        obstructions = []
+        obstruction = self.obstructed_by(self.red_car)
+        max_negative_score = 16
+        min_negative_score = 4
+
+        solvabilty_multiply = 1
+
+        level = 1
+        max_level = 3
+        while obstruction != None:
+            score -= max_negative_score / level * solvabilty_multiply
+            
+
+
+        return score
+
+    def obstructed_by(self, car, forwards=True, alt_start_pos=0):
+        """
+
+        """
+        (collision_map_slice, start_pos) = self.get_collision_map_slice_and_start_pos(car)
+        
+        obstructed = False
+        step_size = - 1
+        
+        i = start_pos + alt_start_pos
+        
+
+        # For forwards, adjust starting pos and step_size
+        if forwards:
+            step_size = 1
+            if alt_start_pos != 0:
+                i += car.length
+
+        while not obstructed:
+            if collision_map_slice[i] == '-':
+                return None
+            elif not collision_map_slice[i] == '':
+                obstructed = True
+                return (self.cars[collision_map_slice[i]], i)
+            
+            i += step_size
+
+        
+        return None

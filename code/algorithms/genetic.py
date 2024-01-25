@@ -1,9 +1,9 @@
 from typing import Protocol
 
 class Genetic(Protocol):
-    def __init__(data):
+    def __init__(data, board):
         pass
-    def run(self, board):
+    def run(self):
         pass
     def get_name(self):
         return 'Genetic'
