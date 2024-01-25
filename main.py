@@ -9,6 +9,8 @@ from code.classes.board import Board
 from code.tests.repr import ReprTester
 import time
 
+from code.algorithms.branch_bound import BranchAndBound
+
 import pickle
 
 def main(input, amount_of_moves, output_directory, amount_of_experiments, move_method, save_threshold, output_check50, visualize, resume):
@@ -33,7 +35,7 @@ def main(input, amount_of_moves, output_directory, amount_of_experiments, move_m
         kwargs['move_method'] = move_method
 
     if not resume:
-        runner = Runner(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize, input, csv, Greedy, save_threshold, **kwargs)
+        runner = Runner(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize, input, csv, BranchAndBound, save_threshold, **kwargs)
     else:
         with open('output/runner.pickle', 'rb') as pickle_file:
             runner = pickle.load(pickle_file)
