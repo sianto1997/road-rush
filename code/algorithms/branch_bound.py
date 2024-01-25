@@ -13,6 +13,9 @@ class BranchAndBound(Algorithm):
         self.states = [copy.deepcopy(self.board)]
 
         self.best_solution = None
+        self.archive = set()
+        
+        self.visited_states = 0
     
     def get_next_state(self):
         '''
@@ -29,24 +32,25 @@ class BranchAndBound(Algorithm):
         childs = self.board.get_moves(output_as_states=True)
 
         for child in childs:
-            self.states.append(child)
+            if child not in self.archive: 
+                self.states.append(child)
+                self.archive.add(child.__repr__())
 
     def run(self):
         '''
         Runs the algorithm until the best possible solution is found 
         '''
-        solved = False
-        quite = True
         if self.states:
             print(len(self.states))
             self.board = self.get_next_state()
+            self.visited_states += 1 
             if self.board.solve():
                 print("A solution is found!")
-                return self.board, True, True
+                return self.board, True
             
             self.get_children()
 
-        return self.board, solved, quite
+        return self.board, False 
         
 
     def get_name(self):
