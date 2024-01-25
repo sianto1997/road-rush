@@ -57,7 +57,6 @@ class Runner:
                 
                 algorithm = self.algorithm_type(self.board, **self.kwargs)
                 solved = False
-                no_quit = True
 
                 while (not solved and self.board.get_amount_of_moves() < self.max_moves) and solved != None:
 
