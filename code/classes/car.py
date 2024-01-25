@@ -56,30 +56,6 @@ class Car:
     
         return collision_map
 
-    def draw(self, canvas):
-        """
-        Creates a simple representation of a car on an existing canvas.
-
-        Input:
-        - Canvas object (plt subplot)
-        """
-
-        # checks the orientation of the car object       
-        if self.orientation == 'H':
-
-            # creates a rectangle in horizontal oriantion with the parameters of the object car 
-            car = plt.Rectangle((self.column, self.row), self.length, 1, facecolor= self.colour, edgecolor='black', lw=5)
-        else:
-
-            # creates a rectangle in vertical oriantion with the parameters of the object car
-            car = plt.Rectangle((self.column, self.row), 1, self.length, facecolor= self.colour, edgecolor='black', lw=5)
-        
-        # adds the made rectangles to the board
-        canvas.add_patch(car)
-
-        # shows the id of the car in the plot 
-        plt.text(self.column+0.5, self.row+0.5, self.id, fontsize = 10)
-
     def get_pos(self):
         """
         

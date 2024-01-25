@@ -66,14 +66,15 @@ class Runner:
                         (self.board, no_quit) = algorithm.run()
                         
                     if self.visualize:
+                        self.visualization.replace(self.board)
                         self.visualization.draw()
 
                 self.i += 1
 
                 if self.visualize:
+                    self.visualization.pause(100000)
                     self.visualization.close()
 
-                self.board.pause(100000)
 
                 amount_of_moves = self.board.get_amount_of_moves()
                 print(amount_of_moves)

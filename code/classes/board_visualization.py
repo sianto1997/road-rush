@@ -8,14 +8,7 @@ class BoardVisualization():
         Initializes the board so that only one display is created
         """
         # self.replace(board)
-        # give the range to the figure
-        self.canvas = plt.figure(figsize=[self.board.size + 0.5, self.board.size + 0.5])
-
-        # makes the background colour of the figure gray
-        self.canvas.patch.set_facecolor('gray')
-
-        # creates the grid place
-        self.ax = self.canvas.add_subplot()
+        
         self.initialized = False
 
     def init_visualization(self):
@@ -31,18 +24,27 @@ class BoardVisualization():
 
             # creates the grid place
             self.ax = self.canvas.add_subplot()
+
+            # give the range to the figure
+            self.canvas = plt.figure(figsize=[self.board.size + 0.5, self.board.size + 0.5])
+
+            # makes the background colour of the figure gray
+            self.canvas.patch.set_facecolor('gray')
+
+            # creates the grid place
+            self.ax = self.canvas.add_subplot()
             self.initialized = True
     
     def replace(self, board):
         self.board = board
         self.init_visualization()
 
-    def draw(self, ms=0.0001):
+    def draw(self, ms=1):
         """
         Draws the object board to the current state
         """
-        # if not self.visualize:
-        #     return
+        if not self.initialized:
+            return
         
         # inverts the values of the y-axis
         self.ax.invert_yaxis()
@@ -69,7 +71,7 @@ class BoardVisualization():
         self.ax.set_axis_off()
         # print(self.cars)
         for car in self.board.cars:
-            self.board.cars[car].draw(self.ax)
+            self.draw_car(self.board.cars[car])
       
         plt.draw()
         # Pause to be able to show the visualization
@@ -88,3 +90,25 @@ class BoardVisualization():
 
     def close(self):
         plt.close(self.canvas)
+
+    def draw_car(self, car):
+        """
+        Creates a simple representation of a car on an existing canvas.
+
+        Input:
+        - car (Car): The car to draw
+        """
+
+        # checks the orientation of the car object       
+        if car.orientation == 'H':
+            # creates a rectangle in horizontal oriantion with the parameters of the object car 
+            car_drawing = plt.Rectangle((car.column, car.row), car.length, 1, facecolor= car.colour, edgecolor='black', lw=5)
+        else:
+            # creates a rectangle in vertical oriantion with the parameters of the object car
+            car_drawing = plt.Rectangle((car.column, car.row), 1, car.length, facecolor= car.colour, edgecolor='black', lw=5)
+        
+        # adds the made rectangles to the board
+        self.ax.add_patch(car_drawing)
+
+        # shows the id of the car in the plot 
+        plt.text(car.column+0.5, car.row+0.5, car.id, fontsize = 10)
