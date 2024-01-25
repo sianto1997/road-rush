@@ -6,9 +6,9 @@ class AmberManual(Protocol):
         self.board = board
         self.i = 0
         self.cars = [
-            board.cars[4],
-            board.cars[0],
-            board.cars[2]
+            board.get_car(4),
+            board.get_car(0),
+            board.get_car(2)
             ]
         self.moves = [
             -3,
