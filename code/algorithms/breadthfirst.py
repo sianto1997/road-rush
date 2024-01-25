@@ -4,13 +4,26 @@ import copy
 
 class BreadthFirst(Algorithm):
     def __init__(self, board: Board):
+        '''
+        Initialize Breadthfirst algorithm with deep copy of initial board state.
+
+        Input:
+        - board = the initial state of Rush Hour board.
+        '''
+
         self.board = copy.deepcopy(board)
         
+        # using queue to store states you still need to look into
         self.states = [copy.deepcopy(self.board)]
+        
+        # keep track of the states which are already visited
         self.archive = set()
         self.visited_states = 0
     
     def get_next_state(self):
+        '''
+        Get
+        '''
         return self.states.pop(0)
 
     def build_children(self):
@@ -30,13 +43,13 @@ class BreadthFirst(Algorithm):
             
             if self.board.solve():
                 print(f'A solution is found, amount of states visited: {self.visited_states}.')
-                return self.board, False
+                return self.board, False, True
             
             self.build_children()
-            return self.board, True
+            return self.board, True, False
         else:
             print(f'No solution is foun, amount of states visited: {self.visited_states}.')
-            return self.board, False
+            return self.board, False, False
     
     def get_name(self):
-        return 'BreadthFirst'
+        return 'BreadthFirst' + f'Archive{True}'
