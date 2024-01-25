@@ -6,7 +6,6 @@ class BreadthFirst(Algorithm):
     def __init__(self, board: Board):
         self.board = copy.deepcopy(board)
         
-        # create queue to store states FIFO
         self.states = [copy.deepcopy(self.board)]
         self.archive = set()
         self.visited_states = 0
