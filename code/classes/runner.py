@@ -61,6 +61,7 @@ class Runner:
                 while (not solved and self.board.get_amount_of_moves() < self.max_moves) and solved != None:
 
                     (self.board, solved) = algorithm.run()
+                    print(len(self.board.moves))
                         
                     if self.visualize:
                         self.visualization.replace(self.board)

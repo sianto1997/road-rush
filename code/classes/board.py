@@ -228,7 +228,7 @@ class Board:
         '''
         if self.move(self.red_car, self.size - self.red_car.column - 1, execute=execute):
             moves = len(self.moves)
-            # print(f'Game is finished! It took {moves} moves')
+            print(f'Game is finished! It took {moves} moves')
             return True
         
         return False
