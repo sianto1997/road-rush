@@ -45,14 +45,14 @@ class BreadthFirst(Algorithm):
             
             if self.board.solve():
                 print(f'A solution is found, amount of states visited: {self.visited_states}.')
-                return self.board, False, True
+                return self.board, True
             
             self.build_children()
-            return self.board, True, False
+            return self.board, False
         
         else:
             print(f'No solution is found, amount of states visited: {self.visited_states}.')
-            return self.board, False, False
+            return self.board, None
     
     def get_name(self):
         return f'BreadthFirst_Archive{True}_VisitedStates{self.visited_states}'

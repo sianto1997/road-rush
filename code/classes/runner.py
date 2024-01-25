@@ -59,10 +59,9 @@ class Runner:
                 solved = False
                 no_quit = True
 
-                while (not solved and self.board.get_amount_of_moves() < self.max_moves) and no_quit:
+                while (not solved and self.board.get_amount_of_moves() < self.max_moves) and solved != None:
 
-                    (self.board, no_quit, solved) = algorithm.run()
-
+                    (self.board, solved) = algorithm.run()
                         
                     if self.visualize:
                         self.visualization.replace(self.board)

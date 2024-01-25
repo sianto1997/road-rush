@@ -30,7 +30,7 @@ class Greedy(Algorithm):
         if best_move == None:
             return self.board, True
         
-        return best_move, True
+        return best_move, False
         
         
     def get_name(self):
