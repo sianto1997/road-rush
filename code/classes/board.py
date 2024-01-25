@@ -228,7 +228,7 @@ class Board:
         '''
         if self.move(self.red_car, self.size - self.red_car.column - 1, execute=execute):
             moves = len(self.moves)
-            print(f'Game is finished! It took {moves} moves')
+            # print(f'Game is finished! It took {moves} moves')
             return True
         
         return False
@@ -260,17 +260,23 @@ class Board:
             red_car_pos = move.red_car.get_pos()
             if red_car_pos > highest_possible_pos:
                 highest_possible_pos = red_car_pos
+        # print(self.red_car.get_pos(), highest_possible_pos)
+        # print(max_pos)
+        # print()
+            # print(possible_moves)
 
-        # print('v', (max_pos - highest_possible_pos), , max_positive_score)
-        possible_positive_score = 2 ** (4 + (max_pos - highest_possible_pos))
-        # print('xx', possible_positive_score)
+            # possible_moves = possible_moves == 'X'
+            # print(possible_moves)
+            
+            # while not moved and move > 0:
+            #     moved = self.move(self.red_car, move, False)
+            #     move -= 1
+
+        possible_positive_score = max_positive_score / (max_pos - highest_possible_pos + 1)
         if possible_positive_score >= max_positive_score / 4:
             score += possible_positive_score
 
-        print('p', score)
-
-
-
+        # print('p', score)
         # Negative component
         obstructions = []
         # All results of the red car 
@@ -286,7 +292,7 @@ class Board:
         return score
     
     def score_recursive(self, current_score, add, current_obstruction, level, position_to_clear):
-        print('a', add)
+        # print('a', add)
         max_level = 3
         min_negative_score = -4
 

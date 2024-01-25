@@ -4,7 +4,7 @@ from code.classes.board import Board
 
 class BranchAndBound(Algorithm):
     '''
-    A Dept first algoritem that does not search on a deeper level than the first found solution.
+    A depth first algorithm that does not search on a deeper level than the first found solution.
     '''
     
     def __init__(self, board: Board):
@@ -31,31 +31,29 @@ class BranchAndBound(Algorithm):
 
         # receives a list of all the next possible nodes 
         childs = self.board.get_moves(output_as_states=True)
-
+        to_add = 0
         for child in childs:
             if child.__repr__() not in self.archive and len(child.moves) < self.depth: 
                 self.states.append(child)
                 self.archive.add(child.__repr__())
+
 
     def run(self):
         '''
         Runs the algorithm until the best possible solution is found 
         '''
         if self.states:
-            # print(len(self.states))
             self.board = self.get_next_state()
             self.visited_states += 1 
             if self.board.solve():
                 print(f"A solution is found! Amount of moves visited: {len(self.board.moves)}")
                 self.depth = len(self.board.moves)
                 self.best_solution = copy.deepcopy(self.board)
-                
+
         elif not self.states and self.best_solution is not None:
             print(f"A solution is found! Amount of states visited: {self.visited_states}")
             return self.best_solution, True
 
-
-            
         self.get_children()
         
         
