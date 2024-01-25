@@ -64,6 +64,7 @@ class BreadthFirst(Algorithm):
             if self.board.solve():
                 print(f'A solution is found, amount of states visited: {self.visited_states}.')
                 return self.board, True
+                return self.board, True
             
             # get possible states for to explore further
             self.build_children()
@@ -72,6 +73,7 @@ class BreadthFirst(Algorithm):
         
         else:
             print(f'No solution is found, amount of states visited: {self.visited_states}.')
+            return self.board, None
             return self.board, None
     
     def get_name(self):
