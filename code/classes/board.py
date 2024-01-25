@@ -139,7 +139,7 @@ class Board:
         self.ax.set_axis_off()
 
         for car in self.cars:
-            car.draw(self.ax)
+            self.cars[car].draw(self.ax)
       
         plt.draw()
         # Pause to be able to show the visualization
@@ -242,7 +242,7 @@ class Board:
         moves = []
         for c in self.cars:
             i = -1
-            while i < 1:
+            while i <= 1:
                 possible = True
                 steps = 0
                 while possible and abs(steps) < self.size:

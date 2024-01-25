@@ -1,21 +1,21 @@
 from code.algorithms.algorithm import Algorithm
-from queue import Queue
+from code.classes.board import Board
 import copy
 
 class BreadthFirst(Algorithm):
-    def __init__(self, board):
+    def __init__(self, board: Board):
         self.board = copy.deepcopy(board)
         
         # create queue to store states FIFO
-        # self.states = Queue()
         self.states = [copy.deepcopy(self.board)]
         self.archive = set()
+        self.visited_states = 0
     
     def get_next_state(self):
         return self.states.pop(0)
 
     def build_children(self):
-        possible_states = self.board.get_moves(True)
+        possible_states = self.board.get_moves(output_as_states=True)
 
         for state in possible_states:
             if not state.__repr__() in self.archive:
@@ -27,18 +27,17 @@ class BreadthFirst(Algorithm):
             
             # get next state through dequeue
             self.board = self.get_next_state()
-            # print(self.board)
+            self.visited_states += 1
+            
             if self.board.solve():
-                print('A solution is found!')
-                # return self.board
-                return False
+                print(f'A solution is found, amount of states visited: {self.visited_states}.')
+                return self.board, False
             
             self.build_children()
-            print(len(self.states))
-            return True
+            return self.board, True
         else:
-            print('No solution is found.')
-            return False
+            print(f'No solution is foun, amount of states visited: {self.visited_states}.')
+            return self.board, False
     
     def get_name(self):
         return 'BreadthFirst'

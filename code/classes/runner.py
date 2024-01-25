@@ -56,14 +56,16 @@ class Runner:
                     if self.board.solve():
                         solved = True
                     else:
-                        no_quit = algorithm.run()
+                        (self.board, no_quit) = algorithm.run()
                 self.i += 1
 
                 # time.sleep(10)
+                self.board.pause(100000)
 
                 self.board.close_visualization()
 
                 amount_of_moves = self.board.get_amount_of_moves()
+                print(amount_of_moves)
                 if solved:
                     moves.append(amount_of_moves)
 

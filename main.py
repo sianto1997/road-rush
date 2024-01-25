@@ -47,7 +47,6 @@ def main(input, amount_of_moves, output_directory, amount_of_experiments, move_m
     # runner = Runner(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize, input, csv, BreadthFirst, save_threshold, **kwargs)
     runner.run()
 
-    time.sleep(10)
 
 if __name__ == "__main__":
     # Set-up parsing command line arguments
