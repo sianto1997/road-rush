@@ -260,23 +260,17 @@ class Board:
             red_car_pos = move.red_car.get_pos()
             if red_car_pos > highest_possible_pos:
                 highest_possible_pos = red_car_pos
-        print(self.red_car.get_pos(), highest_possible_pos)
-        print(max_pos)
-        # print()
-            # print(possible_moves)
 
-            # possible_moves = possible_moves == 'X'
-            # print(possible_moves)
-            
-            # while not moved and move > 0:
-            #     moved = self.move(self.red_car, move, False)
-            #     move -= 1
-
-        possible_positive_score = max_positive_score / (max_pos - highest_possible_pos + 1)
+        # print('v', (max_pos - highest_possible_pos), , max_positive_score)
+        possible_positive_score = 2 ** (4 + (max_pos - highest_possible_pos))
+        # print('xx', possible_positive_score)
         if possible_positive_score >= max_positive_score / 4:
             score += possible_positive_score
 
         print('p', score)
+
+
+
         # Negative component
         obstructions = []
         # All results of the red car 
