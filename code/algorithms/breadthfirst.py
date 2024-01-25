@@ -27,16 +27,17 @@ class BreadthFirst(Algorithm):
             
             # get next state through dequeue
             self.board = self.get_next_state()
-            print(self.board)
+            # print(self.board)
             if self.board.solve():
                 print('A solution is found!')
                 # return self.board
-                return True
+                return False
             
             self.build_children()
             print(len(self.states))
+            return True
         else:
-            # print('No solution is found.')
+            print('No solution is found.')
             return False
     
     def get_name(self):

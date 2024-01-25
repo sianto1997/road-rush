@@ -39,19 +39,14 @@ def main(input, amount_of_moves, output_directory, amount_of_experiments, move_m
     # print(b.get_moves())
     #time.sleep(30)
     if not resume:
-        runner = Runner(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize, input, csv, Random, save_threshold, **kwargs)
+        runner = Runner(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize, input, csv, BreadthFirst, save_threshold, **kwargs)
     else:
         with open('output/runner.pickle', 'rb') as pickle_file:
             runner = pickle.load(pickle_file)
 
-<<<<<<< HEAD
-    runner = Runner(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize)
-    runner.run(input, csv, BreadthFirst, save_threshold, **kwargs)
-
-=======
+    # runner = Runner(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize, input, csv, BreadthFirst, save_threshold, **kwargs)
     runner.run()
-    
->>>>>>> 4a3b49c78f2cc991ed9b5c5ba6e5457ec4e7c721
+
     time.sleep(10)
 
 if __name__ == "__main__":

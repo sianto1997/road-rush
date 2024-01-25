@@ -240,7 +240,7 @@ class Board:
         """
         board_states = []
         moves = []
-        for c in range(len(self.cars)):
+        for c in self.cars:
             i = -1
             while i < 1:
                 possible = True
