@@ -1,5 +1,6 @@
 from datetime import datetime
 from code.classes.board import Board
+from code.classes.board_visualization import BoardVisualization
 import math
 import time
 import pandas as pd
@@ -41,25 +42,38 @@ class Runner:
         - move_method: Inputs which limitation is used for running simulations
         - save_threshold: Save result only if amount of moves is lower than this threshold
         """
+        
+        if self.visualize:
+            self.visualization = BoardVisualization()
         moves = []
         while self.i < self.amount_of_experiments:
             # Creates a object of the class Board 
             try:
                 # print(self.i)
-                self.board = Board(self.input, self.csv, self.visualize)
+                self.board = Board(self.input, self.csv)
+                if self.visualize:
+                    self.visualization.replace(self.board)
+
                 
                 algorithm = self.algorithm_type(self.board, **self.kwargs)
                 solved = False
                 no_quit = True
 
                 while (not solved and self.board.get_amount_of_moves() < self.max_moves) and no_quit:
+
                     (self.board, no_quit, solved) = algorithm.run()
+
+                        
+                    if self.visualize:
+                        self.visualization.replace(self.board)
+                        self.visualization.draw()
+                        
                 self.i += 1
 
-                # time.sleep(10)
-                self.board.pause(100000)
+                if self.visualize:
+                    self.visualization.pause(100000)
+                    self.visualization.close()
 
-                self.board.close_visualization()
 
                 amount_of_moves = self.board.get_amount_of_moves()
                 print(amount_of_moves)

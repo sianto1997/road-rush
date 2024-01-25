@@ -6,16 +6,14 @@ import numpy as np
 import copy
 
 class Board:   
-    def __init__(self, input_file, car_csv, visualize=False):
-        """
+    def __init__(self, input_file, car_csv):
+        '''
         Creates a board for the game Rush Hour.
 
         Input:
         - input_file = CSV, the file with information about the board 
         - car_csv = parsed CSV of cars
-        - visualize = show visualization (do not display by default)
-        """ 
-        self.visualize = visualize
+        '''
 
         # get position of 'hour' in title of input file
         start = input_file.find('hour') + len('hour')
@@ -39,27 +37,23 @@ class Board:
 
         self.archive = set()
 
-        if (visualize):
-            self.init_visualization()
-            self.draw()
-
     def record_move(self, car_id, step):
-        """
+        '''
         Appends a tuple of made moves and id of a car to a list 
 
         Input:
         - car_id = str, the id of the object car 
         - step = int, the move the car makes on the board 
-        """
+        '''
         self.moves.append((car_id,step))
 
     def save_moves(self, output_filename):
-        """ 
+        '''
         Exports the made moves to a csv file 
 
         Input:
         - output_filename = str, the name + place where the file is being saved 
-        """
+        '''
         df = pd.DataFrame(self.moves, columns=['car', 'move']) 
         
         df.to_csv(output_filename, index=False)
@@ -71,12 +65,12 @@ class Board:
         return len(self.archive)
     
     def init_cars(self, csv):
-        """
+        '''
             Initializes all cars
         
             Input:
             csv = Dataframe, parsed CSV of cars in board
-        """
+        '''
         # loops over the index and rows of the given dataframe 
         for index, row in csv.iterrows():
 
@@ -94,78 +88,11 @@ class Board:
             if row.car == 'X':
                 self.red_car = car
 
-    def init_visualization(self):
-        """
-        Initializes the board so that only one display is created
-        """
-        # give the range to the figure
-        self.canvas = plt.figure(figsize=[self.size + 0.5, self.size + 0.5])
-
-        # makes the background colour of the figure gray
-        self.canvas.patch.set_facecolor('gray')
-
-        # creates the grid place
-        self.ax = self.canvas.add_subplot()
-
-    def draw(self, ms=0.0001):
-        """
-        Draws the object board to the current state
-        """
-        if not self.visualize:
-            return
-        
-        # inverts the values of the y-axis
-        self.ax.invert_yaxis()
-        # loops over the values of the x-axis
-        for x in range(1,self.size+1):
-            
-            # makes a black line on the places of the x in a particular range 
-            self.ax.plot([x, x], [1, self.size + 1], 'k')
-        
-        # makes the exit row line
-        self.ax.plot([self.size+1, self.size+1], [1,self.exit_row], 'k')
-        self.ax.plot([self.size+1, self.size+1], [self.exit_row+1,self.size+1], 'k')
-
-        # loops over the values of y-axis
-        for y in range(1, self.size + 2):
-
-            # makes a black line on the places of the y in a particular range
-            self.ax.plot([1, self.size + 1], [y,y], 'k')
-        
-        # create marges around the grid 
-        self.ax.set_position([0, 0, 1, 1])
-
-        # deletes the axis numbers 
-        self.ax.set_axis_off()
-
-        for car in self.cars:
-            self.cars[car].draw(self.ax)
-      
-        plt.draw()
-        # Pause to be able to show the visualization
-        plt.pause(0.0001)
-        plt.savefig('foto-for-esmee')
-
-        self.ax.cla()
-
-    def pause(self, ms):
-
-        self.draw(ms)
-        # plt.draw()
-
-        # plt.pause(ms)
-        # self.ax.cla()
-    
     def get_car(self, number_or_id):
         if isinstance(number_or_id, int):
             return self.cars[list(self.cars.keys())[number_or_id]]
         else:
             return self.cars[number_or_id]
-
-    def close_visualization(self):
-        if self.visualize:
-            plt.close(self.canvas)
-
 
     def get_collision_map_slice_and_start_pos(self, car):
         if car.orientation == 'H':
@@ -177,7 +104,7 @@ class Board:
         return (collision_map_slice, start_pos)
 
     def move(self, car, steps, execute=True):
-        """
+        '''
         Moves a car in steps direction
 
         Input:
@@ -186,7 +113,7 @@ class Board:
         - execute (bool): Execute the move (default: False)
         Output:
         - success (True or False)
-        """
+        '''
         if steps == 0:
             return False
         
@@ -219,7 +146,7 @@ class Board:
                     car.row += steps
                 
                 # print(f'Move of car {car.id} ({car.orientation}) successful: {steps}')
-                self.draw()
+                # self.draw()
                 self.archive.add(self.__repr__())
                 self.record_move(car.id, steps)
 
@@ -228,7 +155,7 @@ class Board:
         return False
         
     def get_moves(self, output_as_states=False):
-        """
+        '''
         Get all possible moves for the current state. Discuss with TA about output as states.
 
         Input:
@@ -237,24 +164,24 @@ class Board:
         - List of tuples (car.id, steps)
         OR
         - List of states (Board-object with the executed move)
-        """
+        '''
         board_states = []
         moves = []
-        for c in self.cars:
+        for car in self.cars:
             i = -1
             while i <= 1:
                 possible = True
                 steps = 0
                 while possible and abs(steps) < self.size:
                     steps += 1 * i
-                    move_possible = self.move(self.cars[c], steps, False)
+                    move_possible = self.move(self.cars[car], steps, False)
                     if move_possible:
                         if output_as_states:
                             new_state = copy.deepcopy(self)
-                            new_state.move(new_state.cars[c], steps)
+                            new_state.move(new_state.cars[car], steps)
                             board_states.append(new_state)
                         else:
-                            moves.append((self.cars[c].id, steps))
+                            moves.append((self.cars[car].id, steps))
                     else:
                         possible = False
                 i += 2
@@ -264,16 +191,11 @@ class Board:
         return moves
 
     def init_empty_collision_map(self):
-        """
+        '''
         Gets the current collision map
-
-        TODO for Simon: make more efficient by only creating map at init, and edit at move()
-        """
+        '''
         
-        # Create bounds for top, bottom and and sides
-        # row_bound = np.ones((1, self.size))
-        # column_bound = np.ones((self.size + 2, 1))
-        
+        # Create bounds for top, bottom and and sides        
         row_bound =  np.chararray((1, self.size), itemsize=2) 
         row_bound[:] = '-'
 
@@ -282,17 +204,14 @@ class Board:
 
 
         # Create empty collision map
-        self.collision_map = np.chararray((self.size, self.size), itemsize=2) #np.zeros((self.size, self.size))
+        self.collision_map = np.chararray((self.size, self.size), itemsize=2)
         self.collision_map[:] = ''
 
         self.collision_map = np.vstack((row_bound, self.collision_map, row_bound))
         self.collision_map = np.hstack((column_bound, self.collision_map, column_bound))
 
-        # Unblock exit row
-        # self.collision_map[self.exit_row][self.size+1] = 0
-
     def solve(self, execute=True):
-        """
+        '''
         Looks if the board is solvable
 
         Input:
@@ -300,7 +219,7 @@ class Board:
         
         Output:
         - bool: Success
-        """
+        '''
         if self.move(self.red_car, self.size - self.red_car.column - 1, execute=execute):
             moves = len(self.moves)
             # print(f'Game is finished! It took {moves} moves')
@@ -313,9 +232,9 @@ class Board:
         return str(hash(str(self.collision_map)))
     
     def calculate_value(self):
-        """
+        '''
         Calculates current value of board according to greedy scoring.
-        """
+        '''
         score = 0
 
         # Positive component
@@ -333,50 +252,83 @@ class Board:
             possible_positive_score = max_positive_score / (self.red_car.column + move)
             if possible_positive_score >= max_positive_score / 4:
                 score += possible_positive_score
-
+        print('p', score)
         # Negative component
         obstructions = []
-        obstruction = self.obstructed_by(self.red_car)
-        max_negative_score = 16
-        min_negative_score = 4
+        # All results of the red car 
+        obstructions.append(self.obstructed_by(self.red_car, True, False))
+        max_negative_score = -16
 
-        solvabilty_multiply = 1
+        solvabilty_of_obstruction_multiplier = 1
 
         level = 1
-        max_level = 3
-        while obstruction != None:
-            score -= max_negative_score / level * solvabilty_multiply
-            
-
-
+        for obstruction in obstructions:
+            score += self.score_recursive(max_negative_score, max_negative_score, obstruction, 1, self.red_car.get_pos())
+  
         return score
+    
+    def score_recursive(self, current_score, add, current_obstruction, level, position_to_clear):
+        print('a', add)
+        max_level = 3
+        min_negative_score = -4
 
-    def obstructed_by(self, car, forwards=True, alt_start_pos=0):
-        """
+        new_add = add / 2   
+        if current_obstruction != None and level <= max_level and new_add <= min_negative_score:
+            obstructions = []
+            obstructions.append(self.obstructed_by(current_obstruction, True))
+            obstructions.append(self.obstructed_by(current_obstruction, False))
 
-        """
+            if len(obstructions) >= 0:
+                for obstruction in obstructions:
+                    current_score += self.score_recursive(current_score, new_add, obstruction, level + 1, current_obstruction.get_pos())
+        # If an ostruction can be cleared (car can be moved out of the way) than the result is multiplied by -1 to result in a positive add. If not, the result will be multiplied by 1, which results in a negative add.
+        clearance_multiplier = 1
+        if current_obstruction != None:
+            clearance_multiplier = self.obstruction_can_be_cleared(current_obstruction, position_to_clear)
+        return current_score + (min_negative_score * clearance_multiplier)
+
+    def obstructed_by(self, car, forwards=True, only_first=True):
+        '''
+
+        '''
         (collision_map_slice, start_pos) = self.get_collision_map_slice_and_start_pos(car)
         
         obstructed = False
         step_size = - 1
         
-        i = start_pos + alt_start_pos
+        i = start_pos
         
 
         # For forwards, adjust starting pos and step_size
         if forwards:
             step_size = 1
-            if alt_start_pos != 0:
-                i += car.length
-
-        while not obstructed:
+            i += car.length
+       
+        results = []
+        while not obstructed and only_first:
             if collision_map_slice[i] == '-':
-                return None
-            elif not collision_map_slice[i] == '':
                 obstructed = True
-                return (self.cars[collision_map_slice[i]], i)
+            elif not collision_map_slice[i] == '':
+                if only_first:
+                    obstructed = True
+                results.append((self.cars[collision_map_slice[i]], i))
             
             i += step_size
 
+        if len(results) >= 1:
+            if only_first:
+                return results[0]
+            return results
         
         return None
+  
+    def obstruction_can_be_cleared(self, car, position_to_clear):
+        clear_pos_lower_than_or_equals = position_to_clear - car.size - 1
+        clear_pos_higher_than_or_equals = position_to_clear + 1
+
+        for steps in range(1, self.size + 1):
+            if steps <= clear_pos_lower_than_or_equals or steps >= clear_pos_higher_than_or_equals:
+                if self.move(car, steps, False):
+                    return True
+
+        return False

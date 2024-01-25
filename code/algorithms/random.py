@@ -31,5 +31,7 @@ class Random(Algorithm):
 
         self.board.move(self.board.get_car(car_index), steps)
 
+        return self.board, True
+
     def get_name(self):
         return MoveMethods(self.move_method).name
