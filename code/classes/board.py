@@ -260,8 +260,11 @@ class Board:
             red_car_pos = move.red_car.get_pos()
             if red_car_pos > highest_possible_pos:
                 highest_possible_pos = red_car_pos
+
         print(self.red_car.get_pos(), highest_possible_pos)
-        print(max_pos)
+        print(self.red_car.get_pos(), highest_possible_pos)
+        print('steps from finish pos', (max_pos - highest_possible_pos))
+        # print(max_pos)
         # print()
             # print(possible_moves)
 
@@ -272,7 +275,8 @@ class Board:
             #     moved = self.move(self.red_car, move, False)
             #     move -= 1
 
-        possible_positive_score = max_positive_score / (max_pos - highest_possible_pos + 1)
+        possible_positive_score = max_positive_score ** (1 / (self.size - highest_possible_pos))
+        print(max_positive_score, highest_possible_pos, (self.size - highest_possible_pos))
         if possible_positive_score >= max_positive_score / 4:
             score += possible_positive_score
 

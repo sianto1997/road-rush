@@ -6,6 +6,7 @@ import time
 import pandas as pd
 import pickle
 import copy
+import os
 
 class Runner:
     def __init__(self, max_moves, amount_of_experiments, input_file, output_directory, output_check50, visualize, input, csv, algorithm_type, save_threshold, **kwargs):
@@ -103,9 +104,14 @@ class Runner:
         
         df = pd.DataFrame(moves, columns=['move']) 
         df.to_csv('random_experiments.csv', index=False)
-        # TODO: Print solve rate 
-        # TODO: Print solve rate below threshold
+        
+        self.clean_object()
+
+
     def save_object(self):
         backup = copy.deepcopy(self) #(in ons geval runner instance)
         with open('output/runner.pickle', 'wb') as pickle_file:
             pickle.dump(backup, pickle_file)
+
+    def clean_object(self):
+        os.remove('output/runner.pickle') 
