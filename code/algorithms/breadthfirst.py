@@ -3,7 +3,7 @@ from code.classes.board import Board
 import copy
 
 class BreadthFirst(Algorithm):
-    def __init__(self, board: Board):
+    def __init__(self, board: Board, archive_on=True):
         '''
         Initialize Breadthfirst algorithm with deep copy of initial board state.
 
@@ -17,7 +17,9 @@ class BreadthFirst(Algorithm):
         self.states = [copy.deepcopy(self.board)]
         
         # keep track of the states which are already visited
-        self.archive = set()
+        if archive_on:
+            self.archive = set()
+        
         self.visited_states = 0
     
     def get_next_state(self):
@@ -43,13 +45,14 @@ class BreadthFirst(Algorithm):
             
             if self.board.solve():
                 print(f'A solution is found, amount of states visited: {self.visited_states}.')
-                return self.board, False, True
+                return self.board, True
             
             self.build_children()
-            return self.board, True, False
+            return self.board, False
+        
         else:
             print(f'No solution is found, amount of states visited: {self.visited_states}.')
-            return self.board, False, False
+            return self.board, None
     
     def get_name(self):
-        return 'BreadthFirst' + f'Archive{True}'
+        return f'BreadthFirst_Archive{True}_VisitedStates{self.visited_states}'
