@@ -48,9 +48,9 @@ class BoardVisualization():
         
         # inverts the values of the y-axis
         self.ax.invert_yaxis()
+        
         # loops over the values of the x-axis
         for x in range(1,self.board.size+1):
-            
             # makes a black line on the places of the x in a particular range 
             self.ax.plot([x, x], [1, self.board.size + 1], 'k')
         

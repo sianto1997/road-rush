@@ -7,13 +7,13 @@ import copy
 
 class Board:   
     def __init__(self, input_file, car_csv):
-        """
+        '''
         Creates a board for the game Rush Hour.
 
         Input:
         - input_file = CSV, the file with information about the board 
         - car_csv = parsed CSV of cars
-        """ 
+        '''
 
         # get position of 'hour' in title of input file
         start = input_file.find('hour') + len('hour')
@@ -38,22 +38,22 @@ class Board:
         self.archive = set()
 
     def record_move(self, car_id, step):
-        """
+        '''
         Appends a tuple of made moves and id of a car to a list 
 
         Input:
         - car_id = str, the id of the object car 
         - step = int, the move the car makes on the board 
-        """
+        '''
         self.moves.append((car_id,step))
 
     def save_moves(self, output_filename):
-        """ 
+        '''
         Exports the made moves to a csv file 
 
         Input:
         - output_filename = str, the name + place where the file is being saved 
-        """
+        '''
         df = pd.DataFrame(self.moves, columns=['car', 'move']) 
         
         df.to_csv(output_filename, index=False)
@@ -65,12 +65,12 @@ class Board:
         return len(self.archive)
     
     def init_cars(self, csv):
-        """
+        '''
             Initializes all cars
         
             Input:
             csv = Dataframe, parsed CSV of cars in board
-        """
+        '''
         # loops over the index and rows of the given dataframe 
         for index, row in csv.iterrows():
 
@@ -104,7 +104,7 @@ class Board:
         return (collision_map_slice, start_pos)
 
     def move(self, car, steps, execute=True):
-        """
+        '''
         Moves a car in steps direction
 
         Input:
@@ -113,7 +113,7 @@ class Board:
         - execute (bool): Execute the move (default: False)
         Output:
         - success (True or False)
-        """
+        '''
         if steps == 0:
             return False
         
@@ -155,7 +155,7 @@ class Board:
         return False
         
     def get_moves(self, output_as_states=False):
-        """
+        '''
         Get all possible moves for the current state. Discuss with TA about output as states.
 
         Input:
@@ -164,7 +164,7 @@ class Board:
         - List of tuples (car.id, steps)
         OR
         - List of states (Board-object with the executed move)
-        """
+        '''
         board_states = []
         moves = []
         for car in self.cars:
@@ -191,16 +191,11 @@ class Board:
         return moves
 
     def init_empty_collision_map(self):
-        """
+        '''
         Gets the current collision map
-
-        TODO for Simon: make more efficient by only creating map at init, and edit at move()
-        """
+        '''
         
-        # Create bounds for top, bottom and and sides
-        # row_bound = np.ones((1, self.size))
-        # column_bound = np.ones((self.size + 2, 1))
-        
+        # Create bounds for top, bottom and and sides        
         row_bound =  np.chararray((1, self.size), itemsize=2) 
         row_bound[:] = '-'
 
@@ -209,17 +204,14 @@ class Board:
 
 
         # Create empty collision map
-        self.collision_map = np.chararray((self.size, self.size), itemsize=2) #np.zeros((self.size, self.size))
+        self.collision_map = np.chararray((self.size, self.size), itemsize=2)
         self.collision_map[:] = ''
 
         self.collision_map = np.vstack((row_bound, self.collision_map, row_bound))
         self.collision_map = np.hstack((column_bound, self.collision_map, column_bound))
 
-        # Unblock exit row
-        # self.collision_map[self.exit_row][self.size+1] = 0
-
     def solve(self, execute=True):
-        """
+        '''
         Looks if the board is solvable
 
         Input:
@@ -227,7 +219,7 @@ class Board:
         
         Output:
         - bool: Success
-        """
+        '''
         if self.move(self.red_car, self.size - self.red_car.column - 1, execute=execute):
             moves = len(self.moves)
             # print(f'Game is finished! It took {moves} moves')
@@ -240,9 +232,9 @@ class Board:
         return str(hash(str(self.collision_map)))
     
     def calculate_value(self):
-        """
+        '''
         Calculates current value of board according to greedy scoring.
-        """
+        '''
         score = 0
 
         # Positive component
@@ -260,7 +252,7 @@ class Board:
             possible_positive_score = max_positive_score / (self.red_car.column + move)
             if possible_positive_score >= max_positive_score / 4:
                 score += possible_positive_score
-
+        print('p', score)
         # Negative component
         obstructions = []
         # All results of the red car 
@@ -296,9 +288,9 @@ class Board:
         return current_score + (min_negative_score * clearance_multiplier)
 
     def obstructed_by(self, car, forwards=True, only_first=True):
-        """
+        '''
 
-        """
+        '''
         (collision_map_slice, start_pos) = self.get_collision_map_slice_and_start_pos(car)
         
         obstructed = False
