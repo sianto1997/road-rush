@@ -56,7 +56,6 @@ class Car:
     
         return collision_map
 
-    
     def draw(self, canvas):
         """
         Creates a simple representation of a car on an existing canvas.
@@ -80,3 +79,12 @@ class Car:
 
         # shows the id of the car in the plot 
         plt.text(self.column+0.5, self.row+0.5, self.id, fontsize = 10)
+
+    def get_pos(self):
+        """
+        
+        """
+        if self.orientation == 'H':
+            return self.column
+        
+        return self.row

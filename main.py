@@ -3,6 +3,7 @@ import pandas as pd
 from code.classes.runner import Runner
 from code.algorithms.random import Random, MoveMethods
 from code.algorithms.amber_manual import AmberManual
+from code.algorithms.greedy import Greedy
 from code.classes.board import Board
 from code.tests.repr import ReprTester
 import time
@@ -44,7 +45,7 @@ def main(input, amount_of_moves, output_directory, amount_of_experiments, move_m
             runner = pickle.load(pickle_file)
 
     runner.run()
-    
+
     time.sleep(10)
 
 if __name__ == "__main__":
