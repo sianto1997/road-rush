@@ -240,11 +240,20 @@ class Board:
         # Positive component
         max_positive_score = 128
         max_pos = self.size - 1
-        if self.red_car == max_pos:
+        print('mp', max_pos)
+        print('rcp', self.red_car.get_pos())
+
+        if self.red_car.get_pos() == max_pos:
             score += max_positive_score
         else:
             moved = False
             move = self.red_car.column - max_pos
+            possible_moves = self.get_moves()
+            print(possible_moves)
+
+            possible_moves = possible_moves == 'X'
+            print(possible_moves)
+            
             while not moved and move > 0:
                 moved = self.move(self.red_car, move, False)
                 move -= 1

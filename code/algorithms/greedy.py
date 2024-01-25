@@ -6,6 +6,9 @@ from code.algorithms.algorithm import Algorithm
 class Greedy(Algorithm):
     def __init__(self, board):
         self.board = board
+        self.best_move = self.board
+        self.best_score = self.board.calculate_value()
+        print(f'Start score = {self.best_score}')
         
     def run(self):
         moves = self.board.get_moves(True)
