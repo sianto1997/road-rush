@@ -1,7 +1,7 @@
 import copy
 from code.algorithms.algorithm import Algorithm
 from code.classes.board import Board
-
+from collections import defaultdict
 class BranchAndBound(Algorithm):
     '''
     A depth first algorithm that does not search on a deeper level than the first found solution.
@@ -13,7 +13,7 @@ class BranchAndBound(Algorithm):
         self.states = [copy.deepcopy(self.board)]
 
         self.best_solution = None
-        self.archive = set()
+        self.archive = defaultdict(lambda: float('inf'))
         
         self.visited_states = 0
         self.depth = float('inf')
@@ -31,12 +31,14 @@ class BranchAndBound(Algorithm):
 
         # receives a list of all the next possible nodes 
         childs = self.board.get_moves(output_as_states=True)
-        to_add = 0
+        
         for child in childs:
-            if child.__repr__() not in self.archive and len(child.moves) < self.depth: 
+            # print('doei')
+            if self.archive[child.__repr__()] > len(child.moves) and len(child.moves) < self.depth: 
+            # if child.__repr__() not in self.archive and len(child.moves) < self.depth: 
+                # print('hoi')
                 self.states.append(child)
-                self.archive.add(child.__repr__())
-
+                self.archive[child.__repr__()] = len(child.moves)
 
     def run(self):
         '''
@@ -56,7 +58,7 @@ class BranchAndBound(Algorithm):
 
         self.get_children()
         
-        
+
         return self.board, False 
         
 
