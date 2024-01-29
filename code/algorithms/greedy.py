@@ -6,7 +6,7 @@ import copy
 from code.algorithms.algorithm import Algorithm
 
 class Greedy(Algorithm):
-    def __init__(self, board, max_state_cache_size=100):
+    def __init__(self, board, max_state_cache_size=10000):
         '''
         This is the greedy algorithm, written by Simon Antonides. It bases itself on version 2 of the Technical Description.
         
@@ -30,31 +30,48 @@ class Greedy(Algorithm):
         # print('amount_of_moves', len(moves))
         # return self.board, True
         best_moves = []
-        best_score = - math.inf #self.board.calculate_value()
+        best_score = - math.inf # self.board.calculate_value()
+
+        worst_score = 0
+        worst_moves = []
+
         # print('bs', best_score)
         # if len(moves) >= 1:
         for move in moves:
             # print(move.collision_map)
             if move.__repr__() not in self.state_cache:
                 score = move.calculate_value()
+                print(f'Level {len(self.states)} node: {score}')
                 
                 if score >= best_score:
                     best_moves = [move]
                     best_score = score
+               
+
                 elif score == best_score:
                     best_moves.append(move)
+                
+                if score < worst_score:
+                    worst_score = score
+                    worst_moves = [move]
+                elif score == worst_score:
+                    worst_moves.append(move)
         
         # print(best_moves)
-        if len(self.states) == 0:
+        if len(self.states) == 0 or (len(best_moves) == 0 and len(worst_moves) == 0):
             return self.board, False
             
-        elif len(best_moves) == 0:
-            self.board = self.states.pop()
+        elif len(best_moves) == 0 and len(worst_moves) != 0:
+            print(best_moves)
+            best_moves = worst_moves
+            print('hi')
+            # self.board = self.states.pop()
             # return self.board, False
         
         elif len(best_moves) == 1:
             self.board = best_moves[0]
         else:
+            print(best_moves)
             random_move = random.randint(0, len(best_moves) - 1)
             self.board = best_moves[random_move]
             # print('SM', self.board.calculate_value())
@@ -69,4 +86,4 @@ class Greedy(Algorithm):
         
         
     def get_name(self):
-        return 'Greedy' + 'variant'
+        return 'Greedy' #+ 'variant'

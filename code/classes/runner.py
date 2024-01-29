@@ -126,6 +126,5 @@ class Runner:
         '''
         Removing pickle of the experiment. Called at the end of the experiment.
         '''
-        os.remove(self.pickle_location) 
-        
-        self.clean_object()
+        if os.path.exists(self.pickle_location):
+            os.remove(self.pickle_location) 
