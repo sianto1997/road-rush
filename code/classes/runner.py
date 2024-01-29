@@ -9,10 +9,25 @@ import copy
 import os
 
 class Runner:
-    def __init__(self, max_moves, amount_of_experiments, input_file, output_directory, output_check50, visualize, input, csv, algorithm_type, save_threshold, **kwargs):
-        """
+    def __init__(self, max_moves, amount_of_experiments, input_file, output_directory, output_check50, visualize, algorithm_type, save_threshold, **kwargs):
+        '''
         Initializing runner
-        """
+
+        Input:
+        - max_moves (int): Max move
+        - amount_of_experiments (int): The amount of experiments that the experiment runs at the maximum (after which it stops and saves the last result).
+        - input_file
+        - output_directory
+        - output_check50 (bool)
+        - visualize (bool)
+        - input
+        - csv
+        - algorithm_type (Algorithm)
+        - save_threshold (int)
+        - **kwargs: Algorithm-specific keyword arguments
+
+        
+        '''
         if max_moves == 0:
             self.max_moves = math.inf
         else:
@@ -27,10 +42,13 @@ class Runner:
         self.visualize = visualize
         self.i = 0
         self.input = input
-        self.csv = csv
+        
+        # reads the csv and turns it into a dataframe
+        self.csv = pd.read_csv(input) 
         self.algorithm_type = algorithm_type
         self.save_threshold = save_threshold
         self.kwargs = kwargs
+        self.pickle_location = f'../{input_file}.pickle'
 
 
     def run(self):
@@ -99,19 +117,24 @@ class Runner:
         # Print the top solutions for comparison to other experiments 
         print(sorted(moves)[:5])
 
-        # print(f'Average amount of moves neccesary to solve  {sum(moves) / len(moves)}')
-
-        
         df = pd.DataFrame(moves, columns=['move']) 
-        df.to_csv('random_experiments.csv', index=False)
-        
+        df.to_csv(f'{self.file_name}_{algorithm.get_name()}_random_experiments_S{self.start_time}_E{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv', index=False)
+
         self.clean_object()
 
 
     def save_object(self):
-        backup = copy.deepcopy(self) #(in ons geval runner instance)
-        with open('output/runner.pickle', 'wb') as pickle_file:
+        '''
+        Saving the current experiment of pickle. This saves the current state of Runner and the objects within the current instance. Called during an experiment.
+        '''
+        backup = copy.deepcopy(self)
+        with open(self.pickle_location, 'wb') as pickle_file:
             pickle.dump(backup, pickle_file)
 
     def clean_object(self):
-        os.remove('output/runner.pickle') 
+        '''
+        Removing pickle of the experiment. Called at the end of the experiment.
+        '''
+        os.remove(self.pickle_location) 
+        
+        self.clean_object()
