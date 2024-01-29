@@ -30,7 +30,7 @@ class BranchAndBound(Algorithm):
         '''
 
         # receives a list of all the next possible nodes 
-        childs = self.board.get_moves(output_as_states=True)
+        childs = self.board.get_states()
         
         for child in childs:
             # print('doei')

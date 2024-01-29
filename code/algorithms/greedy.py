@@ -9,6 +9,7 @@ class Greedy(Algorithm):
     def __init__(self, board, max_state_cache_size=100):
         '''
         This is the greedy algorithm, written by Simon Antonides. It bases itself on version 2 of the Technical Description.
+        
         '''
         self.board = board
         self.best_move = self.board
@@ -25,7 +26,7 @@ class Greedy(Algorithm):
         solvable = self.board.solve()
         if solvable:
             return self.board, solvable
-        moves = self.board.get_moves(True)
+        moves = self.board.get_states()
         # print('amount_of_moves', len(moves))
         # return self.board, True
         best_moves = []
