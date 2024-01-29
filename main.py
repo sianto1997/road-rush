@@ -4,10 +4,6 @@ from code.algorithms.random import Random, MoveMethods
 from code.algorithms.amber_manual import AmberManual
 from code.algorithms.greedy import Greedy
 from code.algorithms.breadthfirst import BreadthFirst
-from code.classes.board import Board
-from code.tests.repr import ReprTester
-import time
-
 from code.algorithms.branch_bound import BranchAndBound
 
 import pickle
@@ -24,6 +20,7 @@ def main(input, algorithm, amount_of_moves, output_directory, amount_of_experime
     - save_threshold (int): Save solutions only when at or lower than threshold
     - output_check50 (bool): Save as output.csv to satisfy check50 required output filename
     - visualize (bool): Show visualization (disabled by default)
+    - draw_interval (float): The interval between moves in the visualization
     - resume (bool): Resume previous experiment
     '''
 
@@ -34,7 +31,8 @@ def main(input, algorithm, amount_of_moves, output_directory, amount_of_experime
     if not resume:
         runner = Runner(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize, draw_interval, switch(algorithm), save_threshold, **kwargs)
     else:
-        with open('output/runner.pickle', 'rb') as pickle_file:
+        file_name = input.split('/')[-1]
+        with open(f'../{file_name}.pickle', 'rb') as pickle_file:
             runner = pickle.load(pickle_file)
 
     runner.run()
@@ -48,6 +46,7 @@ def switch(algorithm = ''):
 
     Output:
     - algorithm (Algorithm): The algorithm to be used. If no suitable algorithm is found Random will be returned.
+
     '''
     if algorithm == 'Greedy':
         return Greedy
@@ -79,7 +78,7 @@ if __name__ == "__main__":
     parser.add_argument("--output_check50", help = "Save as output.csv (used for check50)", required=False, type=bool, default=False)
     parser.add_argument("--visualize", help = "Show visual board", required=False, type=bool, default=False)
     parser.add_argument("--resume", help = "Resume previous experiment", required=False, type=bool, default=False)
-    parser.add_argument("--draw_interval", help = "Resume previous experiment", required=False, type=int, default=0.01)
+    parser.add_argument("--draw_interval", help = "Resume previous experiment", required=False, type=float, default=0.01)
 
     # Read arguments from command line 
     args = parser.parse_args()
