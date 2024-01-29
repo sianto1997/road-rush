@@ -2,31 +2,27 @@ from datetime import datetime
 from code.classes.board import Board
 from code.classes.board_visualization import BoardVisualization
 import math
-import time
 import pandas as pd
 import pickle
 import copy
 import os
+import pandas as pd
 
 class Runner:
     def __init__(self, max_moves, amount_of_experiments, input_file, output_directory, output_check50, visualize, algorithm_type, save_threshold, **kwargs):
         '''
-        Initializing runner
+        Initializing runner.
 
         Input:
-        - max_moves (int): Max move
+        - max_moves (int): Cut-off at an amount of moves (after this the runner stops and starts next experiment if applicable)
         - amount_of_experiments (int): The amount of experiments that the experiment runs at the maximum (after which it stops and saves the last result).
-        - input_file
-        - output_directory
-        - output_check50 (bool)
-        - visualize (bool)
-        - input
-        - csv
-        - algorithm_type (Algorithm)
-        - save_threshold (int)
+        - input_file (str): The path of the input file (example: data/Rushhour6x6_1.csv)
+        - output_directory (str): The directory to save the output to
+        - output_check50 (bool): Save output as output.csv (used for check50 validation of file)
+        - visualize (bool): Whether to visualize the running experiment (using board_visualize)
+        - algorithm_type (Algorithm): The algorithm to be used by the runner (needs to be of type Algorithm)
+        - save_threshold (int): Save the output (csv) when the amount of moves is at or lower than this number
         - **kwargs: Algorithm-specific keyword arguments
-
-        
         '''
         if max_moves == 0:
             self.max_moves = math.inf
@@ -41,18 +37,17 @@ class Runner:
         self.amount_of_experiments = amount_of_experiments
         self.visualize = visualize
         self.i = 0
-        self.input = input
+        self.input_file = input_file
         
         # reads the csv and turns it into a dataframe
-        self.csv = pd.read_csv(input) 
+        self.csv = pd.read_csv(input_file) 
         self.algorithm_type = algorithm_type
         self.save_threshold = save_threshold
         self.kwargs = kwargs
-        self.pickle_location = f'../{input_file}.pickle'
-
+        self.pickle_location = f'../{self.file_name}.pickle'
 
     def run(self):
-        """
+        '''
         Start random experiment
 
         Input:
@@ -60,7 +55,7 @@ class Runner:
         - csv: Input of file (used for initializeing cars)
         - move_method: Inputs which limitation is used for running simulations
         - save_threshold: Save result only if amount of moves is lower than this threshold
-        """
+        '''
         
         if self.visualize:
             self.visualization = BoardVisualization()
@@ -69,7 +64,7 @@ class Runner:
             # Creates a object of the class Board 
             try:
                 # print(self.i)
-                self.board = Board(self.input, self.csv)
+                self.board = Board(self.input_file, self.csv)
                 if self.visualize:
                     self.visualization.replace(self.board)
 
@@ -121,7 +116,6 @@ class Runner:
         df.to_csv(f'{self.file_name}_{algorithm.get_name()}_random_experiments_S{self.start_time}_E{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv', index=False)
 
         self.clean_object()
-
 
     def save_object(self):
         '''

@@ -1,5 +1,4 @@
 import argparse
-import pandas as pd
 from code.classes.runner import Runner
 from code.algorithms.random import Random, MoveMethods
 from code.algorithms.amber_manual import AmberManual

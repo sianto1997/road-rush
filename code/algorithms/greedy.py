@@ -7,13 +7,16 @@ from code.algorithms.algorithm import Algorithm
 
 class Greedy(Algorithm):
     def __init__(self, board, max_state_cache_size=100):
+        '''
+        This is the greedy algorithm, written by Simon Antonides. It bases itself on version 2 of the Technical Description.
+        '''
         self.board = board
         self.best_move = self.board
         self.best_score = self.board.calculate_value()
         # The state cache is created to avoid ending in an infinite loop with the same states
         self.max_state_cache_size = max_state_cache_size
         self.archive = set(self.board.__repr__())
-
+        self.state_cache = set()
         self.states = [copy.deepcopy(self.board)]
 
         print(f'Start score = {self.best_score}')
