@@ -47,7 +47,7 @@ class BreadthFirst(Algorithm):
 
     def run(self):
         '''
-        Run the BreadthFirst algorithm untill all possible states are visited.
+        Run the BreadthFirst algorithm until all possible states are visited.
         
         Output:
         - Final state of Rush Hour board.

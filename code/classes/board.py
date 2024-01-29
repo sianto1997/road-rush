@@ -6,7 +6,7 @@ import numpy as np
 import copy
 
 class Board:   
-    def __init__(self, input_file, car_csv, score_positive_component_exponent_base = 2, score_positive_component_maximum_exponent = 9, score_positive_component_minimum_exponent = 7, score_positive_component_calculate_possible_position = False, score_negative_component_red_car_only_first = False, score_negative_component_exponent_base = 2, score_negative_component_maximum_exponent = 4, score_negative_component_amount_of_levels = 5):
+    def __init__(self, input_file, car_csv, score_positive_component_exponent_base = 2, score_positive_component_maximum_exponent = 8, score_positive_component_minimum_exponent = 5, score_positive_component_calculate_possible_position = True, score_negative_component_red_car_only_first = False, score_negative_component_exponent_base = 2, score_negative_component_maximum_exponent = 4, score_negative_component_amount_of_levels = 4):
         '''
         Creates a board for the game Rush Hour.
 
@@ -401,12 +401,12 @@ class Board:
         if levels_to_go >= 0:
             # If an ostruction can be cleared (car can be moved out of the way) than the result is multiplied by -1 to result in a positive add. If not, the result will be multiplied by 1, which results in a negative add.
             clearance_multiplier = 1
-            #current_obstruction != None and
             can_be_cleared = self.obstruction_can_be_cleared(obstructor, position_to_clear, obstructed)
             if not can_be_cleared:# or levels_to_go == self.score_negative_component_amount_of_levels - 1:
                 clearance_multiplier = -1
-            # print('cm', clearance_multiplier)
-            add_to_current =  (self.score_negative_component_exponent_base ** (levels_to_go + self.score_negative_component_diff_amount_of_levels_maximum) * clearance_multiplier)
+                add_to_current =  (self.score_negative_component_exponent_base ** (levels_to_go + self.score_negative_component_diff_amount_of_levels_maximum) * clearance_multiplier)
+            else:
+                add_to_current =  (self.score_negative_component_exponent_base ** (self.score_negative_component_amount_of_levels - levels_to_go) * clearance_multiplier)
             # print(f'Obstructor {obstructor.id} {add_to_current} LTG: {levels_to_go}')
             score += add_to_current
             
@@ -415,11 +415,12 @@ class Board:
 
                 forward = self.obstructed_by(obstructor, True, self.score_negative_component_red_car_only_first)
 
+                obstructed = True
                 if forward != None:
                     obstructions.append(forward[0])
                 # elif self.obstructed_by_wall(obstructor, True):
-
-                    
+                # elif position_to_clear <= obstructor.get_pos() + obstructor.length - 1:
+                #     obstructed = False
 
                 backward = self.obstructed_by(obstructor, False, self.score_negative_component_red_car_only_first)
 

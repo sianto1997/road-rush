@@ -5,6 +5,8 @@ from code.algorithms.amber_manual import AmberManual
 from code.algorithms.greedy import Greedy
 from code.algorithms.breadthfirst import BreadthFirst
 from code.algorithms.branch_bound import BranchAndBound
+from code.algorithms.greedy_depthfirst import GreedyDepthFirst
+from code.algorithms.greedy_random import GreedyRandom
 
 import pickle
 
@@ -50,6 +52,10 @@ def switch(algorithm = ''):
     '''
     if algorithm == 'Greedy':
         return Greedy
+    elif algorithm == 'GreedyDepthFirst':
+        return GreedyDepthFirst
+    elif algorithm == 'GreedyRandom':
+        return GreedyRandom
     elif algorithm == 'BreadthFirst':
         return BreadthFirst
     elif algorithm == 'BranchAndBound':
