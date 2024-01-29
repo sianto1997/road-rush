@@ -80,7 +80,7 @@ class Runner:
                 self.i += 1
 
                 if self.visualize:
-                    self.visualization.pause(100000)
+                    self.visualization.draw(100000)
                     self.visualization.close()
 
 

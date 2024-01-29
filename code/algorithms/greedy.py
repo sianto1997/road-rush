@@ -38,7 +38,7 @@ class Greedy(Algorithm):
             if move.__repr__() not in self.state_cache:
                 score = move.calculate_value()
                 
-                if score > best_score:
+                if score >= best_score:
                     best_moves = [move]
                     best_score = score
                 elif score == best_score:
