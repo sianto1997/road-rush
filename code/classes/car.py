@@ -56,11 +56,11 @@ class Car:
     
         return collision_map
 
-    def get_pos(self):
+    def get_pos(self, opposite=False):
         """
         
         """
-        if self.orientation == 'H':
+        if self.orientation == 'H' and not opposite or self.orientation == 'V' and opposite:
             return self.column
         
         return self.row

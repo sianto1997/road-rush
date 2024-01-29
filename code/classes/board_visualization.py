@@ -39,7 +39,7 @@ class BoardVisualization():
         self.board = board
         self.init_visualization()
 
-    def draw(self, ms=1):
+    def draw(self, ms=0.01):
         """
         Draws the object board to the current state
         """

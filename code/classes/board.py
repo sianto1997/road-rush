@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 from code.classes.car import Car 
-from math import ceil
+from math import ceil, log
 import numpy as np
 import copy
 
@@ -241,95 +241,122 @@ class Board:
         '''
         Calculates current value of board according to greedy scoring.
         '''
-        score = 0
+        pscore = 0
 
         # Positive component
         max_positive_score = 128
+        positive_score_exponent = 2
         max_pos = self.size - 1
-        # print('mp', max_pos)
-        # print('rcp', self.red_car.get_pos())
-        # red_car_pos = 
-        # if  == max_pos:
-        #     score += max_positive_score
-        # else:
-            # moved = False
-        move = self.red_car.column - max_pos
-        possible_moves = self.get_moves(True, self.red_car)
+
         highest_possible_pos = self.red_car.get_pos()
-        for move in possible_moves:
-            red_car_pos = move.red_car.get_pos()
-            if red_car_pos > highest_possible_pos:
-                highest_possible_pos = red_car_pos
 
-        # print('v', (max_pos - highest_possible_pos), , max_positive_score)
-        possible_positive_score = 2 ** (4 + (max_pos - highest_possible_pos))
-        # print('xx', possible_positive_score)
+        possible_positive_score = positive_score_exponent ** (1 + log(max_positive_score, positive_score_exponent) - (max_pos - highest_possible_pos))
+        
         if possible_positive_score >= max_positive_score / 4:
-            score += possible_positive_score
+            pscore += possible_positive_score
 
-        print('p', score)
+        # print('Positive component', pscore)
 
-
+        nscore = 0
 
         # Negative component
         obstructions = []
         # All results of the red car 
-        obstructions.append(self.obstructed_by(self.red_car, True, False))
-        max_negative_score = -16
+        obstructions_of_red_car = self.obstructed_by(self.red_car, True, False)
 
-        solvabilty_of_obstruction_multiplier = 1
+        # passed_obstructions = 
 
-        level = 1
-        for obstruction in obstructions:
-            score += self.score_recursive(max_negative_score, max_negative_score, obstruction, 1, self.red_car.get_pos())
-  
+        if obstructions_of_red_car != None:
+            obstructions.extend(obstructions_of_red_car)
+            max_negative_score = 16
+
+            # for (obstruction, position_to_clear) in obstructions:
+            #     passed_obstructions.append(obstruction.id)
+
+            level = 1
+            for (obstruction, position_to_clear) in obstructions:
+                nscore = self.score_recursive(nscore, max_negative_score, obstruction, level, position_to_clear, self.red_car, set([self.red_car.id, obstruction.id]))
+            # print('Negative component', nscore)
+
+        score = pscore + nscore
+
+        # print('Total score', score)
         return score
     
-    def score_recursive(self, current_score, add, current_obstruction, level, position_to_clear):
-        print('a', add)
+    def score_recursive(self, current_score, add, current_obstruction, current_level, position_to_clear, source_obstruction, passed_obstructions):
+        # print('a', add, current_obstruction)
         max_level = 3
-        min_negative_score = -4
+        min_negative_score = 4
+        # print('snscore', current_score)
+        if add >= min_negative_score:
 
-        new_add = add / 2   
-        if current_obstruction != None and level <= max_level and new_add <= min_negative_score:
-            obstructions = []
-            obstructions.append(self.obstructed_by(current_obstruction, True))
-            obstructions.append(self.obstructed_by(current_obstruction, False))
+            # If an ostruction can be cleared (car can be moved out of the way) than the result is multiplied by -1 to result in a positive add. If not, the result will be multiplied by 1, which results in a negative add.
+            clearance_multiplier = 1
+            #current_obstruction != None and
+            can_be_cleared = self.obstruction_can_be_cleared(current_obstruction, position_to_clear, source_obstruction)
+            if not can_be_cleared or current_level == 1:
+                clearance_multiplier = -1
+            # print('cm', clearance_multiplier)
+            add_to_current =  (add * clearance_multiplier)
+            current_score += add_to_current
+            # print(current_score)
 
-            if len(obstructions) >= 0:
-                for obstruction in obstructions:
-                    current_score += self.score_recursive(current_score, new_add, obstruction, level + 1, current_obstruction.get_pos())
-        # If an ostruction can be cleared (car can be moved out of the way) than the result is multiplied by -1 to result in a positive add. If not, the result will be multiplied by 1, which results in a negative add.
-        clearance_multiplier = 1
-        if current_obstruction != None:
-            clearance_multiplier = self.obstruction_can_be_cleared(current_obstruction, position_to_clear)
-        return current_score + (min_negative_score * clearance_multiplier)
+            # print('na', new_add)
+            new_add = add / 2
+
+            # print(current_obstruction.id, add_to_current, can_be_cleared)
+            # print(current_level, max_level)
+            # print(current_level, max_level)
+            if current_level <= max_level and new_add >= min_negative_score and not can_be_cleared:
+                obstructions = []
+
+                forward = self.obstructed_by(current_obstruction, True)
+
+                if forward != None:
+                    obstructions.append(forward)
+
+                backward = self.obstructed_by(current_obstruction, False)
+
+                if backward != None:
+                    obstructions.append(backward)
+
+                while len(obstructions) > 0:
+                    (obstruction, position_to_clear) = obstructions.pop()
+                    if obstruction.id not in passed_obstructions:
+                        passed_obstructions.add(obstruction.id)
+                        current_score = self.score_recursive(current_score, new_add, obstruction, current_level + 1, position_to_clear, current_obstruction, passed_obstructions)
+
+        return current_score
 
     def obstructed_by(self, car, forwards=True, only_first=True):
         '''
 
         '''
         (collision_map_slice, start_pos) = self.get_collision_map_slice_and_start_pos(car)
-        
+        # print(collision_map_slice)
         obstructed = False
         step_size = - 1
         
-        i = start_pos
+        i = start_pos - 1
         
 
         # For forwards, adjust starting pos and step_size
         if forwards:
             step_size = 1
-            i += car.length
-       
+            i += car.length + 1
+        # print(car.id, i, 'FF', forwards, step_size)
         results = []
-        while not obstructed and only_first:
-            if collision_map_slice[i] == '-':
+
+        while not obstructed:
+            possible_obstruction = collision_map_slice[i].decode()
+            # print(i, possible_obstruction)
+
+            if possible_obstruction == '-':
                 obstructed = True
-            elif not collision_map_slice[i] == '':
+            elif not possible_obstruction == '':
                 if only_first:
                     obstructed = True
-                results.append((self.cars[collision_map_slice[i]], i))
+                results.append((self.get_car(possible_obstruction), car.get_pos(True)))
             
             i += step_size
 
@@ -340,13 +367,29 @@ class Board:
         
         return None
   
-    def obstruction_can_be_cleared(self, car, position_to_clear):
-        clear_pos_lower_than_or_equals = position_to_clear - car.size - 1
-        clear_pos_higher_than_or_equals = position_to_clear + 1
+    def obstruction_can_be_cleared(self, car, position_to_clear, source):
+        # print('ocbc_car', car, position_to_clear)
+        if car.orientation != source.orientation:
+            clear_pos_lower_than_or_equals = source.get_pos(True) - car.length
+            clear_pos_higher_than_or_equals = position_to_clear + 1
 
-        for steps in range(1, self.size + 1):
-            if steps <= clear_pos_lower_than_or_equals or steps >= clear_pos_higher_than_or_equals:
-                if self.move(car, steps, False):
-                    return True
+        else:
+            clear_pos_lower_than_or_equals = source.get_pos() - car.length
+            clear_pos_higher_than_or_equals = position_to_clear + 1
+        # print('ptc', position_to_clear, car.id)
+        # print('cp1', clear_pos_lower_than_or_equals)
+        # print('cp2', clear_pos_higher_than_or_equals)
+
+        neg = -1
+        while neg <= 1:
+            for steps in range(1, self.size + 1):
+                adjusted_pos = car.get_pos() + steps * neg
+                # print('AP', adjusted_pos)
+                if adjusted_pos <= clear_pos_lower_than_or_equals or adjusted_pos >= clear_pos_higher_than_or_equals:
+                    if self.move(car, steps * neg, False):
+                        return True
+                    else:
+                        break
+            neg += 2
 
         return False
