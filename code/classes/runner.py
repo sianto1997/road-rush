@@ -2,17 +2,28 @@ from datetime import datetime
 from code.classes.board import Board
 from code.classes.board_visualization import BoardVisualization
 import math
-import time
 import pandas as pd
 import pickle
 import copy
 import os
+import pandas as pd
 
 class Runner:
-    def __init__(self, max_moves, amount_of_experiments, input_file, output_directory, output_check50, visualize, input, csv, algorithm_type, save_threshold, **kwargs):
-        """
-        Initializing runner
-        """
+    def __init__(self, max_moves, amount_of_experiments, input_file, output_directory, output_check50, visualize, draw_interval, algorithm_type, save_threshold, **kwargs):
+        '''
+        Initializing runner.
+
+        Input:
+        - max_moves (int): Cut-off at an amount of moves (after this the runner stops and starts next experiment if applicable)
+        - amount_of_experiments (int): The amount of experiments that the experiment runs at the maximum (after which it stops and saves the last result).
+        - input_file (str): The path of the input file (example: data/Rushhour6x6_1.csv)
+        - output_directory (str): The directory to save the output to
+        - output_check50 (bool): Save output as output.csv (used for check50 validation of file)
+        - visualize (bool): Whether to visualize the running experiment (using board_visualize)
+        - algorithm_type (Algorithm): The algorithm to be used by the runner (needs to be of type Algorithm)
+        - save_threshold (int): Save the output (csv) when the amount of moves is at or lower than this number
+        - **kwargs: Algorithm-specific keyword arguments
+        '''
         if max_moves == 0:
             self.max_moves = math.inf
         else:
@@ -25,33 +36,32 @@ class Runner:
         self.output_check50 = output_check50
         self.amount_of_experiments = amount_of_experiments
         self.visualize = visualize
+        self.draw_interval = draw_interval
         self.i = 0
-        self.input = input
-        self.csv = csv
+        self.input_file = input_file
+        
+        # reads the csv and turns it into a dataframe
+        self.csv = pd.read_csv(input_file) 
         self.algorithm_type = algorithm_type
         self.save_threshold = save_threshold
         self.kwargs = kwargs
-
+        self.pickle_location = f'../{self.file_name}.pickle'
 
     def run(self):
-        """
-        Start random experiment
-
-        Input:
-        - input: Input filename (used for extracting board size)
-        - csv: Input of file (used for initializeing cars)
-        - move_method: Inputs which limitation is used for running simulations
-        - save_threshold: Save result only if amount of moves is lower than this threshold
-        """
+        '''
+        Start experiment defined by init.
+        '''
         
         if self.visualize:
-            self.visualization = BoardVisualization()
+            self.visualization = BoardVisualization(self.draw_interval)
+
         moves = []
+
         while self.i < self.amount_of_experiments:
-            # Creates a object of the class Board 
+            # Using try -> catch to save on manual stop of the experiment.
             try:
-                # print(self.i)
-                self.board = Board(self.input, self.csv)
+                # Creates a object of the class Board 
+                self.board = Board(self.input_file, self.csv)
                 if self.visualize:
                     self.visualization.replace(self.board)
 
@@ -70,7 +80,7 @@ class Runner:
                 self.i += 1
 
                 if self.visualize:
-                    self.visualization.pause(100000)
+                    self.visualization.draw(100000)
                     self.visualization.close()
 
 
@@ -84,8 +94,8 @@ class Runner:
                     # Save location for check 50
                     if self.output_check50:
                         self.board.save_moves(f'output.csv')
-                    # Save in readable format
                     else:
+                        # Save in readable format
                         self.board.save_moves(f'{self.output_directory}/{self.file_name}_{algorithm.get_name()}_{solved}_M{amount_of_moves}_S{self.board.get_amount_of_states()}_{self.start_time}.csv')
             except (KeyboardInterrupt, SystemExit):
                 # Save when quitting
@@ -99,19 +109,23 @@ class Runner:
         # Print the top solutions for comparison to other experiments 
         print(sorted(moves)[:5])
 
-        # print(f'Average amount of moves neccesary to solve  {sum(moves) / len(moves)}')
-
-        
         df = pd.DataFrame(moves, columns=['move']) 
-        df.to_csv('random_experiments.csv', index=False)
-        
+        df.to_csv(f'{self.file_name}_{algorithm.get_name()}_random_experiments_S{self.start_time}_E{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv', index=False)
+
         self.clean_object()
 
-
     def save_object(self):
-        backup = copy.deepcopy(self) #(in ons geval runner instance)
-        with open('output/runner.pickle', 'wb') as pickle_file:
+        '''
+        Saving the current experiment of pickle. This saves the current state of Runner and the objects within the current instance. Called during an experiment.
+        '''
+        backup = copy.deepcopy(self)
+        with open(self.pickle_location, 'wb') as pickle_file:
             pickle.dump(backup, pickle_file)
 
     def clean_object(self):
-        os.remove('output/runner.pickle') 
+        '''
+        Removing pickle of the experiment. Called at the end of the experiment.
+        '''
+        os.remove(self.pickle_location) 
+        
+        self.clean_object()

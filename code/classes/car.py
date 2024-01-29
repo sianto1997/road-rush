@@ -1,27 +1,24 @@
 import matplotlib.pyplot as plt
 
 class Car:
-    """
-    The car class
-    """
     def __init__(self, id, orientation, column, row, length):
-        """
-        Initializes a new class
+        '''
+        Initializes a new car class
         
-        Parameters:
+        Input:
         - id (string): Name of the car
         - orientation (char): H (horizontal) or V (vertical)
         - column (int): current position of car (starts with 1)
         - row (int): current position of car (starts with 1)
         - length (int): length of car (2 or 3)
-        """
+        '''
+
         self.id = id
         self.orientation = orientation
         self.column = column 
         self.row = row
         self.length = length 
 
-        # Discuss with TA: move colour assignment to board class?
         self.colours = ['blue', 'orange', 'green', 'purple', 'brown', 'pink', 'olive', 'cyan','yellow','gold', 'violet', 'plum', 'slateblue', 'navy', 'orchid', 'plum']
         
         # Checks if car.id is 'X', if true car.colour is set to 'red'
@@ -37,12 +34,13 @@ class Car:
         self.colour = colour
         
     def update_collision_map(self, collision_map):
-        """
+        '''
         Update the collision map to include the current car. (add 1's)
 
         Input & output:
         - collision_map (np array of size [board_size + 2, board_size + 2])
-        """
+        '''
+
         location_column = self.column
         location_row = self.row
 
@@ -56,11 +54,14 @@ class Car:
     
         return collision_map
 
-    def get_pos(self):
-        """
-        
-        """
-        if self.orientation == 'H':
+    def get_pos(self, opposite=False):
+        '''
+        Get the position of the car based on the orientation of the car. For a horizontal car this is the column, for the vertical car this is row.
+
+        Input:
+        - opposite (bool): Get the other coordinate (horizontal car -> row or vertical car -> column)
+        '''
+        if self.orientation == 'H' and not opposite or self.orientation == 'V' and opposite:
             return self.column
         
         return self.row

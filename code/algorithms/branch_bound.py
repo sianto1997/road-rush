@@ -1,10 +1,10 @@
 import copy
 from code.algorithms.algorithm import Algorithm
 from code.classes.board import Board
-
+from collections import defaultdict
 class BranchAndBound(Algorithm):
     '''
-    A Dept first algoritem that does not search on a deeper level than the first found solution.
+    A depth first algorithm that does not search on a deeper level than the first found solution.
     '''
     
     def __init__(self, board: Board):
@@ -13,10 +13,11 @@ class BranchAndBound(Algorithm):
         self.states = [copy.deepcopy(self.board)]
 
         self.best_solution = None
-        self.archive = set()
+        self.archive = defaultdict(lambda: float('inf'))
         
         self.visited_states = 0
-    
+        self.depth = float('inf')
+
     def get_next_state(self):
         '''
         Gets the next state out of the list. 
@@ -29,26 +30,34 @@ class BranchAndBound(Algorithm):
         '''
 
         # receives a list of all the next possible nodes 
-        childs = self.board.get_moves(output_as_states=True)
-
+        childs = self.board.get_states()
+        
         for child in childs:
-            if child not in self.archive: 
+            # print('doei')
+            if self.archive[child.__repr__()] > len(child.moves) and len(child.moves) < self.depth: 
+            # if child.__repr__() not in self.archive and len(child.moves) < self.depth: 
+                # print('hoi')
                 self.states.append(child)
-                self.archive.add(child.__repr__())
+                self.archive[child.__repr__()] = len(child.moves)
 
     def run(self):
         '''
         Runs the algorithm until the best possible solution is found 
         '''
         if self.states:
-            print(len(self.states))
             self.board = self.get_next_state()
             self.visited_states += 1 
             if self.board.solve():
-                print("A solution is found!")
-                return self.board, True
-            
-            self.get_children()
+                print(f"A solution is found! Amount of moves visited: {len(self.board.moves)}")
+                self.depth = len(self.board.moves)
+                self.best_solution = copy.deepcopy(self.board)
+
+        elif not self.states and self.best_solution is not None:
+            print(f"A solution is found! Amount of states visited: {self.visited_states}")
+            return self.best_solution, True
+
+        self.get_children()
+        
 
         return self.board, False 
         
