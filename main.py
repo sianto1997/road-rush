@@ -12,7 +12,7 @@ from code.algorithms.branch_bound import BranchAndBound
 
 import pickle
 
-def main(input, algorithm, amount_of_moves, output_directory, amount_of_experiments, move_method, save_threshold, output_check50, visualize, resume):
+def main(input, algorithm, amount_of_moves, output_directory, amount_of_experiments, move_method, save_threshold, output_check50, visualize, draw_interval, resume):
     '''
     Main function the program.
 
@@ -32,7 +32,7 @@ def main(input, algorithm, amount_of_moves, output_directory, amount_of_experime
         kwargs['move_method'] = move_method
 
     if not resume:
-        runner = Runner(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize, switch(algorithm), save_threshold, **kwargs)
+        runner = Runner(amount_of_moves, amount_of_experiments, input, output_directory, output_check50, visualize, draw_interval, switch(algorithm), save_threshold, **kwargs)
     else:
         with open('output/runner.pickle', 'rb') as pickle_file:
             runner = pickle.load(pickle_file)
@@ -79,10 +79,11 @@ if __name__ == "__main__":
     parser.add_argument("--output_check50", help = "Save as output.csv (used for check50)", required=False, type=bool, default=False)
     parser.add_argument("--visualize", help = "Show visual board", required=False, type=bool, default=False)
     parser.add_argument("--resume", help = "Resume previous experiment", required=False, type=bool, default=False)
+    parser.add_argument("--draw_interval", help = "Resume previous experiment", required=False, type=int, default=0.01)
 
     # Read arguments from command line 
     args = parser.parse_args()
     print(args)
 
     # Run main with provide arguments
-    main(args.input, args.algorithm, args.amount_of_moves, args.output_directory, args.amount_of_experiments, args.move_method, args.save_threshold, args.output_check50, args.visualize, args.resume)
+    main(args.input, args.algorithm, args.amount_of_moves, args.output_directory, args.amount_of_experiments, args.move_method, args.save_threshold, args.output_check50, args.visualize, args.draw_interval, args.resume)

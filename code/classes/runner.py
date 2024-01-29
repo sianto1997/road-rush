@@ -9,7 +9,7 @@ import os
 import pandas as pd
 
 class Runner:
-    def __init__(self, max_moves, amount_of_experiments, input_file, output_directory, output_check50, visualize, algorithm_type, save_threshold, **kwargs):
+    def __init__(self, max_moves, amount_of_experiments, input_file, output_directory, output_check50, visualize, draw_interval, algorithm_type, save_threshold, **kwargs):
         '''
         Initializing runner.
 
@@ -36,6 +36,7 @@ class Runner:
         self.output_check50 = output_check50
         self.amount_of_experiments = amount_of_experiments
         self.visualize = visualize
+        self.draw_interval = draw_interval
         self.i = 0
         self.input_file = input_file
         
@@ -48,22 +49,18 @@ class Runner:
 
     def run(self):
         '''
-        Start random experiment
-
-        Input:
-        - input: Input filename (used for extracting board size)
-        - csv: Input of file (used for initializeing cars)
-        - move_method: Inputs which limitation is used for running simulations
-        - save_threshold: Save result only if amount of moves is lower than this threshold
+        Start experiment defined by init.
         '''
         
         if self.visualize:
-            self.visualization = BoardVisualization()
+            self.visualization = BoardVisualization(self.draw_interval)
+
         moves = []
+
         while self.i < self.amount_of_experiments:
-            # Creates a object of the class Board 
+            # Using try -> catch to save on manual stop of the experiment.
             try:
-                # print(self.i)
+                # Creates a object of the class Board 
                 self.board = Board(self.input_file, self.csv)
                 if self.visualize:
                     self.visualization.replace(self.board)
@@ -97,8 +94,8 @@ class Runner:
                     # Save location for check 50
                     if self.output_check50:
                         self.board.save_moves(f'output.csv')
-                    # Save in readable format
                     else:
+                        # Save in readable format
                         self.board.save_moves(f'{self.output_directory}/{self.file_name}_{algorithm.get_name()}_{solved}_M{amount_of_moves}_S{self.board.get_amount_of_states()}_{self.start_time}.csv')
             except (KeyboardInterrupt, SystemExit):
                 # Save when quitting
