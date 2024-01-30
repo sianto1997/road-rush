@@ -1,8 +1,8 @@
-from typing import Protocol
-import time
+from code.algorithms.algorithm import Algorithm
+from code.classes.board import Board
 
-class AmberManual(Protocol):
-    def __init__(self, board):
+class ManualBoardWalker(Algorithm):
+    def __init__(self, board : Board):
         self.board = board
         self.i = 0
         self.cars = [
