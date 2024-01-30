@@ -46,10 +46,10 @@ Other possible arguments:
 - --move_method : int
 
     MoveMethod (only applicable for Random algorithm) (default = 0)
-    -- 0 = RandomAll
-    -- 1 = RandomOne
-    -- 2 = RandomTwo
-    -- 3 = RandomThree
+    - - 0 = RandomAll
+    - - 1 = RandomOne
+    - - 2 = RandomTwo
+    - - 3 = RandomThree
 
 - --save_threshold : int
 
