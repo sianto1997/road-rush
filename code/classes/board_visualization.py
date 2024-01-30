@@ -2,20 +2,21 @@ import matplotlib.pyplot as plt
 
 
 class BoardVisualization():
+    '''
+    This class manages the visualization of the experiments. It exists because a lot of different boards (states) are assessed.
+    The running experiment can replace the board that is displayed.
+
+    Input:
+    - draw_interval (float): The default value for the draw_interval. See draw function for more info.
+    '''
 
     def __init__(self, draw_interval):
-        '''
-        Initializes the board so that only one display is created
-
-        Input:
-        - draw_interval (float): The default value for the draw_interval. See draw function for more info.
-        '''
         self.initialized = False
         self.draw_interval = draw_interval
 
     def init_visualization(self):
         '''
-        Initializes the board so that only one display is created. Previously located in board, this created problems when visualizing multiple states (starting a lot of visualizations simultaneously).
+        Initializes the board so that only one display is created.
         '''
         # Give the range to the figure
         self.canvas = plt.figure(figsize = [self.board.size + 0.5, self.board.size + 0.5])

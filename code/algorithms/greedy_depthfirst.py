@@ -4,21 +4,20 @@ from code.classes.board import Board
 import copy
 
 class GreedyDepthFirst(Algorithm):
-    def __init__(self, board: Board):
-        '''
-        Initialize Greedy depthfirst algorithm with deep copy of initial board state.
+    '''
+    Initialize Greedy DepthFirst algorithm with deep copy of initial board state.
 
-        Input:
-        - board = the initial state of Rush Hour board.
-        '''
+    Input:
+    - board (Board): The initial state of Rush Hour board.
+    '''
+    def __init__(self, board: Board):
 
         self.board = copy.deepcopy(board)
         
-        # using queue to store states you still need to look into
         self.states = [copy.deepcopy(self.board)]
         
-        # keep track of the states which are already visited
         self.archive = set()
+        self.archive.add(self.board.repr())
         
         self.visited_states = 0
         self.best_state = self.board
@@ -51,10 +50,10 @@ class GreedyDepthFirst(Algorithm):
             states = []
             for state in possible_states:
 
-                # use representation to make algorithm faster
-                if state.__repr__() not in self.archive:
+                # Use representation to make algorithm faster
+                if state.repr() not in self.archive:
                     states.append(state)
-                    archive.add(state.__repr__())
+                    archive.add(state.repr())
                     scores.append(state.calculate_value())
             score = - math.inf
             if len(scores) > 0:

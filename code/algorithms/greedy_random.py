@@ -7,10 +7,11 @@ from code.algorithms.algorithm import Algorithm
 
 class GreedyRandom(Algorithm):
     '''
-    This is the greedy algorithm, written by Simon Antonides. It bases itself on version 2 of the Technical Description.
+    This is the greedy algorithm, written by Simon Antonides. It is a variant on the Greedy algorithm.
+
     
     Input:
-    - board (Board): The board 
+    - board (Board): The board used or the experiment.
     - max_state_cache_size (int): The maximum of unavailable prior states to progress to. Default is 3.
 
     '''
