@@ -26,9 +26,9 @@ python main.py
 
 ## Auteurs (Authors)
 
-* Amber 
-* Esmée
-* Simon
+* Amber Korte
+* Esmée de Roo
+* Simon Antonides
 
 ## Dankwoord (Acknowledgments)
 
