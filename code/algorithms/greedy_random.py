@@ -8,7 +8,7 @@ from code.classes.score import Score
 
 class GreedyRandom(Algorithm):
     '''
-    This is a variation on the greedy algorithm using more random components
+    This is a variation on the Greedy algorithm using more random components
     
     Attributes
     ----------

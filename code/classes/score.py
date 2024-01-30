@@ -1,5 +1,3 @@
-
-
 class Score:
     '''
     Creates a score for the board
@@ -64,7 +62,7 @@ class Score:
         Output
         ------
         score : int
-          A number between 0 and 256 (solved board). The best score without a solved board is 128
+            A number between 0 and 256 (solved board). The best score without a solved board is 128
         '''
         score = 0
 
@@ -119,13 +117,15 @@ class Score:
         Parameters
         ------
         levels_to_go : int
-          Lowers every step, stops when the level reaches 0.
+            Lowers every step, stops when the level reaches 0
         current_obstruction : Car
-          The car obstructing the previous car.
+            The car obstructing the previous car
         position_to_clear : int
-          The position we want cleared
-        source_of_obstruction
-        - passed_obstructions (list of str): The list of cars (identified by car.id) already passed (checked to avoid double counting the scores).
+            The position we want cleared
+        obstructed : Car
+            The car that is obstructed (the previous car)
+        passed_obstructions : list of str
+            The list of cars (identified by car.id) already passed (checked to avoid double counting the scores)
         '''
         score = 0
         if levels_to_go >= 0: 
@@ -184,14 +184,14 @@ class Score:
         car : Car
             The car that has or does not have obstructions
         forwards : bool
-          Look forwards (Default is True)
+            Look forwards (default = True)
         only_first : bool
-          Only return first obstruction. For the red_car all obstructions are returned (Default is True)
+            Only return first obstruction. For the red_car all obstructions are returned (default = True)
         
         Output
         ------
-        cars : Car
-          A list of 1 or more cars , dependant on only_first being True or False
+        cars : list of Car
+            A list of 1 or more cars , dependant on only_first being True or False
         '''
         (collision_map_slice, start_pos) = self.get_collision_map_slice_and_start_pos(car)
     
@@ -234,9 +234,9 @@ class Score:
         obstructor : Car
             The car we need, to know if it can unblock the position_to_clear
         position_to_clear : int
-          A position that we want to clear
+            A position that we want to clear
         obstructed : Car
-          Used for determining the orientation of the two cars for comparing the right positions
+            Used for determining the orientation of the two cars for comparing the right positions
 
         Output:
         can_be_cleared : boolean

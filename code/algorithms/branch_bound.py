@@ -44,7 +44,7 @@ class BranchAndBound(Algorithm):
         Output
         ------
         board : Board
-            the next state in the states stack
+            The next state in the states stack
 
         '''
         return self.states.pop()
@@ -104,6 +104,6 @@ class BranchAndBound(Algorithm):
         Output
         ------
         name : str
-            name of the algorithm
+            Name of the algorithm
         '''
         return 'BranchAndBound'
