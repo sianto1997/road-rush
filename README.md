@@ -76,10 +76,10 @@ Other possible arguments:
 - --move_method : int
 
     MoveMethod (only applicable for Random algorithm) (default = 0)
-    - 0 = RandomAll
-    - 1 = RandomOne
-    - 2 = RandomTwo
-    - 3 = RandomThree
+    - 0 = RandomAll (Cars move between and including - board_size to and including + board_size)
+    - 1 = RandomOne (Cars can move - 1 or + 1)
+    - 2 = RandomTwo (Cars can move between and including - 2 or + 2)
+    - 3 = RandomThree (Cars can move between and including - 3 or + 3)
 
 - --save_threshold : int
 
