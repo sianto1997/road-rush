@@ -8,6 +8,7 @@ from code.algorithms.breadthfirst import BreadthFirst
 from code.algorithms.branch_bound import BranchAndBound
 from code.algorithms.greedy_depthfirst import GreedyDepthFirst
 from code.algorithms.greedy_random import GreedyRandom
+from code.visualisation.manual_board_walker import ManualBoardWalker
 
 
 def main(input, algorithm, amount_of_moves, output_directory, amount_of_experiments, move_method, save_threshold, output_check50 = False, visualize = False, draw_interval = 0.01, resume = False):
@@ -73,6 +74,8 @@ def switch(algorithm = ''):
         return BreadthFirst
     elif algorithm == 'BranchAndBound':
         return BranchAndBound
+    elif algorithm == 'mbw':
+        return ManualBoardWalker
     else:
         return Random
 

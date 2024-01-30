@@ -35,7 +35,7 @@ class BranchAndBound(Algorithm):
         self.archive = defaultdict(lambda: float('inf'))
         
         self.visited_states = 0
-        self.depth = 578 #float('inf')
+        self.depth = 50 #float('inf')
 
     def get_next_state(self):
         '''

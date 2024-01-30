@@ -1,6 +1,7 @@
 from enum import Enum
-from code.algorithms.algorithm import Algorithm
 import random
+
+from code.algorithms.algorithm import Algorithm
 
 class MoveMethod(Enum):
     '''

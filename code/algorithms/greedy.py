@@ -1,6 +1,5 @@
 from enum import Enum
 import random
-import math
 import copy
 
 from code.algorithms.algorithm import Algorithm
