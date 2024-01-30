@@ -104,4 +104,4 @@ class BranchAndBound(Algorithm):
         name : str
             Name of the algorithm
         '''
-        return 'BranchAndBound'
+        return f'BranchAndBound_VisitedStates{self.visited_states}'
