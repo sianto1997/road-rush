@@ -26,15 +26,17 @@ class Board:
     archive : set 
         A set with all the possible following states of the current state
     ''' 
-    def __init__(self, input_file, car_csv):
+    def __init__(self, input_file : str, car_csv):
     
         start = input_file.find('hour') + len('hour')
         end = input_file.find('x', start)
 
         self.size = int(input_file[start:end].strip())
+        self.init_empty_collision_map()
+
         self.cars = {}
         self.init_cars(car_csv)
-        self.init_empty_collision_map()
+
         self.exit_row = ceil(self.size / 2)
         self.moves = []
         self.archive = set()
@@ -53,7 +55,7 @@ class Board:
         '''
         self.moves.append((car_id,step))
 
-    def save_moves(self, output_filename):
+    def save_moves(self, output_filename : str):
         '''
         Exports the made moves to a csv file 
 
@@ -119,7 +121,7 @@ class Board:
         
         return None
 
-    def get_collision_map_slice_and_start_pos(self, car):
+    def get_collision_map_slice_and_start_pos(self, car : Car):
         '''
         Retrieves the collision map slice upon which a car resides
 
@@ -143,7 +145,7 @@ class Board:
         start_pos = car.get_pos()
         return (collision_map_slice, start_pos)
 
-    def move(self, car, steps, execute=True):
+    def move(self, car, steps, execute = True):
         '''
         Moves a car in steps direction
 
@@ -154,7 +156,7 @@ class Board:
         steps : int
           A number between -board_size and board_size
         execute : bool 
-            Execute the move (default: False)
+            Execute the move (default = False)
 
         Output
         ------
