@@ -13,7 +13,7 @@ class GreedyDepthFirst(Algorithm):
         the current state of the Rush Hour board
     states : list of Board
         a stack to store states you still need to look into
-    archive : set of str
+    archive : set of int
         keeps track of the states which are already visited
     visited_states : int
         amount of states the algorithm did look at to find a solution
@@ -122,7 +122,7 @@ class GreedyDepthFirst(Algorithm):
     def get_name(self):
         '''
         Get name of the algorithm to save CSV-file
-        
+
         Output
         ------
         str : name of the algorithm
