@@ -32,9 +32,11 @@ class Board:
         end = input_file.find('x', start)
 
         self.size = int(input_file[start:end].strip())
-        self.cars = {}
         self.init_empty_collision_map()
+
+        self.cars = {}
         self.init_cars(car_csv)
+        
         self.exit_row = ceil(self.size / 2)
         self.moves = []
         self.archive = set()
