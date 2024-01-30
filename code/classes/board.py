@@ -133,7 +133,7 @@ class Board:
         Parameters
         ----------
         id : str
-            One or two chars (for example 'X' or 'A')
+            One or two chars (for example 'X', 'A' or 'AA')
         Output
         ------
             car : Car | None
