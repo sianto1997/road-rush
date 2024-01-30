@@ -1,5 +1,5 @@
 import pandas as pd
-from math import ceil, log
+from math import ceil
 import numpy as np
 import copy
 
@@ -9,8 +9,8 @@ class Board:
     '''
     Creates a board for the game Rush Hour
 
-    Attribute
-    ---------
+    Attributes
+    ----------
     input_file : str
         The file with information about the board 
     car_csv :  CSV
@@ -25,7 +25,6 @@ class Board:
         Stores the made moves 
     archive : set 
         A set with all the possible following states of the current state
-
     collision_map : numpy.chararray
         A map of where all cars and walls are. It has size of (board_size + 2, board_size + 2)
     ''' 
@@ -45,15 +44,15 @@ class Board:
         self.archive = set()
 
     
-    def record_move(self, car_id, step):
+    def record_move(self, car_id : str, step : int):
         '''
         Appends a tuple of made moves and id of a car to a list 
 
         Parameters
         ----------
-        car_id = str
+        car_id : str
             The id of the object car 
-        step = int
+        step : int
             The move the car makes on the board 
         '''
         self.moves.append((car_id,step))
@@ -65,11 +64,11 @@ class Board:
         Parameters
         ----------
         output_filename : str 
-            the name + place where the file is being saved 
+            the name an path where the file is should be saved 
         '''
         df = pd.DataFrame(self.moves, columns=['car', 'move']) 
         
-        df.to_csv(output_filename, index=False)
+        df.to_csv(output_filename, index = False)
 
     def get_amount_of_moves(self):
         '''
@@ -91,13 +90,13 @@ class Board:
         '''
         return len(self.archive)
     
-    def init_cars(self, csv):
+    def init_cars(self, csv : pd.DataFrame):
         '''
         Initializes all cars. This adds them to the board object in self.cars and to self.collision_map
     
         Parameters
         ----------
-        csv : Dataframe
+        csv : pd.DataFrame
             Parsed CSV of cars in board
         '''
         for _, row in csv.iterrows():
@@ -202,13 +201,13 @@ class Board:
 
         return False
 
-    def get_moves(self, car=None):
+    def get_moves(self, car : Car = None):
         '''
         Get all possible moves for the current state
 
         Parameters
         ----------
-        car : Car
+        car : Car | None
             show only the possible moves for this car (default = None)
 
         Output
@@ -238,7 +237,7 @@ class Board:
 
         return moves
 
-    def get_states(self, car = None):
+    def get_states(self, car : Car = None):
         '''
         Get all possible states for the current state
 
@@ -296,14 +295,14 @@ class Board:
         self.collision_map = np.vstack((row_bound, self.collision_map, row_bound))
         self.collision_map = np.hstack((column_bound, self.collision_map, column_bound))
 
-    def solve(self, execute=True):
+    def solve(self, execute = True):
         '''
         Looks if the board is solvable
 
         Paramters
         ---------
-        execute : bool, optional
-          Execute the solve
+        execute : bool
+          Execute the solve (default = False)
         
         Output
         ------
@@ -318,6 +317,6 @@ class Board:
         Output
         ------
         repr : int
-          A number (negative or positive) formatted as int
+            A number (negative or positive) formatted as int
         '''
         return hash(str(self.collision_map))
