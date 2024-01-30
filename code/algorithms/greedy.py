@@ -8,7 +8,7 @@ from code.classes.score import Score
 
 class Greedy(Algorithm):
     '''
-    This is the greedy algorithm, written by Simon Antonides. It bases itself on version 2 of the Technical Description.
+    This is the greedy algorithm. It bases itself on version 2 of the Technical Description
     
     '''
     def __init__(self, board, max_state_cache_size = 3):
@@ -16,9 +16,9 @@ class Greedy(Algorithm):
         Parameters
         ----------
         board : Board
-            the initial state of a Rush Hour board
+            The initial state of a Rush Hour board
         max_state_cache_size : int
-            the maximum of unavailable prior states to progress to (default = 3)
+            The maximum of unavailable prior states to progress to (default = 3)
         '''
         self.score = Score()
         self.board = board
@@ -42,6 +42,7 @@ class Greedy(Algorithm):
         print(f'Start score = {self.best_score} {self.board.repr()}')
         
     def run(self):
+        
         solvable = self.board.solve()
         if solvable:
             return self.board, solvable

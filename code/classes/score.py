@@ -7,22 +7,22 @@ class Score:
     Attribute
     ---------    
     score_positive_component_exponent_base : int
-        The base of the exponent used in positive component of score (Default is 2) 
+        The base of the exponent used in positive component of score (default = 2) 
     score_positive_component_maximum_exponent : int
         The maximum exponent of 2 for the score of the positive component (default is 8, which translates to 256 as max value)
     score_positive_component_minimum_exponent : int
-        The minimum exponent of 2 for the score to no longer calculate as part of the positive component (default is 5, which translated to 32 as min value)
+        The minimum exponent of 2 for the score to no longer calculate as part of the positive component (default = 5, which translated to 32 as min value)
     score_positive_component_calculate_possible_position : bool
-        Count the potential position of the red car in the positive component of the score (Default True)
+        Count the potential position of the red car in the positive component of the score (default = True)
     
     score_negative_component_red_car_only_first : bool
-        Look only at the first obstruction for determining negative component (Default True)
+        Look only at the first obstruction for determining negative component (default = True)
     score_negative_component_exponent_base : int 
-        The base of the exponent used in negative component of score (Default is 2)
+        The base of the exponent used in negative component of score (default = 2)
     score_negative_component_maximum_exponent : int
-        The maximum exponent of 2 for the score of the negative component (default is 4, which translates to 16 as max value)
+        The maximum exponent of 2 for the score of the negative component (default = 4, which translates to 16 as max value)
     score_negative_component_amount_of_levels : int
-        The amount of levels deep to explore obstructions as part of the negative component, the score halves each level (Default is 3)
+        The amount of levels deep to explore obstructions as part of the negative component, the score halves each level (default = 3)
     ''' 
     def __init__(self, score_positive_component_exponent_base = 2, score_positive_component_maximum_exponent = 8, score_positive_component_minimum_exponent = 5, score_positive_component_calculate_possible_position = True, score_negative_component_red_car_only_first = False, score_negative_component_exponent_base = 2, score_negative_component_maximum_exponent = 4, score_negative_component_amount_of_levels = 4):
         self.score_positive_component_exponent_base = score_positive_component_exponent_base
@@ -89,6 +89,10 @@ class Score:
     def calculate_negative_component_of_score(self):
         '''
         This function is used to calculate the negative component of the score
+        Output
+        ------
+        score : int
+            A number between 0 and a negative number
         '''
         score = 0
 
