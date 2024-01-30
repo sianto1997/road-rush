@@ -119,13 +119,15 @@ class Score:
         Parameters
         ------
         levels_to_go : int
-          Lowers every step, stops when the level reaches 0.
+            Lowers every step, stops when the level reaches 0
         current_obstruction : Car
-          The car obstructing the previous car.
+            The car obstructing the previous car
         position_to_clear : int
-          The position we want cleared
-        source_of_obstruction
-        - passed_obstructions (list of str): The list of cars (identified by car.id) already passed (checked to avoid double counting the scores).
+            The position we want cleared
+        obstructed : Car
+            The car that is obstructed (the previous car)
+        passed_obstructions : list of str
+            The list of cars (identified by car.id) already passed (checked to avoid double counting the scores)
         '''
         score = 0
         if levels_to_go >= 0: 
