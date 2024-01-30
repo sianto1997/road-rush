@@ -114,6 +114,10 @@ class Board:
         ----------
         index : int
             A number as index (from 0 to length of list of self.cars)
+
+        Output
+        ------
+        car : Car | None
         '''
 
         if len(list(self.cars.keys())) > index:
@@ -129,7 +133,10 @@ class Board:
         Parameters
         ----------
         id : str
-            A  char (for example 'X' or 'A')
+            One or two chars (for example 'X' or 'A')
+        Output
+        ------
+            car : Car | None
         '''
         # if isinstance(number_or_id, int) and len(list(self.cars.keys())) < number_or_id:
         # elif number_or_id in self.cars:
