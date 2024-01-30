@@ -9,9 +9,9 @@ class Algorithm(Protocol):
         Parameters
         ----------
         - board : Board
-            the initial board
+            The initial board
         - **kwargs : Kwargs
-            these are used for algorithm specific parameters, kwargs can be left empty if not required (default = None, derived algorithms don't have to implement this)
+            These are used for algorithm specific parameters, kwargs can be left empty if not required (default = None, derived algorithms don't have to implement this)
         '''
 
     def run(self) -> None:
