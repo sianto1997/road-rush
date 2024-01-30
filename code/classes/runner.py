@@ -11,12 +11,36 @@ from code.classes.board_visualization import BoardVisualization
 
 class Runner:
     '''
-    This class runs an experiment
+    This class runs an experiment.
 
     Attributes
     ----------
-
-
+    max_moves : int
+        Cut-off at an amount of moves (after this the runner stops and starts next experiment if applicable) (default = infinite)
+    amount_of_experiments : int 
+        The amount of experiments that the experiment runs at the maximum (after which it stops and saves the last result).
+    input_file : str 
+        The path of the input file (example: data/Rushhour6x6_1.csv)
+    output_directory : str
+        The directory to save the output to
+    output_check50 : bool
+        Save output as output.csv (used for check50 validation of file)
+    visualize : bool 
+        Whether to visualize the running experiment (using board_visualize)
+    algorithm_type : Algorithm
+        The algorithm to be used by the runner (needs to be of type Algorithm)
+    save_threshold : int
+        Save the output (csv) when the amount of moves is at or lower than this number
+    **kwargs : 
+        Algorithm-specific keyword arguments
+    start_time : str
+        The start time of the experiments
+    i : int
+        Iterator of the experiment. Starts at 0
+    csv : pd.DataFrame
+        The parsed DataFrame of the input file 
+    pickle_location : str
+        The location to save the state of the runner (with pickle pickle) 
     '''
     def __init__(self, max_moves, amount_of_experiments, input_file, output_directory, output_check50, visualize, draw_interval, algorithm_type, save_threshold, **kwargs):
         '''
@@ -26,8 +50,8 @@ class Runner:
             Cut-off at an amount of moves (after this the runner stops and starts next experiment if applicable)
         amount_of_experiments : int 
             The amount of experiments that the experiment runs at the maximum (after which it stops and saves the last result).
-        input_file : str 
-            The path of the input file (example: data/Rushhour6x6_1.csv)
+        file_name : str 
+            The file name of the input file (example: Rushhour6x6_1.csv)
         output_directory : str
             The directory to save the output to
         output_check50 : bool
@@ -96,6 +120,7 @@ class Runner:
                 self.i += 1
 
                 if self.visualize:
+                    # Pause after last experiment
                     self.visualization.draw(100000)
                     self.visualization.close()
 
