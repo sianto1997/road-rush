@@ -31,7 +31,7 @@ class GreedyDepthFirst(Algorithm):
         Parameters
         ----------
         board : Board
-            the initial state of the board.
+            The initial state of the board.
         '''
         self.score = Score()
 
@@ -65,7 +65,7 @@ class GreedyDepthFirst(Algorithm):
 
     def possible_states(self):
         '''
-        Get possible states from current board state and add to stack if state is not visited before.
+        Get possible states from current board state and add to stack if state is not visited before
         '''
         # Check if board is as good as best score of the current depth
         if self.score.calculate_value(self.board) == self.best_score[len(self.board.archive) - 1]:
