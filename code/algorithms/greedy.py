@@ -45,9 +45,7 @@ class Greedy(Algorithm):
         if solvable:
             return self.board, solvable
         moves = self.board.get_states()
-        # print('amount_of_moves', len(moves))
-        # return self.board, True
-        best_score = 0 # self.score.calculate_value(self.board)
+        best_score = 0
         best_moves = []
 
         worst_score = 0
@@ -57,7 +55,6 @@ class Greedy(Algorithm):
             if move.__repr__() not in self.state_cache:
                 score = self.score.calculate_value(move)
                 self.visited_states += 1
-                # print(f'Level {len(self.states)} node: {score}')
                 
                 if score > best_score:
                     best_moves = [move]
@@ -71,7 +68,6 @@ class Greedy(Algorithm):
                 elif score == worst_score:
                     worst_moves.append(move)
         
-        # print(best_moves)
         if len(self.states) == 0 or (len(best_moves) == 0 and len(worst_moves) == 0):
             return self.board, False
             
@@ -80,17 +76,14 @@ class Greedy(Algorithm):
         if len(best_moves) == 1:
             self.board = best_moves[0]
         else:
-            # print(best_moves)
             random_move = random.randint(0, len(best_moves) - 1)
             self.board = best_moves[random_move]
-            # print('SM', self.score.calculate_value(self.board))
 
         if len(self.state_cache) >= self.max_state_cache_size:
             self.state_cache.pop()
 
         self.state_cache.append(self.board.repr())
         self.states.append(copy.deepcopy(self.board))
-        # print('Chosen board:', self.score.calculate_value(self.board), self.board.repr(), self.board.get_amount_of_states())
         return self.board, False
         
         
