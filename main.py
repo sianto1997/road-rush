@@ -10,20 +10,30 @@ from code.algorithms.greedy_depthfirst import GreedyDepthFirst
 from code.algorithms.greedy_random import GreedyRandom
 
 
-def main(input, algorithm, amount_of_moves, output_directory, amount_of_experiments, move_method, save_threshold, output_check50, visualize, draw_interval, resume):
+def main(input, algorithm, amount_of_moves, output_directory, amount_of_experiments, move_method, save_threshold, output_check50 = False, visualize = False, draw_interval = 0.01, resume = False):
     '''
-    Main function the program.
+    Main function the program
 
-    Input:
-    - input (string): Filename of board
-    - amount_of_moves (int): Amount of moves before cut_off of the experiment
-    - output_directory (string): Which folder to save the moves to
-    - move_method (int): Way to move
-    - save_threshold (int): Save solutions only when at or lower than threshold
-    - output_check50 (bool): Save as output.csv to satisfy check50 required output filename
-    - visualize (bool): Show visualization (disabled by default)
-    - draw_interval (float): The interval between moves in the visualization
-    - resume (bool): Resume previous experiment
+    Parameters
+    ----------
+    input : string
+        Filename of board
+    amount_of_moves : int
+        Amount of moves before cut_off of the experiment
+    output_directory : str
+        Which folder to save the moves to
+    move_method : int
+        Way to move (see MoveMethod)
+    save_threshold : int
+        Save solutions only when the moves are at or lower than this threshold
+    output_check50 : bool
+        Save as output.csv to satisfy check50 required output filename (default = False)
+    visualize : bool
+        Show visualization (default = False)
+    draw_interval : float
+        The interval between moves in the visualization (default = 0.01)
+    resume : bool
+        Resume previous experiment (default = False)
     '''
     kwargs = {}
     if move_method >= 0:
@@ -40,13 +50,17 @@ def main(input, algorithm, amount_of_moves, output_directory, amount_of_experime
 
 def switch(algorithm = ''):
     '''
-    This function acts as a switch case for selecting an algorithm in prompt.
-    
-    Input:
-    - algorithm (string): The name of a specific algorithm (default '').
+    This function acts as a switch case for selecting an algorithm in prompt
 
-    Output:
-    - algorithm (Algorithm): The algorithm to be used. If no suitable algorithm is found Random will be returned.
+    Parameters
+    ----------
+    algorithm : str
+        The name of a specific algorithm (default = '')
+
+    Output
+    ------
+    algorithm : Algorithm
+        The algorithm to be used. If no matching algorithm is found the Random algorithm will be returned
 
     '''
     if algorithm == 'Greedy':
