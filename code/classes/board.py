@@ -33,8 +33,8 @@ class Board:
 
         self.size = int(input_file[start:end].strip())
         self.cars = {}
-        self.init_empty_collision_map()
         self.init_cars(car_csv)
+        self.init_empty_collision_map()
         self.exit_row = ceil(self.size / 2)
         self.moves = []
         self.archive = set()
@@ -208,7 +208,7 @@ class Board:
 
         Output
         ------
-        moves: list of tuples
+        List of tuples : 
             (car.id, steps)
         '''
         moves = []
@@ -244,7 +244,7 @@ class Board:
 
         Output
         ------
-        states : list of Board
+        List of states :
             Board-object with the executed move
         '''
         board_states = []
@@ -297,24 +297,16 @@ class Board:
 
         Paramters
         ---------
-        execute : bool
-            execute the solve (default = True)
+        execute : bool, optional
+          Execute the solve
         
         Output
         ------
-        success : bool 
+        boolean: Success
         '''
         return self.move(self.red_car, self.size - self.red_car.column - 1, execute=execute)
 
     def repr(self):
-        '''
-        This function uses a hash-function to represent a state. This is used for comparing states quickly to determine whether to examine a state
-
-        Output
-        ------
-        repr : int
-          A number (negative or positive)
-        '''
         return hash(str(self.collision_map))
     def __repr__(self):
         '''
