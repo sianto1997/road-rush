@@ -61,7 +61,7 @@ class Car:
 
         Parameters
         ----------
-        - opposite : bool
+        opposite : bool
             Get the other coordinate (horizontal car -> row or vertical car -> column) (default = False)
         '''
         if self.orientation == 'H' and not opposite or self.orientation == 'V' and opposite:
