@@ -313,11 +313,11 @@ class Board:
 
     def repr(self):
         '''
-        This function uses a hash-function to represent a state as an integer. This is used for comparing states quickly to determine whether to examine a state
+        This function uses a hash-function to represent a state as an positive or negative integer. This is used for comparing states quickly to determine whether to examine a state
 
         Output
         ------
-        repr : str
-          A number (negative or positive) formatted as string
+        repr : int
+          A number (negative or positive) formatted as int
         '''
         return hash(str(self.collision_map))
