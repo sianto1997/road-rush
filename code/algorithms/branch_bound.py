@@ -2,6 +2,7 @@ import copy
 from code.algorithms.algorithm import Algorithm
 from code.classes.board import Board
 from collections import defaultdict
+
 class BranchAndBound(Algorithm):
     '''
     A depth first algorithm that does not search on a deeper level than the first found solution.
@@ -21,6 +22,9 @@ class BranchAndBound(Algorithm):
     def get_next_state(self):
         '''
         Gets the next state out of the list. 
+
+        Output:
+        - object: a Board
         '''
         return self.states.pop()
 
@@ -28,15 +32,10 @@ class BranchAndBound(Algorithm):
         '''
         Creates the children nodes for the list 
         '''
-
-        # receives a list of all the next possible nodes 
         childs = self.board.get_moves(output_as_states=True)
         
         for child in childs:
-            # print('doei')
-            if self.archive[child.__repr__()] > len(child.moves) and len(child.moves) < self.depth: 
-            # if child.__repr__() not in self.archive and len(child.moves) < self.depth: 
-                # print('hoi')
+            if self.archive[child.__repr__()] > len(child.moves) and len(child.moves) < self.depth:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
                 self.states.append(child)
                 self.archive[child.__repr__()] = len(child.moves)
 
