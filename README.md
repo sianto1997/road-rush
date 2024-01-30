@@ -2,27 +2,30 @@
 
 Hier staat een korte beschrijving van het probleem evt. met plaatje.
 
-## Aan de slag (Getting Started)
+## Getting Started
 
-### Vereisten (Prerequisites)
+### Prerequisites
 
-Deze codebase is volledig geschreven in [Python3.8.3](https://www.python.org/downloads/). In requirements.txt staan alle benodigde packages om de code succesvol te draaien. Deze zijn gemakkelijk te installeren via pip dmv. de volgende instructie:
+This codebase is written completely in [Python3.11.5](https://www.python.org/downloads/). In requirements.txt all required packages to run the code succesfully are mentioned. These can be installed via pip by executing the following statement:
 
 ```
 pip install -r requirements.txt
 ```
 
-### Structuur (Structure)
+### Structure
 
 Alle Python scripts staan in de folder Code. In de map Data zitten alle input waardes en in de map resultaten worden alle resultaten opgeslagen door de code.
 
-### Test (Testing)
+### Testing
 
-Om de code te draaien met de standaardconfiguratie (bv. brute-force en voorbeeld.csv) gebruik de instructie:
+To run the code with the default configuration (algorithm Random, board Rushhour6x6_1.csv) use de statement:
 
 ```
-python main.py
+python main.py data/Rushhour6x6_1.csv
 ```
+
+
+
 
 ## Auteurs (Authors)
 
