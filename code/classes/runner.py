@@ -13,11 +13,14 @@ class Runner:
     '''
     This class runs an experiment
 
-    
+    Parameters
+    ----------
+
+
     '''
     def __init__(self, max_moves, amount_of_experiments, input_file, output_directory, output_check50, visualize, draw_interval, algorithm_type, save_threshold, **kwargs):
         '''
-        Attributes
+        Parameters
         ----------
         max_moves : int
             Cut-off at an amount of moves (after this the runner stops and starts next experiment if applicable)
