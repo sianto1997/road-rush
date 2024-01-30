@@ -6,9 +6,9 @@ class ManualBoardWalker(Algorithm):
         self.board = board
         self.i = 0
         self.cars = [
-            board.get_car(4),
-            board.get_car(0),
-            board.get_car(2)
+            board.get_car_by_id(4),
+            board.get_car_by_id(0),
+            board.get_car_by_id(2)
             ]
         self.moves = [
             -3,

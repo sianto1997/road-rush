@@ -106,20 +106,35 @@ class Board:
 
             if row.car == 'X':
                 self.red_car = car
-
-    def get_car(self, number_or_id):
+    def get_car_by_index(self, index : int):
         '''
-        This function retrieves the car by number or by character(s). Returns None if the car can not be found
+        This function retrieves the car by index. Returns None if the car can not be found
 
         Parameters
         ----------
-        number_or_id : int or str
-            A number as index (from 0 to length of list of self.cars) OR a char (for example 'X' or 'A')
+        index : int
+            A number as index (from 0 to length of list of self.cars)
         '''
-        if isinstance(number_or_id, int) and len(list(self.cars.keys())) < number_or_id:
-            return self.cars[list(self.cars.keys())[number_or_id]]
-        elif number_or_id in self.cars:
-            return self.cars[number_or_id]
+
+        if len(list(self.cars.keys())) > index:
+            return self.cars[list(self.cars.keys())[index]]
+        
+        return None
+
+
+    def get_car_by_id(self, id : str):
+        '''
+        This function retrieves the car by character(s). Returns None if the car can not be found
+
+        Parameters
+        ----------
+        id : str
+            A  char (for example 'X' or 'A')
+        '''
+        # if isinstance(number_or_id, int) and len(list(self.cars.keys())) < number_or_id:
+        # elif number_or_id in self.cars:
+        if id in self.cars:
+            return self.cars[id]
         
         return None
 
