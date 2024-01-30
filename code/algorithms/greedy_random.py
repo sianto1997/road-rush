@@ -27,18 +27,13 @@ class GreedyRandom(Algorithm):
         if solvable:
             return self.board, solvable
         moves = self.board.get_states()
-        # print('amount_of_moves', len(moves))
-        # return self.board, True
         best_score = self.board.calculate_value()
         best_moves = []
 
         worst_score = 0
         worst_moves = []
 
-        # print('bs', best_score)
-        # if len(moves) >= 1:
         for move in moves:
-            # print(move.collision_map)
             if move.__repr__() not in self.state_cache:
                 score = move.calculate_value()
                 print(f'Level {len(self.states)} node: {score}')
