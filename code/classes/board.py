@@ -169,7 +169,7 @@ class Board:
         start_pos = car.get_pos()
         return (collision_map_slice, start_pos)
 
-    def move(self, car, steps, execute = True):
+    def move(self, car : Car, steps : int, execute : bool = True):
         '''
         Moves a car in steps direction
 
@@ -317,7 +317,7 @@ class Board:
         self.collision_map = np.vstack((row_bound, self.collision_map, row_bound))
         self.collision_map = np.hstack((column_bound, self.collision_map, column_bound))
 
-    def solve(self, execute = True):
+    def solve(self, execute : bool = True):
         '''
         Looks if the board is solvable
 
