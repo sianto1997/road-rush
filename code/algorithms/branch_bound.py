@@ -5,7 +5,23 @@ from collections import defaultdict
 
 class BranchAndBound(Algorithm):
     '''
-    A depth first algorithm that does not search on a deeper level than the first found solution.
+    A depth first algorithm that does not search deeper than the previously found solution
+
+    Attributes
+    ----------
+
+    board : obj
+        A state of the Board class 
+    states : list
+        a stack storing the states that need to be used next by the algorithm
+    best_solution : NoneType
+        A variable to store the best found solution
+    archive : dict
+        stores the states that have already been visited
+    visited_state : int
+        keeps track of all the states that have been visited 
+    depth: int
+        Keeps track of how deep the solution is found 
     '''
     
     def __init__(self, board: Board):
@@ -21,10 +37,11 @@ class BranchAndBound(Algorithm):
 
     def get_next_state(self):
         '''
-        Gets the next state out of the list. 
+        Gets the next state out of the stack
 
-        Output:
-        - object: a Board
+        Output
+        ------
+        obj: a Board
         '''
         return self.states.pop()
 
@@ -33,10 +50,13 @@ class BranchAndBound(Algorithm):
         Creates the children nodes for the list 
         '''
 
-        # 
+        # A list with al the possible next states 
         children = self.board.get_states()
         
         for child in children:
+
+            # checks if child is lower than the one already stored in the archive and 
+            # if the amount of moves is lower than the current depth
             if self.archive[child.__repr__()] > len(child.moves) and len(child.moves) < self.depth:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
                 self.states.append(child)
                 self.archive[child.__repr__()] = len(child.moves)
@@ -44,6 +64,16 @@ class BranchAndBound(Algorithm):
     def run(self):
         '''
         Runs the algorithm until the best possible solution is found 
+
+        output
+        ------
+        best_solution : obj
+            the best found board at the moment a solution is found 
+        board : obj
+
+        boolean : 
+            - True: solution is found 
+            _ False: solution is not found 
         '''
         if self.states:
             self.board = self.get_next_state()
@@ -66,5 +96,10 @@ class BranchAndBound(Algorithm):
     def get_name(self):
         '''
         Returns the name of the algorithm
+
+        output
+        ------
+        str : 
+            Name of the used algoritm
         '''
         return 'BranchAndBound'
