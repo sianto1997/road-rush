@@ -13,10 +13,10 @@ class BreadthFirst(Algorithm):
 
         self.board = copy.deepcopy(board)
         
-        # using queue to store states you still need to look into
+        # Using queue to store states you still need to look into
         self.states = [copy.deepcopy(self.board)]
         
-        # keep track of the states which are already visited
+        # Keep track of the states which are already visited
         self.archive = set()
         
         self.visited_states = 0
