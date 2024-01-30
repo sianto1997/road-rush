@@ -9,13 +9,13 @@ class BreadthFirst(Algorithm):
     Attributes
     ----------
     board : Board
-        the current state of the Rush Hour board
+        The current state of the Rush Hour board
     states : list of Board
-        a queue to store states you still need to look into
+        A queue to store states you still need to look into
     archive : set of str
-        keeps track of the states which are already visited
+        Keeps track of the states which are already visited
     visited_states : int
-        amount of states the algorithm did look at to find a solution
+        Amount of states the algorithm did look at to find a solution
     '''
 
     def __init__(self, board: Board):
@@ -23,7 +23,7 @@ class BreadthFirst(Algorithm):
         Parameters
         ----------
         board : Board
-            the initial state of a Rush Hour board
+            The initial state of a Rush Hour board
         '''
         self.board = copy.deepcopy(board)
         
@@ -40,7 +40,7 @@ class BreadthFirst(Algorithm):
         Output
         ------
         board : Board
-            the next state of the board
+            The next state of the board
         '''
         return self.states.pop(0)
 
