@@ -205,7 +205,7 @@ class Board:
         Parameters
         ----------
         car : Car
-            Show only the possible moves for this car (default = None)
+            show only the possible moves for this car (default = None)
 
         Output
         ------
