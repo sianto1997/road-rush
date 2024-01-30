@@ -1,6 +1,6 @@
 # Rush Hour
 
-Rush hour is a fun board game, where the end goal is to get the red car out of the board. This sounds easy, however there are cars and trucks abstructing this red car. The cars can only move forwards or backward in one orientation, namely horizontal or vertical. The end goal of this project is to write a smart algorithm that can get the red car as fast (a.k.a least amount of moves) as possible out of the board. 
+Rush hour is a fun board game, where the end goal is to get the red car out of the board. This sounds easy, however there are cars and trucks abstructing this red car. The cars can only move forwards or backward in one orientation, namely horizontal or vertical. The end goal of this project is to write a smart algorithm that can get the red car as fast as possible out of the board. 
 
 
 ## Getting Started
