@@ -26,7 +26,8 @@ python main.py data/Rushhour6x6_1.csv --amount_of_experiments 1000
 ```
 This will output the top 5 solutions the Random algorithm has found. It will also save a summary in output/experiment_summaries with the name of the input + the start and end date.
 
- parser.add_argument("input", help = "Input file (csv)")
+input (string)
+    Input file (csv)
 parser.add_argument("--algorithm", help = "The algorithm to use for the experiment", required=False, type=str, default='')
 parser.add_argument("--amount_of_moves", help = "Amount of moves to try (0 is unlimited)", required=False, type=int, default=0)
 parser.add_argument("--output_directory", help = "Output directory", required=False, default = "output")
