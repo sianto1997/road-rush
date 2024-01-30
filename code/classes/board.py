@@ -1,14 +1,21 @@
-import matplotlib.pyplot as plt
 import pandas as pd
-from code.classes.car import Car 
 from math import ceil, log
 import numpy as np
 import copy
+
+<<<<<<< HEAD
+from code.classes.car import Car 
 
 class Board:  
     '''
     Creates a board for the game Rush Hour
 
+=======
+class Board:  
+    '''
+    Creates a board for the game Rush Hour
+
+>>>>>>> d9747fe79400525abc0cf791e39edb7c233556cd
     Attribute
     ---------
     input_file: CSV
@@ -32,13 +39,12 @@ class Board:
         end = input_file.find('x', start)
 
         self.size = int(input_file[start:end].strip())
-        self.exit_row = ceil(self.size / 2)
         self.cars = {}
-        self.moves = []
-        self.archive = set()
-
         self.init_cars(car_csv)
         self.init_empty_collision_map()
+        self.exit_row = ceil(self.size / 2)
+        self.moves = []
+        self.archive = set()
 
     
     def record_move(self, car_id, step):

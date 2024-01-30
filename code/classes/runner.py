@@ -1,12 +1,13 @@
-from datetime import datetime
-from code.classes.board import Board
-from code.classes.board_visualization import BoardVisualization
 import math
 import pandas as pd
 import pickle
 import copy
 import os
 import pandas as pd
+from datetime import datetime
+
+from code.classes.board import Board
+from code.classes.board_visualization import BoardVisualization
 
 class Runner:
     def __init__(self, max_moves, amount_of_experiments, input_file, output_directory, output_check50, visualize, draw_interval, algorithm_type, save_threshold, **kwargs):

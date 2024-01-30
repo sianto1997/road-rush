@@ -1,4 +1,6 @@
 import argparse
+import pickle
+
 from code.classes.runner import Runner
 from code.algorithms.random import Random, MoveMethods
 from code.algorithms.greedy import Greedy
@@ -7,7 +9,6 @@ from code.algorithms.branch_bound import BranchAndBound
 from code.algorithms.greedy_depthfirst import GreedyDepthFirst
 from code.algorithms.greedy_random import GreedyRandom
 
-import pickle
 
 def main(input, algorithm, amount_of_moves, output_directory, amount_of_experiments, move_method, save_threshold, output_check50, visualize, draw_interval, resume):
     '''
