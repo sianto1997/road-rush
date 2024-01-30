@@ -1,4 +1,5 @@
 from enum import Enum
+import math
 import random
 import copy
 
@@ -45,7 +46,7 @@ class Greedy(Algorithm):
         if solvable:
             return self.board, solvable
         moves = self.board.get_states()
-        best_score = 0
+        best_score = - math.inf
         best_moves = []
 
         worst_score = 0
@@ -71,8 +72,9 @@ class Greedy(Algorithm):
         if len(self.states) == 0 or (len(best_moves) == 0 and len(worst_moves) == 0):
             return self.board, False
             
-        elif len(best_moves) == 0 and len(worst_moves) != 0:
-            best_moves = worst_moves
+        elif len(best_moves) == 0:# and len(worst_moves) != 0:
+            best_moves = moves
+
         if len(best_moves) == 1:
             self.board = best_moves[0]
         else:
@@ -84,6 +86,7 @@ class Greedy(Algorithm):
 
         self.state_cache.append(self.board.__repr__())
         self.states.append(copy.deepcopy(self.board))
+        print(f'Board chosen {self.board.__repr__()}')
         return self.board, False
         
         

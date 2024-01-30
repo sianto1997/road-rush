@@ -29,7 +29,7 @@ class GreedyRandom(Algorithm):
     max_state_cache_size : int
         The maximum amount of states in the state cache
     '''
-    def __init__(self, board, max_state_cache_size = 100):
+    def __init__(self, board, max_state_cache_size = 3):
         '''
         Parameters
         ----------
@@ -41,7 +41,7 @@ class GreedyRandom(Algorithm):
         self.score = Score()
         self.board = board
         self.best_state = self.board
-        self.best_score = self.score.calculate_value(self.board)
+        self.best_score = - math.inf #self.score.calculate_value(self.board)
 
         self.states = [copy.deepcopy(self.board)]
 
@@ -86,6 +86,9 @@ class GreedyRandom(Algorithm):
         for move in moves:
             if move.__repr__() not in self.state_cache:
                 score = self.score.calculate_value(move)
+
+                self.visited_states += 1
+
                 print(f'Level {len(self.states)} node: {score}')
                 
                 if score > best_score:
@@ -110,6 +113,7 @@ class GreedyRandom(Algorithm):
             self.board = best_moves[0]
         else:
             print(best_moves)
+            print(self.state_cache)
             random_move = random.randint(0, len(best_moves) - 1)
             self.board = best_moves[random_move]
 
