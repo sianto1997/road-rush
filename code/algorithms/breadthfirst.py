@@ -1,6 +1,7 @@
+import copy
+
 from code.algorithms.algorithm import Algorithm
 from code.classes.board import Board
-import copy
 
 class BreadthFirst(Algorithm):
     '''
