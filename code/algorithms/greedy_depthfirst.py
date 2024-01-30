@@ -76,9 +76,9 @@ class GreedyDepthFirst(Algorithm):
 
             for state in possible_states:
                 # Use representation to make algorithm faster
-                if state.repr() not in self.archive:
+                if state.__repr__() not in self.archive:
                     states.append(state)
-                    archive.add(state.repr())
+                    archive.add(state.__repr__())
                     scores.append(self.score.calculate_value(state))
 
             score = - math.inf
@@ -86,6 +86,7 @@ class GreedyDepthFirst(Algorithm):
             if len(scores) > 0:
                 score = sum(scores) / len(scores)
 
+            # Comparing the scores with the 75 percent of the average level score
             if len(self.board.archive) < 100 or score >= self.level_score[len(self.level_score) - 1] * 0.75:
                 self.level_score.append(score)
 

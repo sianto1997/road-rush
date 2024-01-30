@@ -26,18 +26,18 @@ class Greedy(Algorithm):
         self.states = [copy.deepcopy(self.board)]
 
         self.archive = set()
-        self.archive.add(self.board.repr())
+        self.archive.add(self.board.__repr__())
 
         self.visited_states = 0
 
         self.state_cache = list()
-        self.state_cache.append(self.board.repr())
+        self.state_cache.append(self.board.__repr__())
 
         # The state cache is created to avoid ending in an infinite loop with the same states
         self.max_state_cache_size = max_state_cache_size
 
 
-        print(f'Start score = {self.best_score} {self.board.repr()}')
+        print(f'Start score = {self.best_score} {self.board.__repr__()}')
         
     def run(self):
 
@@ -82,7 +82,7 @@ class Greedy(Algorithm):
         if len(self.state_cache) >= self.max_state_cache_size:
             self.state_cache.pop()
 
-        self.state_cache.append(self.board.repr())
+        self.state_cache.append(self.board.__repr__())
         self.states.append(copy.deepcopy(self.board))
         return self.board, False
         

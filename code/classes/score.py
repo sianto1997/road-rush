@@ -64,12 +64,12 @@ class Score:
         '''
         score = 0
 
-        max_pos = self.size - 1
+        max_pos = self.board.size - 1
 
-        highest_possible_pos = self.red_car.get_pos()
+        highest_possible_pos = self.board.red_car.get_pos()
         
         if self.score_positive_component_calculate_possible_position:
-            possible_moves = self.get_states(self.red_car)
+            possible_moves = self.board.get_states(self.board.red_car)
             for move in possible_moves:
                 red_car_pos = move.red_car.get_pos()
                 if red_car_pos > highest_possible_pos:
@@ -85,6 +85,7 @@ class Score:
     def calculate_negative_component_of_score(self):
         '''
         This function is used to calculate the negative component of the score
+
         Output
         ------
         score : int
@@ -96,15 +97,17 @@ class Score:
 
         # All results of the red car (only looks forward for the red car)
         if self.score_negative_component_red_car_only_first:
-            obstructors_of_red_car = self.obstructed_by(self.red_car, True, False)
+            obstructors_of_red_car = self.obstructed_by(self.board.red_car, True, False)
         else:
-            obstructors_of_red_car = self.obstructed_by(self.red_car, True, True)
+            obstructors_of_red_car = self.obstructed_by(self.board.red_car, True, True)
 
         if obstructors_of_red_car != None:
-            obstructors.extend(obstructors_of_red_car)
-
+            # obstructors.extend(obstructors_of_red_car)
+            # level = self.board.red_car.get_pos()
+            level = self.score_negative_component_amount_of_levels
             for (obstructor, position_to_clear) in obstructors:
-                score += self.calculate_negative_component_of_score_recursive(self.score_negative_component_amount_of_levels - 1, obstructor, position_to_clear, self.red_car, set([self.red_car.id, obstructor.id]))
+                # level += level - position_to_clear
+                score += self.calculate_negative_component_of_score_recursive(level - 1, obstructor, position_to_clear, self.board.red_car, set([self.board.red_car.id, obstructor.id]))
 
         return score
 
@@ -191,7 +194,7 @@ class Score:
         cars : list of Car
             A list of 1 or more cars , dependant on only_first being True or False
         '''
-        (collision_map_slice, start_pos) = self.get_collision_map_slice_and_start_pos(car)
+        (collision_map_slice, start_pos) = self.board.get_collision_map_slice_and_start_pos(car)
     
         obstructed = False
         step_size = - 1
@@ -212,7 +215,7 @@ class Score:
             elif not possible_obstruction == '':
                 if only_first:
                     obstructed = True
-                results.append((self.get_car(possible_obstruction), car.get_pos(True)))
+                results.append((self.board.get_car_by_id(possible_obstruction), car.get_pos(True)))
             
             i += step_size
 
@@ -253,10 +256,10 @@ class Score:
 
         neg = -1
         while neg <= 1:
-            for steps in range(1, self.size + 1):
+            for steps in range(1, self.board.size + 1):
                 adjusted_pos = obstructor.get_pos() + steps * neg
                 if adjusted_pos <= clear_pos_lower_than_or_equals or adjusted_pos >= clear_pos_higher_than_or_equals:
-                    if self.move(obstructor, steps * neg, False):
+                    if self.board.move(obstructor, steps * neg, False):
                         return True
                     else:
                         break

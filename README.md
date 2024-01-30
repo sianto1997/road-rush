@@ -7,7 +7,7 @@ Rush hour is a fun board game, where the end goal is to get the red car out of t
 
 ### Prerequisites
 
-This codebase is written completely in [Python3.11.5](https://www.python.org/downloads/). In requirements.txt all required packages to run the code succesfully are mentioned. These can be installed via pip by executing the following statement:
+This codebase is written completely in [Python 3.11.5](https://www.python.org/downloads/). In requirements.txt all required packages to run the code succesfully are mentioned. These can be installed via pip by executing the following statement:
 
 ```
 pip install -r requirements.txt
