@@ -24,7 +24,7 @@ class Score:
     score_negative_component_amount_of_levels : int
         The amount of levels deep to explore obstructions as part of the negative component, the score halves each level (Default is 3)
     ''' 
-    def __init__(self, score_positive_component_exponent_base = 2, score_positive_component_maximum_exponent = 8, score_positive_component_minimum_exponent = 5, score_positive_component_calculate_possible_position = True, score_negative_component_red_car_only_first = False, score_negative_component_exponent_base = 2, score_negative_component_maximum_exponent = 4, score_negative_component_amount_of_levels = 4)
+    def __init__(self, score_positive_component_exponent_base = 2, score_positive_component_maximum_exponent = 8, score_positive_component_minimum_exponent = 5, score_positive_component_calculate_possible_position = True, score_negative_component_red_car_only_first = False, score_negative_component_exponent_base = 2, score_negative_component_maximum_exponent = 4, score_negative_component_amount_of_levels = 4):
         self.score_positive_component_exponent_base = score_positive_component_exponent_base
         self.score_positive_component_maximum_exponent = score_positive_component_maximum_exponent
         self.score_positive_component_minimum_exponent = score_positive_component_minimum_exponent

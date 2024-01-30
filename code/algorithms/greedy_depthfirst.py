@@ -3,6 +3,8 @@ from code.algorithms.algorithm import Algorithm
 from code.classes.board import Board
 import copy
 
+from code.classes.score import Score
+
 class GreedyDepthFirst(Algorithm):
     '''
     The Greedy DepthFirst algorithm is a variant of the Greedy Algorithm. It uses Depth First based on the board scoring
