@@ -59,8 +59,6 @@ def switch(algorithm = ''):
         return BreadthFirst
     elif algorithm == 'BranchAndBound':
         return BranchAndBound
-    elif algorithm == 'AmberManual':
-        return AmberManual
     else:
         return Random
 
