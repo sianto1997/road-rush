@@ -43,7 +43,9 @@ class BranchAndBound(Algorithm):
 
         Output
         ------
-        obj: a Board
+        board : Board
+            the next state in the states stack
+
         '''
         return self.states.pop()
 
@@ -97,11 +99,11 @@ class BranchAndBound(Algorithm):
 
     def get_name(self):
         '''
-        Returns the name of the algorithm
-
-        output
+        Get name of the algorithm to save CSV-file
+        
+        Output
         ------
-        str : 
-            Name of the used algoritm
+        name : str
+            name of the algorithm
         '''
         return 'BranchAndBound'

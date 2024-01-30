@@ -34,4 +34,12 @@ class Random(Algorithm):
         return self.board, True
 
     def get_name(self):
+        '''
+        Get name of the algorithm to save CSV-file
+        
+        Output
+        ------
+        name : str
+            name of the algorithm
+        '''
         return MoveMethods(self.move_method).name
