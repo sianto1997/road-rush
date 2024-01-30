@@ -58,7 +58,7 @@ class BreadthFirst(Algorithm):
 
             if state.__repr__() not in self.archive:
                 self.states.append(state)
-                self.archive.add(state.repr())
+                self.archive.add(state.__repr__())
 
     def run(self):
         '''
