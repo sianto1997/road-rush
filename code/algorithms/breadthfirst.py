@@ -3,14 +3,14 @@ from code.classes.board import Board
 import copy
 
 class BreadthFirst(Algorithm):
+    '''
+    Initialize Breadthfirst algorithm with deep copy of initial board state.
+
+    Input:
+    - board = the initial state of Rush Hour board.
+    '''
+
     def __init__(self, board: Board):
-        '''
-        Initialize Breadthfirst algorithm with deep copy of initial board state.
-
-        Input:
-        - board = the initial state of Rush Hour board.
-        '''
-
         self.board = copy.deepcopy(board)
         
         # using queue to store states you still need to look into
@@ -40,7 +40,6 @@ class BreadthFirst(Algorithm):
 
         for state in possible_states:
 
-            # use representation to make algorithm faster
             if state.__repr__() not in self.archive:
                 self.states.append(state)
                 self.archive.add(state.__repr__())
