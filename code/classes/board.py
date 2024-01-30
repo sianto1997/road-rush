@@ -97,7 +97,7 @@ class Board:
         csv : Dataframe
             Parsed CSV of cars in board
         '''
-        for index, row in csv.iterrows():
+        for _, row in csv.iterrows():
             car = Car(row.car, row.orientation, row.col, row.row, row.length)
             self.cars[row.car] = car
             self.collision_map = car.update_collision_map(self.collision_map)
