@@ -6,14 +6,19 @@ import copy
 from code.algorithms.algorithm import Algorithm
 
 class GreedyRandom(Algorithm):
+    '''
+    This is the greedy algorithm, written by Simon Antonides. It bases itself on version 2 of the Technical Description.
+    
+    Input:
+    - board (Board): The board 
+    - max_state_cache_size (int): The maximum of unavailable prior states to progress to. Default is 3.
+
+    '''
     def __init__(self, board, max_state_cache_size=3):
-        '''
-        This is the greedy algorithm, written by Simon Antonides. It bases itself on version 2 of the Technical Description.
-        
-        '''
         self.board = board
         self.best_move = self.board
         self.best_score = self.board.calculate_value()
+
         # The state cache is created to avoid ending in an infinite loop with the same states
         self.max_state_cache_size = max_state_cache_size
         self.archive = set(self.board.__repr__())
