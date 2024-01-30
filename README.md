@@ -26,6 +26,19 @@ python main.py data/Rushhour6x6_1.csv --amount_of_experiments 1000
 ```
 This will output the top 5 solutions the Random algorithm has found. It will also save a summary in output/experiment_summaries with the name of the input + the start and end date.
 
+Required argument:
+- input : str
+
+    Options:
+
+    - data/Rushhour6x6_1.csv
+    - data/Rushhour6x6_2.csv
+    - data/Rushhour6x6_3.csv
+    - data/Rushhour9x9_4.csv
+    - data/Rushhour9x9_5.csv
+    - data/Rushhour9x9_6.csv
+    - data/Rushhour12x12_7.csv
+
 Other possible arguments: 
 - --algorithm : str
 
@@ -44,7 +57,7 @@ Other possible arguments:
 
     - mbw (ManualBoardWalker) 
 
-    Only used for visualization purposes
+        Only used for visualization purposes
 
 
 
