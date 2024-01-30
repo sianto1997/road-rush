@@ -5,12 +5,18 @@ class Car:
         '''
         Initializes a new car class
         
-        Input:
-        - id (string): Name of the car
-        - orientation (char): H (horizontal) or V (vertical)
-        - column (int): current position of car (starts with 1)
-        - row (int): current position of car (starts with 1)
-        - length (int): length of car (2 or 3)
+        Parameters
+        ----------
+        id : str
+            Name of the car
+        orientation : char
+            H (horizontal) or V (vertical)
+        column : int
+            Current position of car (starts with 1)
+        row : int
+            Current position of car (starts with 1)
+        length : int
+            Length of car (2 or 3)
         '''
 
         self.id = id
@@ -37,8 +43,10 @@ class Car:
         '''
         Update the collision map to include the current car. (add 1's)
 
-        Input & output:
-        - collision_map (np array of size [board_size + 2, board_size + 2])
+        Parameter
+        ---------
+        collision_map : array 
+            size of the c
         '''
 
         location_column = self.column
