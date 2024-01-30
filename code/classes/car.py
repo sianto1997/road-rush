@@ -1,5 +1,3 @@
-import matplotlib.pyplot as plt
-
 class Car:
     def __init__(self, id, orientation, column, row, length):
         '''
