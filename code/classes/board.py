@@ -11,9 +11,9 @@ class Board:
 
     Attribute
     ---------
-    input_file: CSV
+    input_file : str
         The file with information about the board 
-    car_csv : 
+    car_csv :  CSV
         Parsed CSV of cars
     size : int
         The size of the board 
@@ -25,6 +25,9 @@ class Board:
         Stores the made moves 
     archive : set 
         A set with all the possible following states of the current state
+
+    collision_map : numpy.chararray
+        A map of where all cars and w
     ''' 
     def __init__(self, input_file : str, car_csv):
     

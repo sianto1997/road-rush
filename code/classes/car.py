@@ -43,7 +43,7 @@ class Car:
 
         Parameter
         ---------
-        collision_map : array 
+        collision_map : numpy.chararray 
             size of the c
         '''
 
@@ -60,12 +60,13 @@ class Car:
     
         return collision_map
 
-    def get_pos(self, opposite=False):
+    def get_pos(self, opposite = False):
         '''
         Get the position of the car based on the orientation of the car. For a horizontal car this is the column, for the vertical car this is row.
 
         Input:
-        - opposite (bool): Get the other coordinate (horizontal car -> row or vertical car -> column)
+        - opposite : bool
+            Get the other coordinate (horizontal car -> row or vertical car -> column) (default = False)
         '''
         if self.orientation == 'H' and not opposite or self.orientation == 'V' and opposite:
             return self.column

@@ -13,7 +13,7 @@ class Runner:
     '''
     This class runs an experiment
 
-    Parameters
+    Attributes
     ----------
 
 
