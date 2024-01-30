@@ -91,6 +91,7 @@ class BreadthFirst(Algorithm):
         
         Output
         ------
-        str : name of the algorithm
+        name : str
+            name of the algorithm
         '''
         return f'BreadthFirst_Archive{True}_VisitedStates{self.visited_states}'

@@ -87,4 +87,12 @@ class Greedy(Algorithm):
         
         
     def get_name(self):
+        '''
+        Get name of the algorithm to save CSV-file
+        
+        Output
+        ------
+        name : str
+            name of the algorithm
+        '''
         return 'Greedy' #+ 'variant'

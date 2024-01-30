@@ -99,11 +99,11 @@ class BranchAndBound(Algorithm):
 
     def get_name(self):
         '''
-        Returns the name of the algorithm
-
-        output
+        Get name of the algorithm to save CSV-file
+        
+        Output
         ------
-        str : 
-            Name of the used algoritm
+        name : str
+            name of the algorithm
         '''
         return 'BranchAndBound'

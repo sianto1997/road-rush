@@ -122,9 +122,10 @@ class GreedyDepthFirst(Algorithm):
     def get_name(self):
         '''
         Get name of the algorithm to save CSV-file
-
+        
         Output
         ------
-        str : name of the algorithm
+        name : str
+            name of the algorithm
         '''
         return f'GreedyDepthFirst_VisitedStates{self.visited_states}'

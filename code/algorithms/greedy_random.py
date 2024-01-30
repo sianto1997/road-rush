@@ -120,4 +120,12 @@ class GreedyRandom(Algorithm):
         
         
     def get_name(self):
-        return 'Greedy' #+ 'variant'
+        '''
+        Get name of the algorithm to save CSV-file
+        
+        Output
+        ------
+        name : str
+            name of the algorithm
+        '''
+        return 'GreedyRandom' #+ 'variant'
