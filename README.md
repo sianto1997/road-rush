@@ -35,4 +35,5 @@ This will output the top 5 solutions the Random algorithm has found. It will als
 ## Acknowledgments
 
 * StackOverflow
-* minor AI - UvA
+* Noa & Luka (TAs)
+* Minor AI - UvA

@@ -63,7 +63,8 @@ class Random(Algorithm):
         else:
             steps = random.randint(- self.move_method, self.move_method)
 
-        self.board.move(self.board.get_car(car_index), steps)
+        car = self.board.get_car_by_index(car_index)
+        self.board.move(car, steps)
 
         return self.board, self.board.solve()
 
