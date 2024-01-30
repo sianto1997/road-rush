@@ -27,7 +27,7 @@ class Board:
         A set with all the possible following states of the current state
 
     collision_map : numpy.chararray
-        A map of where all cars and w
+        A map of where all cars and walls are. It has size of (board_size + 2, board_size + 2)
     ''' 
     def __init__(self, input_file : str, car_csv):
     
