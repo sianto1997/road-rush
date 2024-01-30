@@ -6,11 +6,15 @@ from code.algorithms.algorithm import Algorithm
 class MoveMethod(Enum):
     '''
     The MoveMethods determine how far a car can move in one move.
-    
-    RandomAll can move between and including - board_size to and including + board_size
-    RandomOne can move - 1 or + 1
-    RandomTwo can move between and including - 2 or + 2
-    RandomThree can move between and including - 3 or + 3
+
+    - RandomAll 
+        Can move between and including - board_size to and including + board_size
+    - RandomOne 
+        Can move - 1 or + 1
+    - RandomTwo 
+        Can move between and including - 2 or + 2
+    - RandomThree 
+        Can move between and including - 3 or + 3
     '''
     RandomAll = 0
     RandomOne = 1
