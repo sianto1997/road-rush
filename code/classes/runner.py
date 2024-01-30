@@ -11,18 +11,28 @@ import pandas as pd
 class Runner:
     def __init__(self, max_moves, amount_of_experiments, input_file, output_directory, output_check50, visualize, draw_interval, algorithm_type, save_threshold, **kwargs):
         '''
-        Initializing runner.
+        Initializing runner
 
-        Input:
-        - max_moves (int): Cut-off at an amount of moves (after this the runner stops and starts next experiment if applicable)
-        - amount_of_experiments (int): The amount of experiments that the experiment runs at the maximum (after which it stops and saves the last result).
-        - input_file (str): The path of the input file (example: data/Rushhour6x6_1.csv)
-        - output_directory (str): The directory to save the output to
-        - output_check50 (bool): Save output as output.csv (used for check50 validation of file)
-        - visualize (bool): Whether to visualize the running experiment (using board_visualize)
-        - algorithm_type (Algorithm): The algorithm to be used by the runner (needs to be of type Algorithm)
-        - save_threshold (int): Save the output (csv) when the amount of moves is at or lower than this number
-        - **kwargs: Algorithm-specific keyword arguments
+        Attributes
+        ----------
+        max_moves : int
+            Cut-off at an amount of moves (after this the runner stops and starts next experiment if applicable)
+        amount_of_experiments : int 
+            The amount of experiments that the experiment runs at the maximum (after which it stops and saves the last result).
+        input_file : str 
+            The path of the input file (example: data/Rushhour6x6_1.csv)
+        output_directory : str
+            The directory to save the output to
+        output_check50 : bool
+            Save output as output.csv (used for check50 validation of file)
+        visualize : bool 
+            Whether to visualize the running experiment (using board_visualize)
+        algorithm_type : Algorithm
+            The algorithm to be used by the runner (needs to be of type Algorithm)
+        save_threshold : int
+            Save the output (csv) when the amount of moves is at or lower than this number
+        **kwargs : 
+            Algorithm-specific keyword arguments
         '''
         if max_moves == 0:
             self.max_moves = math.inf
@@ -40,7 +50,6 @@ class Runner:
         self.i = 0
         self.input_file = input_file
         
-        # reads the csv and turns it into a dataframe
         self.csv = pd.read_csv(input_file) 
         self.algorithm_type = algorithm_type
         self.save_threshold = save_threshold
@@ -49,7 +58,7 @@ class Runner:
 
     def run(self):
         '''
-        Start experiment defined by init.
+        Start experiment defined by init
         '''
         
         if self.visualize:
@@ -116,7 +125,7 @@ class Runner:
 
     def save_object(self):
         '''
-        Saving the current experiment of pickle. This saves the current state of Runner and the objects within the current instance. Called during an experiment.
+        Saving the current experiment of pickle. This saves the current state of Runner and the objects within the current instance. Called during an experiment
         '''
         backup = copy.deepcopy(self)
         with open(self.pickle_location, 'wb') as pickle_file:
@@ -124,7 +133,7 @@ class Runner:
 
     def clean_object(self):
         '''
-        Removing pickle of the experiment. Called at the end of the experiment.
+        Removing pickle of the experiment. Called at the end of the experiment
         '''
         if os.path.exists(self.pickle_location):
             os.remove(self.pickle_location) 
