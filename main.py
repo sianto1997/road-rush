@@ -17,14 +17,14 @@ def main(input, algorithm, amount_of_moves, output_directory, amount_of_experime
 
     Parameters
     ----------
-    input : string
+    input : str
         Filename of board
     amount_of_moves : int
         Amount of moves before cut_off of the experiment
     output_directory : str
         Which folder to save the moves to
-    move_method : int
-        Way to move (see MoveMethod)
+    move_method : int (MoveMethod)
+        Way to move (only applicable for Random algorithm)
     save_threshold : int
         Save solutions only when the moves are at or lower than this threshold
     output_check50 : bool
