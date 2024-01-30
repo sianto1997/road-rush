@@ -25,7 +25,6 @@ class Board:
         Stores the made moves 
     archive : set 
         A set with all the possible following states of the current state
-
     collision_map : numpy.chararray
         A map of where all cars and walls are. It has size of (board_size + 2, board_size + 2)
     ''' 
@@ -44,7 +43,6 @@ class Board:
         self.moves = []
         self.archive = set()
 
-    
     def record_move(self, car_id, step):
         '''
         Appends a tuple of made moves and id of a car to a list 
