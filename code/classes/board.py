@@ -3,19 +3,12 @@ from math import ceil, log
 import numpy as np
 import copy
 
-<<<<<<< HEAD
 from code.classes.car import Car 
 
 class Board:  
     '''
     Creates a board for the game Rush Hour
 
-=======
-class Board:  
-    '''
-    Creates a board for the game Rush Hour
-
->>>>>>> d9747fe79400525abc0cf791e39edb7c233556cd
     Attribute
     ---------
     input_file: CSV
