@@ -22,7 +22,7 @@ class BreadthFirst(Algorithm):
         '''
         Parameters
         ----------
-        board : obj
+        board : Board
             the initial state of a Rush Hour board
         '''
         self.board = copy.deepcopy(board)
