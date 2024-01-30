@@ -145,7 +145,7 @@ class Board:
         start_pos = car.get_pos()
         return (collision_map_slice, start_pos)
 
-    def move(self, car, steps, execute=True):
+    def move(self, car, steps, execute = True):
         '''
         Moves a car in steps direction
 
@@ -156,7 +156,7 @@ class Board:
         steps : int
           A number between -board_size and board_size
         execute : bool 
-            Execute the move (default: False)
+            Execute the move (default = False)
 
         Output
         ------
