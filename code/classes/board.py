@@ -209,7 +209,7 @@ class Board:
 
         Output
         ------
-        List of tuples : 
+        moves: list of tuples
             (car.id, steps)
         '''
         moves = []
@@ -245,7 +245,7 @@ class Board:
 
         Output
         ------
-        List of states :
+        states : list of Board
             Board-object with the executed move
         '''
         board_states = []
@@ -298,16 +298,24 @@ class Board:
 
         Paramters
         ---------
-        execute : bool, optional
-          Execute the solve
+        execute : bool
+            execute the solve (default = True)
         
         Output
         ------
-        boolean: Success
+        success : bool 
         '''
         return self.move(self.red_car, self.size - self.red_car.column - 1, execute=execute)
 
     def repr(self):
+        '''
+        This function uses a hash-function to represent a state. This is used for comparing states quickly to determine whether to examine a state
+
+        Output
+        ------
+        repr : int
+          A number (negative or positive)
+        '''
         return hash(str(self.collision_map))
     def __repr__(self):
         '''
