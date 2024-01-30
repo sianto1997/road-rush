@@ -64,8 +64,8 @@ class BreadthFirst(Algorithm):
         Output
         ------
         board : Board
-            Current state of Rush Hour board
-        boolean or None : 
+            current state of Rush Hour board
+        solved : bool or None
             - True : indicating a solution is found
             - False : indicating no solution is found yet
             - None: : no solution is found at all
@@ -91,6 +91,7 @@ class BreadthFirst(Algorithm):
         
         Output
         ------
-        str : name of the algorithm
+        name : str
+            name of the algorithm
         '''
         return f'BreadthFirst_Archive{True}_VisitedStates{self.visited_states}'

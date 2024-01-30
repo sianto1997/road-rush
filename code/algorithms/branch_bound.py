@@ -32,10 +32,10 @@ class BranchAndBound(Algorithm):
         self.best_solution = None
 
         # Taking the maximum depth as te optimal solution of Random
-        self.archive = defaultdict(lambda: 538)# float('inf'))
+        self.archive = defaultdict(lambda: float('inf'))
         
         self.visited_states = 0
-        self.depth = float('inf')
+        self.depth = 150 #float('inf')
 
     def get_next_state(self):
         '''
@@ -43,7 +43,9 @@ class BranchAndBound(Algorithm):
 
         Output
         ------
-        obj: a Board
+        board : Board
+            the next state in the states stack
+
         '''
         return self.states.pop()
 
@@ -97,11 +99,11 @@ class BranchAndBound(Algorithm):
 
     def get_name(self):
         '''
-        Returns the name of the algorithm
-
-        output
+        Get name of the algorithm to save CSV-file
+        
+        Output
         ------
-        str : 
-            Name of the used algoritm
+        name : str
+            name of the algorithm
         '''
         return 'BranchAndBound'

@@ -7,32 +7,73 @@ from code.algorithms.algorithm import Algorithm
 
 class GreedyRandom(Algorithm):
     '''
-    This is the greedy algorithm, written by Simon Antonides. It is a variant on the Greedy algorithm.
-
+    This is a variation on the greedy algorithm using more random components
     
-    Input:
-    - board (Board): The board used or the experiment.
-    - max_state_cache_size (int): The maximum of unavailable prior states to progress to. Default is 3.
-
+    Attributes
+    ----------
+    board : Board
+        the current state of the Rush Hour board
+    best_state : Board
+        the best state until now
+    best_score : int
+        the score of the best state until now
+    states : list of Board
+        a stack to store states you still need to look into
+    archive : set of int
+        keeps track of the states which are already visited
+    visited_states : int
+        amount of states the algorithm did look at to find a solution
+    state_cache : set of int
+        the last N states (N = max_state_cache_size) used for determining whether a state can be visited
+    max_state_cache_size : int
+        the maximum amount of states in the state cache
     '''
-    def __init__(self, board, max_state_cache_size=3):
+    def __init__(self, board, max_state_cache_size = 3):
+        '''
+        Parameters
+        ----------
+        board : Board
+            the initial state of a Rush Hour board
+        max_state_cache_size : int
+            the maximum of unavailable prior states to progress to (default = 3)
+        '''
         self.board = board
-        self.best_move = self.board
+        self.best_state = self.board
         self.best_score = self.board.calculate_value()
 
-        # The state cache is created to avoid ending in an infinite loop with the same states
-        self.max_state_cache_size = max_state_cache_size
-        self.archive = set(self.board.__repr__())
-        self.state_cache = list(self.board.__repr__())
         self.states = [copy.deepcopy(self.board)]
 
-        print(f'Start score = {self.best_score} {self.board.__repr__()}')
+        self.archive = set()
+        self.archive.add(self.board.repr())
+
+        self.visited_states = 0
+
+        # The state cache is created to avoid ending in an infinite loop with the same states
+        self.state_cache = set()
+        self.state_cache.add(self.board.repr())
+
+        self.max_state_cache_size = max_state_cache_size
         
     def run(self):
+        '''
+        Run the Greedy DepthFirst algorithm until all possible states are visited
+        
+        Output
+        ------
+        board : Board
+            current state of Rush Hour board
+        solved : bool or None
+            - True : indicating a solution is found
+            - False : indicating no solution is found yet
+            - None: : no solution is found at all
+        '''
         solvable = self.board.solve()
         if solvable:
             return self.board, solvable
+        
         moves = self.board.get_states()
+
+        # Start with current board as benchmark score
         best_score = self.board.calculate_value()
         best_moves = []
 
@@ -56,7 +97,6 @@ class GreedyRandom(Algorithm):
                 elif score == worst_score:
                     worst_moves.append(move)
         
-        # print(best_moves)
         if len(self.states) == 0 or (len(best_moves) == 0 and len(worst_moves) == 0):
             return self.board, False
             
@@ -69,16 +109,23 @@ class GreedyRandom(Algorithm):
             print(best_moves)
             random_move = random.randint(0, len(best_moves) - 1)
             self.board = best_moves[random_move]
-            # print('SM', self.board.calculate_value())
 
         if len(self.state_cache) >= self.max_state_cache_size:
             self.state_cache.pop()
 
-        self.state_cache.append(self.board.__repr__())
+        self.state_cache.add(self.board.repr())
         self.states.append(copy.deepcopy(self.board))
         print('Chosen board:', self.board.calculate_value(), self.board.__repr__(), self.board.get_amount_of_states())
         return self.board, False
         
         
     def get_name(self):
-        return 'Greedy' #+ 'variant'
+        '''
+        Get name of the algorithm to save CSV-file
+        
+        Output
+        ------
+        name : str
+            name of the algorithm
+        '''
+        return 'GreedyRandom' #+ 'variant'
