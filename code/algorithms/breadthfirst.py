@@ -41,9 +41,9 @@ class BreadthFirst(Algorithm):
         for state in possible_states:
 
             # use representation to make algorithm faster
-            if state.__repr__() not in self.archive:
+            if state.repr() not in self.archive:
                 self.states.append(state)
-                self.archive.add(state.__repr__())
+                self.archive.add(state.repr())
 
     def run(self):
         '''

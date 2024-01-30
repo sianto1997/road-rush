@@ -305,6 +305,8 @@ class Board:
         '''
         return self.move(self.red_car, self.size - self.red_car.column - 1, execute=execute)
 
+    def repr(self):
+        return hash(str(self.collision_map))
     def __repr__(self):
         '''
         This function uses a hash-function to represent a state. This is used for comparing states quickly to determine whether to examine a state.
@@ -312,7 +314,7 @@ class Board:
         - repr (str): A number (negative or positive) formatted as string.
         '''
         # print(str(self.collision_map))
-        return str(hash(str(self.collision_map)))
+        return str(self.repr())
     
     def calculate_value(self):
         '''
