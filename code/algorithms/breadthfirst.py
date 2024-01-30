@@ -13,10 +13,10 @@ class BreadthFirst(Algorithm):
     def __init__(self, board: Board):
         self.board = copy.deepcopy(board)
         
-        # using queue to store states you still need to look into
+        # Using queue to store states you still need to look into
         self.states = [copy.deepcopy(self.board)]
         
-        # keep track of the states which are already visited
+        # Keep track of the states which are already visited
         self.archive = set()
         
         self.visited_states = 0
@@ -42,7 +42,7 @@ class BreadthFirst(Algorithm):
 
             if state.__repr__() not in self.archive:
                 self.states.append(state)
-                self.archive.add(state.__repr__())
+                self.archive.add(state.repr())
 
     def run(self):
         '''
