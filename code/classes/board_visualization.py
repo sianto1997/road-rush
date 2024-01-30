@@ -7,13 +7,19 @@ class BoardVisualization():
 
     Attributes
     ----------
-    initialized : Boolean
-        Starts at False to make the figure, then is set to True so only one figures exists
+    initialized : bool
+        Starts at False to create the figure, then is set to True so only one figures exists
     draw_interval : float
         The default value for the draw_interval. See draw function for more info
     '''
 
-    def __init__(self, draw_interval):
+    def __init__(self, draw_interval = 0.01):
+        '''
+        Parameters
+        ----------
+        draw_interval : float
+            The interval set for time in between drawing (default = 0.01)
+        '''
         self.initialized = False
         self.draw_interval = draw_interval
 
@@ -33,20 +39,21 @@ class BoardVisualization():
         Parameter
         ---------
         - board : Board
-            The new board
+            The new board to draw
         '''
         self.board = board
 
         if not self.initialized:
             self.init_visualization()
 
-    def draw(self, draw_interval = 0):
+    def draw(self, draw_interval = 0.01):
         '''
         Draws the object board to the current state
     
-        Parameter
+        Parameters
+        ----------
         - draw_interval : float
-            A number between 0.0001 and 1000.0. shows a part of the simulation longer (default is 0)
+            A number between 0.0001 and 1000.0. shows a part of the simulation longer (default = 0.01)
         '''
         if not self.initialized:
             return
@@ -85,7 +92,7 @@ class BoardVisualization():
 
     def draw_car(self, car):
         '''
-        Creates a simple representation of a car on an existing canvas
+        Creates a simple representation of a car on the existing canvas
 
         Parameter
         ---------
