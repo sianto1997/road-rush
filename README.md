@@ -1,6 +1,6 @@
-# Mijn Project
+# Rush Hour
 
-Hier staat een korte beschrijving van het probleem evt. met plaatje.
+
 
 ## Getting Started
 
@@ -25,15 +25,13 @@ python main.py data/Rushhour6x6_1.csv --amount_of_experiments 1000
 ```
 This will output the top 5 solutions the Random algorithm has found. It will also save a summary
 
-
-
-## Auteurs (Authors)
+## Authors
 
 * Amber Korte
 * Esmée de Roo
 * Simon Antonides
 
-## Dankwoord (Acknowledgments)
+## Acknowledgments
 
 * StackOverflow
-* minor AI van de UvA
+* minor AI - UvA
