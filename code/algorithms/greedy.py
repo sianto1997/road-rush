@@ -8,8 +8,7 @@ from code.classes.score import Score
 
 class Greedy(Algorithm):
     '''
-    This is the greedy algorithm. It bases itself on version 2 of the Technical Description
-    
+    This is the Greedy algorithm. It bases itself on version 2 of the Technical Description
     '''
     def __init__(self, board, max_state_cache_size = 3):
         '''
@@ -42,7 +41,7 @@ class Greedy(Algorithm):
         print(f'Start score = {self.best_score} {self.board.repr()}')
         
     def run(self):
-        
+
         solvable = self.board.solve()
         if solvable:
             return self.board, solvable
@@ -103,6 +102,6 @@ class Greedy(Algorithm):
         Output
         ------
         name : str
-            name of the algorithm
+            Name of the algorithm
         '''
         return f'Greedy_VisitedStates{self.visited_states}'
