@@ -35,8 +35,6 @@ class Score:
         self.score_negative_component_amount_of_levels = score_negative_component_amount_of_levels
         self.score_negative_component_diff_amount_of_levels_maximum = self.score_negative_component_maximum_exponent - self.score_negative_component_amount_of_levels + 1
 
-
-    
     def calculate_value(self, board):
         '''
         Calculates current value of board according to Greedy scoring.
@@ -238,7 +236,8 @@ class Score:
         obstructed : Car
             Used for determining the orientation of the two cars for comparing the right positions
 
-        Output:
+        Output
+        ------ 
         can_be_cleared : boolean
           - True if it can be cleared
           - False if it cannot be cleared 
