@@ -235,18 +235,18 @@ class Board:
 
         return moves
 
-    def get_states(self, car=None):
+    def get_states(self, car = None):
         '''
         Get all possible states for the current state
 
         Parameters
         ----------
         car : Car
-          Show only the possible moves for this car
+            Show only the possible moves for this car (default = None)
 
         Output
         ------
-        List of states :
+        states : list of Board
             Board-object with the executed move
         '''
         board_states = []
