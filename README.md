@@ -71,7 +71,7 @@ Other possible arguments:
 
 - --amount_of_experiments : int
 
-    Amount of experiments to try (default=1)
+    Amount of experiments to try (default = 1)
 
 - --move_method : int
 
@@ -83,23 +83,24 @@ Other possible arguments:
 
 - --save_threshold : int
 
-    Save run of the experiment when amount of moves is at or below number. Input of 0 means save all. (default = 100)
+    Save run result (all moves) of the experiment when amount of moves is at or below number. Input of 0 means save all results. (default = 100)
 
 - --output_check50 : bool
 
     Save as output.csv (used for check50) (default = False)
 
-- --visualize" : bool
+- --visualize : bool
 
     Show visual board (default = False)
 
-- --resume" : bool
-
-    Resume previous experiment (default = False)
-
 - --draw_interval : float
 
-    Resume previous experiment (default = 0.01)
+    Draw interval for visual board (only used when visualize is True) (default = 0.01)
+    
+- --resume : bool
+
+    Resume previous (aborted with Ctrl+C) experiment using pickle (default = False) 
+
 
 
 

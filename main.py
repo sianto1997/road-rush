@@ -98,7 +98,7 @@ if __name__ == "__main__":
     parser.add_argument("--output_check50", help = "Save as output.csv (used for check50)", required=False, type=bool, default=False)
     parser.add_argument("--visualize", help = "Show visual board", required=False, type=bool, default=False)
     parser.add_argument("--resume", help = "Resume previous experiment", required=False, type=bool, default=False)
-    parser.add_argument("--draw_interval", help = "Resume previous experiment", required=False, type=float, default=0.01)
+    parser.add_argument("--draw_interval", help = "Draw interval for visual board (only used when visualize is True)", required=False, type=float, default=0.01)
 
     # Read arguments from command line 
     args = parser.parse_args()
