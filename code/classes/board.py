@@ -5,47 +5,58 @@ from math import ceil, log
 import numpy as np
 import copy
 
-class Board:   
+class Board:  
+      '''
+        Creates a board for the game Rush Hour
+
+        Attribute
+        ---------
+        input_file: CSV
+            The file with information about the board 
+        car_csv : 
+            Parsed CSV of cars
+        size : int
+            The size of the board 
+        exit_row: int
+            Indicates where an opening should be in the board for the red car to leave
+        cars : dict
+            A dict with all the cars that need to be placed on the board 
+        moves : list
+            Stores the made moves 
+        archive : set 
+            A set with all the possible following states of the current state
+        
+        score_positive_component_exponent_base : int
+            The base of the exponent used in positive component of score (Default is 2) 
+        score_positive_component_maximum_exponent : int
+            The maximum exponent of 2 for the score of the positive component (default is 8, which translates to 256 as max value)
+        score_positive_component_minimum_exponent : int
+          The minimum exponent of 2 for the score to no longer calculate as part of the positive component (default is 5, which translated to 32 as min value)
+        score_positive_component_calculate_possible_position : bool
+          Count the potential position of the red car in the positive component of the score (Default True)
+        
+        score_negative_component_red_car_only_first : bool
+          Look only at the first obstruction for determining negative component (Default True)
+        score_negative_component_exponent_base : int 
+            The base of the exponent used in negative component of score (Default is 2)
+        score_negative_component_maximum_exponent : int
+          The maximum exponent of 2 for the score of the negative component (default is 4, which translates to 16 as max value)
+        score_negative_component_amount_of_levels : int
+          The amount of levels deep to explore obstructions as part of the negative component, the score halves each level (Default is 3)
+        ''' 
     def __init__(self, input_file, car_csv, score_positive_component_exponent_base = 2, score_positive_component_maximum_exponent = 8, score_positive_component_minimum_exponent = 5, score_positive_component_calculate_possible_position = True, score_negative_component_red_car_only_first = False, score_negative_component_exponent_base = 2, score_negative_component_maximum_exponent = 4, score_negative_component_amount_of_levels = 4):
-        '''
-        Creates a board for the game Rush Hour.
-
-        Input:
-        - input_file = CSV, the file with information about the board 
-        - car_csv = parsed CSV of cars
-
-        - score_positive_component_exponent_base (int): The base of the exponent used in positive component of score. Default is 2. 
-        - score_positive_component_maximum_exponent (int): The maximum exponent of 2 (score_positive_component_exponent_base) for the score of the positive component (default is 8, which translates to 256 as max value).
-        - score_positive_component_minimum_exponent (int): The minimum exponent of 2 (score_positive_component_exponent_base) for the score to no longer calculate as part of the positive component (default is 5, which translated to 32 as min value)
-        - score_positive_component_calculate_possible_position (bool): Count the potential position of the red car in the positive component of the score. Default True.
-        
-        - score_negative_component_red_car_only_first (bool): Look only at the first obstruction for determining negative component. Default True.
-        - score_negative_component_exponent_base (int): The base of the exponent used in negative component of score. Default is 2.
-        - score_negative_component_maximum_exponent (int): The maximum exponent of 2 (score_positive_component_exponent_base) for the score of the negative component (default is 4, which translates to 16 as max value). 
-        - score_negative_component_amount_of_levels (int): The amount of levels deep to explore obstructions as part of the negative component (the score halves each level). Default is 3.
-        '''
-
-        # get position of 'hour' in title of input file
+    
         start = input_file.find('hour') + len('hour')
-        
-        # get position of 'x' in title of input file, starting from position 'hour'
         end = input_file.find('x', start)
-        
-        # extract substring between 'hour' and 'x', convert to  integer and remove whitespaces
-        self.size = int(input_file[start:end].strip())
 
-        # devides the self.size by 2, if answer is float then number is rounded upwards 
+        self.size = int(input_file[start:end].strip())
         self.exit_row = ceil(self.size / 2)
         self.cars = {}
-        self.red_car = None
-
-        self.init_empty_collision_map()
+        self.moves = []
+        self.archive = set()
 
         self.init_cars(car_csv)
-
-        self.moves = []
-
-        self.archive = set()
+        self.init_empty_collision_map()
 
         self.score_positive_component_exponent_base = score_positive_component_exponent_base
         self.score_positive_component_maximum_exponent = score_positive_component_maximum_exponent
@@ -63,9 +74,12 @@ class Board:
         '''
         Appends a tuple of made moves and id of a car to a list 
 
-        Input:
-        - car_id = str, the id of the object car 
-        - step = int, the move the car makes on the board 
+        Parameters
+        ----------
+        car_id = str
+            The id of the object car 
+        step = int
+            The move the car makes on the board 
         '''
         self.moves.append((car_id,step))
 
@@ -73,8 +87,10 @@ class Board:
         '''
         Exports the made moves to a csv file 
 
-        Input:
-        - output_filename = str, the name + place where the file is being saved 
+        Parameters
+        ----------
+        output_filename : str 
+            the name + place where the file is being saved 
         '''
         df = pd.DataFrame(self.moves, columns=['car', 'move']) 
         
@@ -82,51 +98,49 @@ class Board:
 
     def get_amount_of_moves(self):
         '''
-        Gets the amount of moves the current board state has made to arrive at the current state.
+        Gets the amount of moves the current board state has made to arrive at the current state
 
-        Output:
-        - amount_of_moves (int)
+        Output
+        ------
+        amount_of_moves : int
         '''
         return len(self.moves)
 
     def get_amount_of_states(self):
         '''
-        Gets the amount of states the current board state has made to arrive at the current state. It uses the self.archive to determine this.
+        Gets the amount of states the current board has made to arrive at the current state. It uses the self.archive to determine this
 
-        Output:
-        - amount_of_states (int)
+        Output
+        ------
+        amount_of_states : int
         '''
         return len(self.archive)
     
     def init_cars(self, csv):
         '''
-        Initializes all cars. This adds them to the board object in self.cars and to self.collision_map.
+        Initializes all cars. This adds them to the board object in self.cars and to self.collision_map
     
-        Input:
-        csv = Dataframe, parsed CSV of cars in board
+        Parameters
+        ----------
+        csv : Dataframe
+            Parsed CSV of cars in board
         '''
-        # Loops over the index and rows of the given dataframe 
         for index, row in csv.iterrows():
-
-            # Creates the car object with the information of the dataframe
             car = Car(row.car, row.orientation, row.col, row.row, row.length)
-    
-            # Appends the object car to the list self.cars 
             self.cars[row.car] = car
-
-             # Loop through all cars and get their position
             self.collision_map = car.update_collision_map(self.collision_map)
 
-            # Saving the red car to later check for solve
             if row.car == 'X':
                 self.red_car = car
 
     def get_car(self, number_or_id):
         '''
-        This function retrieves the car by number or by character(s). Returns None if the car can not be found.
+        This function retrieves the car by number or by character(s). Returns None if the car can not be found
 
-        Input:
-        - number_or_id (int or str): A number as index (from 0 to length of list of self.cars) OR a char (for example 'X' or 'A')
+        Parameters
+        ----------
+        number_or_id : int or str
+            A number as index (from 0 to length of list of self.cars) OR a char (for example 'X' or 'A')
         '''
         if isinstance(number_or_id, int) and len(list(self.cars.keys())) < number_or_id:
             return self.cars[list(self.cars.keys())[number_or_id]]
@@ -137,21 +151,24 @@ class Board:
 
     def get_collision_map_slice_and_start_pos(self, car):
         '''
-        Retrieves the collision map slice upon which a car resides.
+        Retrieves the collision map slice upon which a car resides
 
-        Input:
-        - car (Car): The car of which the 
+        Parameters
+        ----------
+        car : Car 
+            Used to make the slice
 
-        Output:
-        - collision_map_slice (np.chararray): The slice of self.collision_map on which the car resides.
-        - start_pos (int): The position of the current car
+        Output
+        ------
+        collision_map_slice : np.chararray 
+            The slice of self.collision_map on which the car resides
+        start_pos : int
+            The position of the current car
         '''
         if car.orientation == 'H':
             collision_map_slice = self.collision_map[car.row]
-            # start_pos = car.column
         else:
             collision_map_slice = self.collision_map[:,car.column]
-            # start_pos = car.row
 
         start_pos = car.get_pos()
         return (collision_map_slice, start_pos)
@@ -160,12 +177,20 @@ class Board:
         '''
         Moves a car in steps direction
 
-        Input:
-        - car (Car): The car that gets moved
-        - steps (int): A number between -board_size and board_size
-        - execute (bool): Execute the move (default: False)
-        Output:
-        - success (True or False)
+        Parameters
+        ----------
+        car : Car
+          The car that gets moved
+        steps : int
+          A number between -board_size and board_size
+        execute : bool 
+            Execute the move (default: False)
+
+        Output
+        ------
+        success : boolean
+            - True if move is made succesfully 
+            - False if move is not possible
         '''
         if steps == 0:
             return False
@@ -183,9 +208,6 @@ class Board:
 
         replace_slice = collision_map_slice[start_pos:end_pos]
         replacable_tf = replace_slice != b''
-        # if not execute:
-        #     print(car.id, car.orientation, car.column, car.row, steps, start_pos, end_pos)
-        #     print(collision_map_slice, replace_slice, replacable_tf)
 
         if replacable_tf.sum() == car.length and replace_slice.shape[0] != car.length:
             if execute:
@@ -197,9 +219,7 @@ class Board:
                 else:
                     self.collision_map[:,car.column][start_pos:end_pos]  = replace_slice
                     car.row += steps
-                
-                # print(f'Move of car {car.id} ({car.orientation}) successful: {steps}')
-                # self.draw()
+        
                 self.archive.add(self.__repr__())
                 self.record_move(car.id, steps)
 
@@ -209,13 +229,17 @@ class Board:
 
     def get_moves(self, car=None):
         '''
-        Get all possible moves for the current state. Outputs as tuples.
+        Get all possible moves for the current state
 
-        Input:
-        - car (Car): Show only the possible moves for this car
+        Parameters
+        ----------
+        car : Car
+            Show only the possible moves for this car (default = None)
 
-        Output:
-        - List of tuples (car.id, steps)
+        Output
+        ------
+        List of tuples : 
+            (car.id, steps)
         '''
         moves = []
         if car == None:
@@ -241,13 +265,17 @@ class Board:
 
     def get_states(self, car=None):
         '''
-        Get all possible states for the current state. It outputs as states.
+        Get all possible states for the current state
 
-        Input:
-        - car (Car): Show only the possible moves for this car.
+        Parameters
+        ----------
+        car : Car
+          Show only the possible moves for this car
 
-        Output:
-        - List of states (Board-object with the executed move)
+        Output
+        ------
+        List of states :
+            Board-object with the executed move
         '''
         board_states = []
 
@@ -297,11 +325,14 @@ class Board:
         '''
         Looks if the board is solvable
 
-        Input:
-        - execute (bool, optional): Execute the solve
+        Paramters
+        ---------
+        execute : bool, optional
+          Execute the solve
         
-        Output:
-        - bool: Success
+        Output
+        ------
+        boolean: Success
         '''
         return self.move(self.red_car, self.size - self.red_car.column - 1, execute=execute)
 
@@ -309,48 +340,49 @@ class Board:
         return hash(str(self.collision_map))
     def __repr__(self):
         '''
-        This function uses a hash-function to represent a state. This is used for comparing states quickly to determine whether to examine a state.
-        Output:
-        - repr (str): A number (negative or positive) formatted as string.
+        This function uses a hash-function to represent a state. This is used for comparing states quickly to determine whether to examine a state
+
+        Output
+        ------
+        repr : str
+          A number (negative or positive) formatted as string
         '''
-        # print(str(self.collision_map))
         return str(self.repr())
     
     def calculate_value(self):
         '''
         Calculates current value of board according to Greedy scoring.
 
-        Output:
-        - score (int): A negative or positive number of the score of the current board.
+        Output
+        ------
+        score : int
+          A negative or positive number of the score of the current board
         '''
         positive_score = self.calculate_positive_component_of_score()
-        # print('Positive component', positive_score)
 
         negative_score = self.calculate_negative_component_of_score()
-        # print('Negative component', negative_score)
 
         score = positive_score + negative_score
 
-        # print('Total score', score)
         return score
     
     def calculate_positive_component_of_score(self):
         '''
         This function calculates the positive component of the score.
 
-        Output:
-        - score (int): A number between 0 and 256 (solved board). The best score of without a solved board is 128.
+        Output
+        ------
+        score : int
+          A number between 0 and 256 (solved board). The best score without a solved board is 128
         '''
         score = 0
-        # Positive component
+
         max_pos = self.size - 1
 
         highest_possible_pos = self.red_car.get_pos()
         
         if self.score_positive_component_calculate_possible_position:
-            # print('ps')
             possible_moves = self.get_states(self.red_car)
-            # print(len(possible_moves))
             for move in possible_moves:
                 red_car_pos = move.red_car.get_pos()
                 if red_car_pos > highest_possible_pos:
@@ -365,13 +397,12 @@ class Board:
     
     def calculate_negative_component_of_score(self):
         '''
-        This function is used to calculate the negative component of the score. Forr
-        
-        It uses the recursive function to examine childs of obstructions.
+        This function is used to calculate the negative component of the score
         '''
         score = 0
 
         obstructors = []
+
         # All results of the red car (only looks forward for the red car)
         if self.score_negative_component_red_car_only_first:
             obstructors_of_red_car = self.obstructed_by(self.red_car, True, False)
@@ -388,42 +419,41 @@ class Board:
 
     def calculate_negative_component_of_score_recursive(self, levels_to_go, obstructor, position_to_clear, obstructed, passed_obstructions):
         '''
-        The recursive function helping calculate the negative component of the score.
+        The recursive function helping calculate the negative component of the score
 
-        
-        Output:
-        - levels_to_go (int): Lowers every step, stops when the level reaches 0.
-        - current_obstruction (Car): The car obstructing the previous car.
-        - position_to_clear (int): The position we want cleared.
-        - source_of_obstruction
+        Parameters
+        ------
+        levels_to_go : int
+          Lowers every step, stops when the level reaches 0.
+        current_obstruction : Car
+          The car obstructing the previous car.
+        position_to_clear : int
+          The position we want cleared
+        source_of_obstruction
         - passed_obstructions (list of str): The list of cars (identified by car.id) already passed (checked to avoid double counting the scores).
-
         '''
         score = 0
-        if levels_to_go >= 0:
-            # If an ostruction can be cleared (car can be moved out of the way) than the result is multiplied by -1 to result in a positive add. If not, the result will be multiplied by 1, which results in a negative add.
+        if levels_to_go >= 0: 
             clearance_multiplier = 1
             can_be_cleared = self.obstruction_can_be_cleared(obstructor, position_to_clear, obstructed)
-            if not can_be_cleared:# or levels_to_go == self.score_negative_component_amount_of_levels - 1:
+
+            if not can_be_cleared:
                 clearance_multiplier = -1
                 add_to_current =  (self.score_negative_component_exponent_base ** (levels_to_go + self.score_negative_component_diff_amount_of_levels_maximum) * clearance_multiplier)
             else:
                 add_to_current =  (self.score_negative_component_exponent_base ** (self.score_negative_component_amount_of_levels - levels_to_go) * clearance_multiplier)
-            # print(f'Obstructor {obstructor.id} {add_to_current} LTG: {levels_to_go}')
+            
             score += add_to_current
             
             if levels_to_go <= self.score_negative_component_amount_of_levels and levels_to_go > 0 and not can_be_cleared:
                 obstructions = []
 
                 forward = self.obstructed_by(obstructor, True, self.score_negative_component_red_car_only_first)
-
                 obstructed = True
+
                 if forward != None:
                     obstructions.append(forward[0])
-                # elif self.obstructed_by_wall(obstructor, True):
-                # elif position_to_clear <= obstructor.get_pos() + obstructor.length - 1:
-                #     obstructed = False
-
+        
                 backward = self.obstructed_by(obstructor, False, self.score_negative_component_red_car_only_first)
 
                 if backward != None:
@@ -433,56 +463,56 @@ class Board:
                     child_scores = []
                     while len(obstructions) > 0:
                         (obstruction, position_to_clear) = obstructions.pop()
+
                         if obstruction.id not in passed_obstructions:
                             passed_obstructions.add(obstruction.id)
                             child_scores.append(self.calculate_negative_component_of_score_recursive(levels_to_go - 1, obstruction, position_to_clear, obstructor, passed_obstructions))
+                    
                     if len(child_scores) > 0:
                         if max(child_scores) > 0:
-                            # print('negated')
                             score += max(child_scores)
                         else:
-                            # print('summarized')
                             score += sum(child_scores)
-                        # print(score)
+
                 else:
-                    # If 
                     score += self.score_negative_component_exponent_base ** ((levels_to_go - 1) + self.score_negative_component_diff_amount_of_levels_maximum)
-                
-        # print(f'{obstructed.id} LTG: {levels_to_go} S: {score}')
+            
         return score
 
     def obstructed_by(self, car, forwards=True, only_first=True):
         '''
-        This function figures out what blocks the car in the direction forwards (or backwards) and returns the car(s) that are obstruction it.
-        If there are no obstructions (only a wall) than the function returns None.
+        This function figures out what blocks the car in the direction forwards (or backwards) and returns the car(s) that are obstruction it
+        If there are no obstructions (only a wall) than the function returns None
 
-        Input:
-        - car (Car): The car that has or does not have obstructions.
-        - forwards (bool): Look forwards. Default is True.
-        - only_first (bool): Only return first obstruction (used by calculate_negative_component_of_score_recursive). For the red_car all obstructions are returned. Default is True.
+        Parameters
+        ----------
+        car : Car
+            The car that has or does not have obstructions
+        forwards : bool
+          Look forwards (Default is True)
+        only_first : bool
+          Only return first obstruction. For the red_car all obstructions are returned (Default is True)
         
-        Output:
-        - cars (Car): A list of 1 or more cars (dependant on only_first being True or False)
-
+        Output
+        ------
+        cars : Car
+          A list of 1 or more cars , dependant on only_first being True or False
         '''
         (collision_map_slice, start_pos) = self.get_collision_map_slice_and_start_pos(car)
-        # print(collision_map_slice)
+    
         obstructed = False
         step_size = - 1
         
         i = start_pos - 1
         
-
-        # For forwards, adjust starting pos and step_size
         if forwards:
             step_size = 1
             i += car.length + 1
-        # print(car.id, i, 'FF', forwards, step_size)
+    
         results = []
 
         while not obstructed:
             possible_obstruction = collision_map_slice[i].decode()
-            # print(i, possible_obstruction)
 
             if possible_obstruction == '-':
                 obstructed = True
@@ -502,14 +532,21 @@ class Board:
   
     def obstruction_can_be_cleared(self, obstructor, position_to_clear, obstructed):
         '''
-        Checks whether an obstruction can be cleared by the car in question.
+        Checks whether an obstruction can be cleared by the car in question
 
-        Input:
-        - obstructor (Car): The car that we want to know if it can unblock the position_to_clear.
-        - position_to_clear (int): A position that we want to know we can clear.
-        - obstructed (Car): Used for determining the orientation of the two cars for comparing the right positions.
+        Parameters
+        ----------
+        obstructor : Car
+            The car we need, to know if it can unblock the position_to_clear
+        position_to_clear : int
+          A position that we want to clear
+        obstructed : Car
+          Used for determining the orientation of the two cars for comparing the right positions
+
         Output:
-        - can_be_cleared (bool): True if it is possible, False if it is not.
+        can_be_cleared : boolean
+          - True if it can be cleared
+          - False if it cannot be cleared 
         '''
 
         if obstructor.orientation != obstructed.orientation:
