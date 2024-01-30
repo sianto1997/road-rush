@@ -2,7 +2,7 @@ class Score:
     '''
     Creates a score for the board
 
-    Attribute
+    Attributes
     ---------    
     score_positive_component_exponent_base : int
         The base of the exponent used in positive component of score (default = 2) 
