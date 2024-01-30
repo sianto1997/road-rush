@@ -31,6 +31,7 @@ class GreedyDepthFirst(Algorithm):
         board : Board
             the initial state of the board.
         '''
+        self.score = Score()
 
         self.board = copy.deepcopy(board)
         
@@ -65,7 +66,7 @@ class GreedyDepthFirst(Algorithm):
         Get possible states from current board state and add to stack if state is not visited before.
         '''
         # Check if board is as good as best score of the current depth
-        if self.board.calculate_value() == self.best_score[len(self.board.archive) - 1]:
+        if self.score.calculate_value(self.board) == self.best_score[len(self.board.archive) - 1]:
             possible_states = self.board.get_states()
             scores = []
             archive = set()
@@ -76,7 +77,7 @@ class GreedyDepthFirst(Algorithm):
                 if state.repr() not in self.archive:
                     states.append(state)
                     archive.add(state.repr())
-                    scores.append(state.calculate_value())
+                    scores.append(self.score.calculate_value(state))
 
             score = - math.inf
 
@@ -110,7 +111,7 @@ class GreedyDepthFirst(Algorithm):
             
             # Bet next state through dequeue
             self.board = self.get_next_state()
-            board_score = self.board.calculate_value()
+            board_score = self.score.calculate_value(self.board)
             self.visited_states += 1
 
             if board_score >= self.best_score[len(self.board.archive) - 1] or board_score >= self.level_score[len(self.board.archive) - 1]: #(sum(self.best_score) / len(self.best_score)) * 5:
