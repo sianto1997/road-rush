@@ -16,11 +16,13 @@ class Greedy(Algorithm):
         self.best_score = self.board.calculate_value()
         # The state cache is created to avoid ending in an infinite loop with the same states
         self.max_state_cache_size = max_state_cache_size
-        self.archive = set(self.board.__repr__())
-        self.state_cache = list(self.board.__repr__())
+        self.archive = set()
+        self.archive.add(self.board.repr())
+        self.state_cache = list()
+        self.state_cache.append(self.board.repr())
         self.states = [copy.deepcopy(self.board)]
 
-        print(f'Start score = {self.best_score} {self.board.__repr__()}')
+        print(f'Start score = {self.best_score} {self.board.repr()}')
         
     def run(self):
         solvable = self.board.solve()
@@ -41,7 +43,7 @@ class Greedy(Algorithm):
             # print(move.collision_map)
             if move.__repr__() not in self.state_cache:
                 score = move.calculate_value()
-                print(f'Level {len(self.states)} node: {score}')
+                # print(f'Level {len(self.states)} node: {score}')
                 
                 if score > best_score:
                     best_moves = [move]
@@ -60,17 +62,17 @@ class Greedy(Algorithm):
             return self.board, False
             
         elif len(best_moves) == 0 and len(worst_moves) != 0:
-            print(best_moves)
-            print(worst_moves)
+            # print(best_moves)
+            # print(worst_moves)
             best_moves = worst_moves
-            print('hi')
+            # print('hi')
             # self.board = self.states.pop()
             # return self.board, False
         
         if len(best_moves) == 1:
             self.board = best_moves[0]
         else:
-            print(best_moves)
+            # print(best_moves)
             random_move = random.randint(0, len(best_moves) - 1)
             self.board = best_moves[random_move]
             # print('SM', self.board.calculate_value())
@@ -78,9 +80,9 @@ class Greedy(Algorithm):
         if len(self.state_cache) >= self.max_state_cache_size:
             self.state_cache.pop()
 
-        self.state_cache.append(self.board.__repr__())
+        self.state_cache.append(self.board.repr())
         self.states.append(copy.deepcopy(self.board))
-        print('Chosen board:', self.board.calculate_value(), self.board.__repr__(), self.board.get_amount_of_states())
+        # print('Chosen board:', self.board.calculate_value(), self.board.repr(), self.board.get_amount_of_states())
         return self.board, False
         
         
