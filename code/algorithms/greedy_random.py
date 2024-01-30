@@ -62,7 +62,7 @@ class GreedyRandom(Algorithm):
         ------
         board : Board
             current state of Rush Hour board
-        boolean or None : 
+        solved : bool or None
             - True : indicating a solution is found
             - False : indicating no solution is found yet
             - None: : no solution is found at all
@@ -70,7 +70,10 @@ class GreedyRandom(Algorithm):
         solvable = self.board.solve()
         if solvable:
             return self.board, solvable
+        
         moves = self.board.get_states()
+
+        # Start with current board as benchmark score
         best_score = self.board.calculate_value()
         best_moves = []
 

@@ -65,7 +65,7 @@ class BreadthFirst(Algorithm):
         ------
         board : Board
             current state of Rush Hour board
-        boolean or None : 
+        solved : bool or None
             - True : indicating a solution is found
             - False : indicating no solution is found yet
             - None: : no solution is found at all

@@ -43,7 +43,9 @@ class BranchAndBound(Algorithm):
 
         Output
         ------
-        obj: a Board
+        board : Board
+            the next state in the states stack
+
         '''
         return self.states.pop()
 
