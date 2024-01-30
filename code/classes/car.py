@@ -36,8 +36,8 @@ class Car:
         '''
         Update the collision map to include the current car. (add 1's)
 
-        Parameter
-        ---------
+        Parameters
+        ----------
         collision_map : numpy.chararray 
             size of the c
         '''
@@ -59,7 +59,8 @@ class Car:
         '''
         Get the position of the car based on the orientation of the car. For a horizontal car this is the column, for the vertical car this is row.
 
-        Input:
+        Parameters
+        ----------
         - opposite : bool
             Get the other coordinate (horizontal car -> row or vertical car -> column) (default = False)
         '''
