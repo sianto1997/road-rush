@@ -16,7 +16,6 @@ class Car:
         length : int
             Length of car (2 or 3)
         '''
-
         self.id = id
         self.orientation = orientation
         self.column = column 
@@ -25,12 +24,8 @@ class Car:
 
         self.colours = ['blue', 'orange', 'green', 'purple', 'brown', 'pink', 'olive', 'cyan','yellow','gold', 'violet', 'plum', 'slateblue', 'navy', 'orchid', 'plum']
         
-        # Checks if car.id is 'X', if true car.colour is set to 'red'
         if self.id == 'X':
             colour = 'red'
-        
-        # If car.id is not 'X', car.colour is set to a colour out of the self.colours list in order. Cars adjesent to eachother will have a 
-        # Smaller change of getting the same colour  
         else: 
             index = ord(self.id[-1]) % len(self.colours) 
             colour = self.colours[index]
