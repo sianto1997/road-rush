@@ -4,6 +4,7 @@ import math
 import copy
 
 from code.algorithms.algorithm import Algorithm
+from code.classes.score import Score
 
 class GreedyRandom(Algorithm):
     '''
@@ -37,6 +38,7 @@ class GreedyRandom(Algorithm):
         max_state_cache_size : int
             the maximum of unavailable prior states to progress to (default = 3)
         '''
+        self.score = Score()
         self.board = board
         self.best_state = self.board
         self.best_score = self.board.calculate_value()
@@ -53,10 +55,11 @@ class GreedyRandom(Algorithm):
         self.state_cache.add(self.board.repr())
 
         self.max_state_cache_size = max_state_cache_size
+
         
     def run(self):
         '''
-        Run the Greedy DepthFirst algorithm until all possible states are visited
+        Run one iteration of Greedy Random algorithm
         
         Output
         ------
@@ -74,7 +77,7 @@ class GreedyRandom(Algorithm):
         moves = self.board.get_states()
 
         # Start with current board as benchmark score
-        best_score = self.board.calculate_value()
+        best_score = self.score.calculate_value(self.board)
         best_moves = []
 
         worst_score = 0
@@ -82,7 +85,7 @@ class GreedyRandom(Algorithm):
 
         for move in moves:
             if move.__repr__() not in self.state_cache:
-                score = move.calculate_value()
+                score = self.score.calculate_value(move)
                 print(f'Level {len(self.states)} node: {score}')
                 
                 if score > best_score:
@@ -115,7 +118,7 @@ class GreedyRandom(Algorithm):
 
         self.state_cache.add(self.board.repr())
         self.states.append(copy.deepcopy(self.board))
-        print('Chosen board:', self.board.calculate_value(), self.board.__repr__(), self.board.get_amount_of_states())
+        print('Chosen board:', self.score.calculate_value(self.board), self.board.__repr__(), self.board.get_amount_of_states())
         return self.board, False
         
         
@@ -128,4 +131,4 @@ class GreedyRandom(Algorithm):
         name : str
             name of the algorithm
         '''
-        return 'GreedyRandom' #+ 'variant'
+        return f'GreedyRandom_VisitedStates{self.visited_states}'
