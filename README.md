@@ -28,25 +28,49 @@ This will output the top 5 solutions the Random algorithm has found. It will als
 
 Other possible arguments: 
 - --algorithm : str
+
     The algorithm to use for the experiment
-"--amount_of_moves" : int
-    Amount of moves to try (0 is unlimited)"(default=0)
-"--output_directory" : 
+
+- --amount_of_moves : int
+
+    Amount of moves to try (0 is unlimited) (default=0)
+
+- --output_directory : str
+
     Output directory (default = "output")
-"--amount_of_experiments" : int
+
+- --amount_of_experiments : int
+
     Amount of experiments to try (default=1)
-"--move_method" : int
-    Move method (0 = RandomAll, 1 = RandomOne, 2 = RandomTwo), default is RandomAll" default=-1)
-"--save_threshold" : int
-    Save run of the experiment when amount of moves is at or below number (default=100). Input of 0 means save all."
-"--output_check50" : bool
-    Save as output.csv (used for check50) (default=False)
-"--visualize" : bool
-    Show visual board (default=False)
-"--resume" : bool
-    Resume previous experiment (default=False)
-"--draw_interval" : float
-    Resume previous experiment (default=0.01)
+
+- --move_method : int
+
+    MoveMethod (only applicable for Random algorithm) (default = 0)
+    -- 0 = RandomAll
+    -- 1 = RandomOne
+    -- 2 = RandomTwo
+    -- 3 = RandomThree
+
+- --save_threshold : int
+
+    Save run of the experiment when amount of moves is at or below number. Input of 0 means save all. (default = 100)
+
+- --output_check50 : bool
+
+    Save as output.csv (used for check50) (default = False)
+
+- --visualize" : bool
+
+    Show visual board (default = False)
+
+- --resume" : bool
+
+    Resume previous experiment (default = False)
+
+- --draw_interval : float
+
+    Resume previous experiment (default = 0.01)
+
 
 
 
