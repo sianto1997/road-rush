@@ -2,7 +2,7 @@ import argparse
 import pickle
 
 from code.classes.runner import Runner
-from code.algorithms.random import Random, MoveMethods
+from code.algorithms.random import Random, MoveMethod
 from code.algorithms.greedy import Greedy
 from code.algorithms.breadthfirst import BreadthFirst
 from code.algorithms.branch_bound import BranchAndBound
