@@ -5,12 +5,26 @@ import copy
 
 class GreedyDepthFirst(Algorithm):
     '''
-    Initialize Greedy DepthFirst algorithm with deep copy of initial board state.
+    The Greedy DepthFirst algorithm is a variant of the Greedy Algorithm. It uses Depth First based on the board scoring
 
-    Input:
-    - board (Board): The initial state of Rush Hour board.
+    Attributes
+    ----------
+    board : Board
+        the current state of the Rush Hour board
+    states : list of Board
+        a stack to store states you still need to look into
+    archive : set of str
+        keeps track of the states which are already visited
+    visited_states : int
+        amount of states the algorithm did look at to find a solution
     '''
     def __init__(self, board: Board):
+        '''
+        Parameters
+        ----------
+        board : Board
+            the initial state of the board.
+        '''
 
         self.board = copy.deepcopy(board)
         
@@ -26,10 +40,12 @@ class GreedyDepthFirst(Algorithm):
     
     def get_next_state(self):
         '''
-        Get next state through a destack operation on the list of states.
+        Get next state through a unstack operation on the list of states
         
-        Output:
-        - The next state of the board.
+        Output
+        ------
+        board : Board
+            the next state of the board
         '''
         new_state = self.states.pop()
         if len(new_state.archive) > len(self.best_score):
@@ -37,25 +53,26 @@ class GreedyDepthFirst(Algorithm):
 
         return new_state
 
-    def build_children(self):
+    def possible_states(self):
         '''
-        Get possible states from current board state and add to list if state is not visited before.
+        Get possible states from current board state and add to stack if state is not visited before.
         '''
-        # len(self.archive) < 200 or 
+        # Check if board is as good as best score of the current depth
         if self.board.calculate_value() == self.best_score[len(self.board.archive) - 1]:
-            # get possible states from current board state
             possible_states = self.board.get_states()
             scores = []
             archive = set()
             states = []
-            for state in possible_states:
 
+            for state in possible_states:
                 # Use representation to make algorithm faster
                 if state.repr() not in self.archive:
                     states.append(state)
                     archive.add(state.repr())
                     scores.append(state.calculate_value())
+
             score = - math.inf
+
             if len(scores) > 0:
                 score = sum(scores) / len(scores)
 
@@ -67,44 +84,47 @@ class GreedyDepthFirst(Algorithm):
 
     def run(self):
         '''
-        Run the Greedy DepthFirst algorithm until all possible states are visited.
+        Run the Greedy DepthFirst algorithm until all possible states are visited
         
-        Output:
-        - Final state of Rush Hour board.
-        - A boolean indicating if a solution is found.
+        Output
+        ------
+        board : Board
+            current state of Rush Hour board
+        boolean or None : 
+            - True : indicating a solution is found
+            - False : indicating no solution is found yet
+            - None: : no solution is found at all
         '''
-        # check if there are (still) states to explore
-        if len(self.states) != 0:
+        # Check if there are (still) states to explore
+        if len(self.states) == 0:
+            print(f'No solution is found, amount of states visited: {self.visited_states}.')
+            return self.board, None
+        else:
             
-            # get next state through dequeue
+            # Bet next state through dequeue
             self.board = self.get_next_state()
             board_score = self.board.calculate_value()
             if board_score >= self.best_score[len(self.board.archive) - 1] or board_score >= self.level_score[len(self.board.archive) - 1]: #(sum(self.best_score) / len(self.best_score)) * 5:
                 self.best_score[len(self.board.archive) -1] = board_score
                 self.best_state = copy.deepcopy(self.board)
-                # print(self.best_score[len(self.board.archive) - 1])
 
             self.visited_states += 1
             
-            # check if current board state is a solution
             if self.board.solve():
                 print(f'A solution is found, amount of states visited: {self.visited_states}.')
                 return self.board, True
             
-            # get possible states for to explore further
-            self.build_children()
+            # Get possible states for to explore further
+            self.possible_states()
             
             return self.board, False
-        
-        else:
-            print(f'No solution is found, amount of states visited: {self.visited_states}.')
-            return self.board, None
     
     def get_name(self):
         '''
-        Get name of the algorithm to save CSV-file.
+        Get name of the algorithm to save CSV-file
         
-        Output:
-        - Name of the algorithm in string.
+        Output
+        ------
+        str : name of the algorithm
         '''
         return f'GreedyDepthFirst_VisitedStates{self.visited_states}'

@@ -8,7 +8,7 @@ class BoardVisualization():
     Attributes
     ----------
     initialized : Boolean
-        Starts at True to make the figure, then is set to False so only one figures is made
+        Starts at False to make the figure, then is set to True so only one figures exists
     draw_interval : float
         The default value for the draw_interval. See draw function for more info
     '''
