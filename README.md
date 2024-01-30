@@ -29,7 +29,24 @@ This will output the top 5 solutions the Random algorithm has found. It will als
 Other possible arguments: 
 - --algorithm : str
 
-    The algorithm to use for the experiment
+    The algorithm to use for the experiment (default = Random algorithm)
+    - BreadthFirst
+
+    - BranchAndBound
+    
+    - Greedy
+
+    - GreedyRandom
+
+    - GreedyDepthFirst
+
+    - Random
+
+    - mbw (ManualBoardWalker) 
+
+    Only used for visualization purposes
+
+
 
 - --amount_of_moves : int
 
