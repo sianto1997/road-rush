@@ -1,4 +1,22 @@
 class Car:
+    '''
+    The car class that is used for placing cars on a board
+
+    Attributes
+    ----------
+    id : str
+        Name of the car
+    orientation : char
+        H (horizontal) or V (vertical)
+    column : int
+        Current position of car (starts with 1)
+    row : int
+        Current position of car (starts with 1)
+    length : int
+        Length of car (2 or 3)
+    colour : str
+        The color of this car (used in visualization), red if the car id = 'X'
+    '''
     def __init__(self, id, orientation, column, row, length):
         '''
         Initializes a new car class
@@ -34,12 +52,17 @@ class Car:
         
     def update_collision_map(self, collision_map):
         '''
-        Update the collision map to include the current car. (add 1's)
+        Update the collision map to include the current car (add the cars id on the right positions)
 
         Parameters
         ----------
         collision_map : numpy.chararray 
-            size of the c
+            The existing collision_map that needs to be updated
+
+        Output
+        ------
+        collision_map : numpy.chararray
+            The updated collision_map with this car placed on it
         '''
 
         location_column = self.column
@@ -61,7 +84,7 @@ class Car:
 
         Parameters
         ----------
-        - opposite : bool
+        opposite : bool
             Get the other coordinate (horizontal car -> row or vertical car -> column) (default = False)
         '''
         if self.orientation == 'H' and not opposite or self.orientation == 'V' and opposite:
