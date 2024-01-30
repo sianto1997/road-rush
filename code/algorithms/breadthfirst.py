@@ -26,6 +26,7 @@ class BreadthFirst(Algorithm):
         board : Board
             The initial state of a Rush Hour board
         '''
+        
         self.board = copy.deepcopy(board)
         
         self.states = [copy.deepcopy(self.board)]
@@ -43,6 +44,7 @@ class BreadthFirst(Algorithm):
         board : Board
             The next state of the board
         '''
+        
         return self.states.pop(0)
 
     def possible_states(self):
@@ -71,6 +73,7 @@ class BreadthFirst(Algorithm):
             - False : indicating no solution is found yet
             - None: : no solution is found at all
         '''
+        
         if self.states == 0:
             print(f'No solution is found, amount of states visited: {self.visited_states}.')
             return self.board, None
@@ -95,4 +98,5 @@ class BreadthFirst(Algorithm):
         name : str
             name of the algorithm
         '''
+        
         return f'BreadthFirst_Archive{True}_VisitedStates{self.visited_states}'
