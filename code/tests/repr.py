@@ -26,7 +26,7 @@ class ReprTester:
 
         original_repr = a.__repr__()
 
-        moves = a.get_moves()
+        moves = a.get_states()
 
         print('original_repr not in moves', original_repr not in moves)
         print('moves all different', len(set(moves)) == len(moves))

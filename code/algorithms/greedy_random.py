@@ -5,8 +5,8 @@ import copy
 
 from code.algorithms.algorithm import Algorithm
 
-class Greedy(Algorithm):
-    def __init__(self, board, max_state_cache_size=10000):
+class GreedyRandom(Algorithm):
+    def __init__(self, board, max_state_cache_size=3):
         '''
         This is the greedy algorithm, written by Simon Antonides. It bases itself on version 2 of the Technical Description.
         
@@ -29,7 +29,7 @@ class Greedy(Algorithm):
         moves = self.board.get_states()
         # print('amount_of_moves', len(moves))
         # return self.board, True
-        best_score = 0 # self.board.calculate_value()
+        best_score = self.board.calculate_value()
         best_moves = []
 
         worst_score = 0
@@ -60,12 +60,7 @@ class Greedy(Algorithm):
             return self.board, False
             
         elif len(best_moves) == 0 and len(worst_moves) != 0:
-            print(best_moves)
-            print(worst_moves)
-            best_moves = worst_moves
-            print('hi')
-            # self.board = self.states.pop()
-            # return self.board, False
+            best_moves = moves
         
         if len(best_moves) == 1:
             self.board = best_moves[0]

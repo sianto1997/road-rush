@@ -32,9 +32,11 @@ class BranchAndBound(Algorithm):
         '''
         Creates the children nodes for the list 
         '''
-        childs = self.board.get_moves(output_as_states=True)
+
+        # 
+        children = self.board.get_states()
         
-        for child in childs:
+        for child in children:
             if self.archive[child.__repr__()] > len(child.moves) and len(child.moves) < self.depth:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
                 self.states.append(child)
                 self.archive[child.__repr__()] = len(child.moves)

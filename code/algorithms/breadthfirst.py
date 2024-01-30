@@ -36,7 +36,7 @@ class BreadthFirst(Algorithm):
         '''
         
         # get possible states from current board state
-        possible_states = self.board.get_moves(output_as_states=True)
+        possible_states = self.board.get_states()
 
         for state in possible_states:
 
@@ -47,7 +47,7 @@ class BreadthFirst(Algorithm):
 
     def run(self):
         '''
-        Run the BreadthFirst algorithm untill all possible states are visited.
+        Run the BreadthFirst algorithm until all possible states are visited.
         
         Output:
         - Final state of Rush Hour board.
