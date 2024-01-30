@@ -1,62 +1,61 @@
-import matplotlib.pyplot as plt
 import pandas as pd
-from code.classes.car import Car 
 from math import ceil, log
 import numpy as np
 import copy
 
-class Board:  
-      '''
-        Creates a board for the game Rush Hour
+from code.classes.car import Car 
 
-        Attribute
-        ---------
-        input_file: CSV
-            The file with information about the board 
-        car_csv : 
-            Parsed CSV of cars
-        size : int
-            The size of the board 
-        exit_row: int
-            Indicates where an opening should be in the board for the red car to leave
-        cars : dict
-            A dict with all the cars that need to be placed on the board 
-        moves : list
-            Stores the made moves 
-        archive : set 
-            A set with all the possible following states of the current state
-        
-        score_positive_component_exponent_base : int
-            The base of the exponent used in positive component of score (Default is 2) 
-        score_positive_component_maximum_exponent : int
-            The maximum exponent of 2 for the score of the positive component (default is 8, which translates to 256 as max value)
-        score_positive_component_minimum_exponent : int
-          The minimum exponent of 2 for the score to no longer calculate as part of the positive component (default is 5, which translated to 32 as min value)
-        score_positive_component_calculate_possible_position : bool
-          Count the potential position of the red car in the positive component of the score (Default True)
-        
-        score_negative_component_red_car_only_first : bool
-          Look only at the first obstruction for determining negative component (Default True)
-        score_negative_component_exponent_base : int 
-            The base of the exponent used in negative component of score (Default is 2)
-        score_negative_component_maximum_exponent : int
-          The maximum exponent of 2 for the score of the negative component (default is 4, which translates to 16 as max value)
-        score_negative_component_amount_of_levels : int
-          The amount of levels deep to explore obstructions as part of the negative component, the score halves each level (Default is 3)
-        ''' 
+class Board:  
+    '''
+    Creates a board for the game Rush Hour
+
+    Attribute
+    ---------
+    input_file: CSV
+        The file with information about the board 
+    car_csv : 
+        Parsed CSV of cars
+    size : int
+        The size of the board 
+    exit_row: int
+        Indicates where an opening should be in the board for the red car to leave
+    cars : dict
+        A dict with all the cars that need to be placed on the board 
+    moves : list
+        Stores the made moves 
+    archive : set 
+        A set with all the possible following states of the current state
+    
+    score_positive_component_exponent_base : int
+        The base of the exponent used in positive component of score (Default is 2) 
+    score_positive_component_maximum_exponent : int
+        The maximum exponent of 2 for the score of the positive component (default is 8, which translates to 256 as max value)
+    score_positive_component_minimum_exponent : int
+        The minimum exponent of 2 for the score to no longer calculate as part of the positive component (default is 5, which translated to 32 as min value)
+    score_positive_component_calculate_possible_position : bool
+        Count the potential position of the red car in the positive component of the score (Default True)
+    
+    score_negative_component_red_car_only_first : bool
+        Look only at the first obstruction for determining negative component (Default True)
+    score_negative_component_exponent_base : int 
+        The base of the exponent used in negative component of score (Default is 2)
+    score_negative_component_maximum_exponent : int
+        The maximum exponent of 2 for the score of the negative component (default is 4, which translates to 16 as max value)
+    score_negative_component_amount_of_levels : int
+        The amount of levels deep to explore obstructions as part of the negative component, the score halves each level (Default is 3)
+    ''' 
     def __init__(self, input_file, car_csv, score_positive_component_exponent_base = 2, score_positive_component_maximum_exponent = 8, score_positive_component_minimum_exponent = 5, score_positive_component_calculate_possible_position = True, score_negative_component_red_car_only_first = False, score_negative_component_exponent_base = 2, score_negative_component_maximum_exponent = 4, score_negative_component_amount_of_levels = 4):
     
         start = input_file.find('hour') + len('hour')
         end = input_file.find('x', start)
 
         self.size = int(input_file[start:end].strip())
-        self.exit_row = ceil(self.size / 2)
         self.cars = {}
-        self.moves = []
-        self.archive = set()
-
         self.init_cars(car_csv)
         self.init_empty_collision_map()
+        self.exit_row = ceil(self.size / 2)
+        self.moves = []
+        self.archive = set()
 
         self.score_positive_component_exponent_base = score_positive_component_exponent_base
         self.score_positive_component_maximum_exponent = score_positive_component_maximum_exponent

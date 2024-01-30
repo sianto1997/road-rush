@@ -1,4 +1,5 @@
 import copy
+
 from code.algorithms.algorithm import Algorithm
 from code.classes.board import Board
 from collections import defaultdict
@@ -13,13 +14,13 @@ class BranchAndBound(Algorithm):
     board : obj
         A state of the Board class 
     states : list
-        a stack storing the states that need to be used next by the algorithm
+        A stack storing the states that need to be used next by the algorithm
     best_solution : NoneType
         A variable to store the best found solution
     archive : dict
-        stores the states that have already been visited
+        Stores the states that have already been visited
     visited_state : int
-        keeps track of all the states that have been visited 
+        Keeps track of all the states that have been visited 
     depth: int
         Keeps track of how deep the solution is found 
     '''
@@ -31,7 +32,6 @@ class BranchAndBound(Algorithm):
 
         self.best_solution = None
 
-        # Taking the maximum depth as te optimal solution of Random
         self.archive = defaultdict(lambda: float('inf'))
         
         self.visited_states = 0
@@ -57,7 +57,7 @@ class BranchAndBound(Algorithm):
         
         for child in children:
 
-            # checks if child is lower than the one already stored in the archive and 
+            # checks if child is lower then the one already stored in the archive and 
             # if the amount of moves is lower than the current depth
             if self.archive[child.__repr__()] > len(child.moves) and len(child.moves) < self.depth:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
                 self.states.append(child)
@@ -70,12 +70,12 @@ class BranchAndBound(Algorithm):
         output
         ------
         best_solution : obj
-            the best found board at the moment a solution is found 
+            The best found board at the moment a solution is found 
         board : obj
 
-        boolean : 
+        succes : boolean 
             - True: solution is found 
-            _ False: solution is not found 
+            - False: solution is not found 
         '''
         if self.states:
             self.board = self.get_next_state()
