@@ -6,22 +6,22 @@ from collections import defaultdict
 
 class BranchAndBound(Algorithm):
     '''
-    A depth first algorithm that does not search deeper than the previously found solution
+    A DepthFirst algorithm that does not search deeper than a previously found solution
 
     Attributes
     ----------
 
-    board : obj
-        A state of the Board class 
+    board : Board
+        The current state of the Board class 
     states : list
         A stack storing the states that need to be used next by the algorithm
-    best_solution : NoneType
+    best_solution : NoneType or Board
         A variable to store the best found solution
     archive : dict
         Stores the states that have already been visited
     visited_state : int
         Keeps track of all the states that have been visited 
-    depth: int
+    depth : int
         Keeps track of how deep the solution is found 
     '''
     
@@ -69,15 +69,13 @@ class BranchAndBound(Algorithm):
         '''
         Runs the algorithm until the best possible solution is found 
 
-        output
+        Output
         ------
-        best_solution : obj
+        board : Board
             The best found board at the moment a solution is found 
-        board : obj
-
-        succes : boolean 
+        success : bool
             - True: solution is found 
-            - False: solution is not found 
+            - False: solution is not yet found 
         '''
         if self.states:
             self.board = self.get_next_state()

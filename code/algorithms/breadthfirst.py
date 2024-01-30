@@ -5,7 +5,7 @@ from code.classes.board import Board
 
 class BreadthFirst(Algorithm):
     '''
-    BreadthFirst algorithm with a deep copy of initial board state
+    This is an implementation of the BreadthFirst algorithm
 
     Attributes
     ----------
