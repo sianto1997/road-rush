@@ -6,21 +6,35 @@ import copy
 from code.algorithms.algorithm import Algorithm
 
 class Greedy(Algorithm):
-    def __init__(self, board, max_state_cache_size=10000):
+    '''
+    This is the greedy algorithm, written by Simon Antonides. It bases itself on version 2 of the Technical Description.
+    
+    '''
+    def __init__(self, board, max_state_cache_size = 3):
         '''
-        This is the greedy algorithm, written by Simon Antonides. It bases itself on version 2 of the Technical Description.
-        
+        Parameters
+        ----------
+        board : Board
+            the initial state of a Rush Hour board
+        max_state_cache_size : int
+            the maximum of unavailable prior states to progress to (default = 3)
         '''
         self.board = board
-        self.best_move = self.board
+        self.best_state = self.board
         self.best_score = self.board.calculate_value()
-        # The state cache is created to avoid ending in an infinite loop with the same states
-        self.max_state_cache_size = max_state_cache_size
+        
+        self.states = [copy.deepcopy(self.board)]
+
         self.archive = set()
         self.archive.add(self.board.repr())
+
+        self.visited_states = 0
+
         self.state_cache = list()
         self.state_cache.append(self.board.repr())
-        self.states = [copy.deepcopy(self.board)]
+
+        # The state cache is created to avoid ending in an infinite loop with the same states
+        self.max_state_cache_size = max_state_cache_size
 
         print(f'Start score = {self.best_score} {self.board.repr()}')
         
@@ -37,12 +51,10 @@ class Greedy(Algorithm):
         worst_score = 0
         worst_moves = []
 
-        # print('bs', best_score)
-        # if len(moves) >= 1:
         for move in moves:
-            # print(move.collision_map)
             if move.__repr__() not in self.state_cache:
                 score = move.calculate_value()
+                self.visited_states += 1
                 # print(f'Level {len(self.states)} node: {score}')
                 
                 if score > best_score:
@@ -62,13 +74,7 @@ class Greedy(Algorithm):
             return self.board, False
             
         elif len(best_moves) == 0 and len(worst_moves) != 0:
-            # print(best_moves)
-            # print(worst_moves)
             best_moves = worst_moves
-            # print('hi')
-            # self.board = self.states.pop()
-            # return self.board, False
-        
         if len(best_moves) == 1:
             self.board = best_moves[0]
         else:
@@ -95,4 +101,4 @@ class Greedy(Algorithm):
         name : str
             name of the algorithm
         '''
-        return 'Greedy' #+ 'variant'
+        return f'Greedy_VisitedStates{self.visited_states}'

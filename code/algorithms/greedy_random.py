@@ -56,7 +56,7 @@ class GreedyRandom(Algorithm):
         
     def run(self):
         '''
-        Run the Greedy DepthFirst algorithm until all possible states are visited
+        Run one iteration of Greedy Random algorithm
         
         Output
         ------
@@ -128,4 +128,4 @@ class GreedyRandom(Algorithm):
         name : str
             name of the algorithm
         '''
-        return 'GreedyRandom' #+ 'variant'
+        return f'GreedyRandom_VisitedStates{self.visited_states}'

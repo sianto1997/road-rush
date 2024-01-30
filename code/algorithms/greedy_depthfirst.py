@@ -11,6 +11,12 @@ class GreedyDepthFirst(Algorithm):
     ----------
     board : Board
         the current state of the Rush Hour board
+    best_state : Board
+        the best state until now
+    best_score : int
+        the score of the best state until now
+    level_score : int
+        the average score of a the current level
     states : list of Board
         a stack to store states you still need to look into
     archive : set of int
@@ -28,15 +34,16 @@ class GreedyDepthFirst(Algorithm):
 
         self.board = copy.deepcopy(board)
         
-        self.states = [copy.deepcopy(self.board)]
+        self.best_state = self.board
+        self.best_score = [- math.inf]
+        self.level_score = [- math.inf]
         
+        self.states = [copy.deepcopy(self.board)]
+
         self.archive = set()
         self.archive.add(self.board.repr())
         
         self.visited_states = 0
-        self.best_state = self.board
-        self.best_score = [- math.inf]
-        self.level_score = [- math.inf]
     
     def get_next_state(self):
         '''
@@ -84,13 +91,13 @@ class GreedyDepthFirst(Algorithm):
 
     def run(self):
         '''
-        Run the Greedy DepthFirst algorithm until all possible states are visited
+        Run one iteration of the Greedy DepthFirst algorithm
         
         Output
         ------
         board : Board
             current state of Rush Hour board
-        boolean or None : 
+        solved : bool or None 
             - True : indicating a solution is found
             - False : indicating no solution is found yet
             - None: : no solution is found at all
@@ -104,6 +111,8 @@ class GreedyDepthFirst(Algorithm):
             # Bet next state through dequeue
             self.board = self.get_next_state()
             board_score = self.board.calculate_value()
+            self.visited_states += 1
+
             if board_score >= self.best_score[len(self.board.archive) - 1] or board_score >= self.level_score[len(self.board.archive) - 1]: #(sum(self.best_score) / len(self.best_score)) * 5:
                 self.best_score[len(self.board.archive) -1] = board_score
                 self.best_state = copy.deepcopy(self.board)
