@@ -113,7 +113,6 @@ Other possible arguments:
 
 ## Acknowledgments
 
-* StackOverflow
-* Wouter & Quinten
 * Noa & Luka (TAs)
-* Minor AI - UvA
+* Minor AI - UvA (Wouter & Quinten)
+* StackOverflow
