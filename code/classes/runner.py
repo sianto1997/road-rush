@@ -107,20 +107,22 @@ class Runner:
 
                 # Applying save_threshold to not save long (bad) solutions
                 if (self.save_threshold == 0 or amount_of_moves <= self.save_threshold) and solved:
+
                     # Save location for check 50
                     if self.output_check50:
                         self.board.save_moves(f'output.csv')
                     else:
+
                         # Save in readable format
                         self.board.save_moves(f'{self.output_directory}/{self.file_name}_{algorithm.get_name()}_{solved}_M{amount_of_moves}_S{self.board.get_amount_of_states()}_{self.start_time}.csv')
             except (KeyboardInterrupt, SystemExit):
+
                 # Save when quitting
                 self.save_object()
                 exit()
 
             # Save each iteration while running
             self.save_object()
-
 
         # Print the top solutions for comparison to other experiments 
         print(sorted(moves)[:5])
