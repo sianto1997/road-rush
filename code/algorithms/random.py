@@ -59,9 +59,9 @@ class Random(Algorithm):
         car_index = random.randint(0, len(self.board.cars) - 1)
 
         if MoveMethod(self.move_method) == MoveMethod.RandomAll:
-            steps = random.randint(-self.board.size,self.board.size)
+            steps = random.randint(- self.board.size, self.board.size)
         else:
-            steps = random.randint(-self.move_method,self.move_method)
+            steps = random.randint(- self.move_method, self.move_method)
 
         self.board.move(self.board.get_car(car_index), steps)
 

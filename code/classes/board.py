@@ -13,7 +13,7 @@ class Board:
     ----------
     input_file : str
         The file with information about the board 
-    car_csv :  CSV
+    car_csv :  pd.DataFrame
         Parsed CSV of cars
     size : int
         The size of the board 
@@ -28,8 +28,8 @@ class Board:
     collision_map : numpy.chararray
         A map of where all cars and walls are. It has size of (board_size + 2, board_size + 2)
     ''' 
-    def __init__(self, input_file : str, car_csv):
-    
+    def __init__(self, input_file : str, car_csv : pd.DataFrame):
+        
         start = input_file.find('hour') + len('hour')
         end = input_file.find('x', start)
 
@@ -310,13 +310,13 @@ class Board:
         '''
         return self.move(self.red_car, self.size - self.red_car.column - 1, execute=execute)
 
-    def repr(self):
+    def __repr__(self):
         '''
         This function uses a hash-function to represent a state as an positive or negative integer. This is used for comparing states quickly to determine whether to examine a state
 
         Output
         ------
-        repr : int
-            A number (negative or positive) formatted as int
+        repr : str
+            A number (negative or positive) formatted as str
         '''
-        return hash(str(self.collision_map))
+        return str(hash(str(self.collision_map)))

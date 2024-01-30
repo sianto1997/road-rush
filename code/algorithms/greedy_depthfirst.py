@@ -44,7 +44,7 @@ class GreedyDepthFirst(Algorithm):
         self.states = [copy.deepcopy(self.board)]
 
         self.archive = set()
-        self.archive.add(self.board.repr())
+        self.archive.add(self.board.__repr__())
         
         self.visited_states = 0
     
