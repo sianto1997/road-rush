@@ -4,15 +4,15 @@ import copy
 
 class BreadthFirst(Algorithm):
     '''
-    Initialize Breadthfirst algorithm with deep copy of initial board state
+    BreadthFirst algorithm with a deep copy of initial board state
 
     Attributes
     ----------
-    board : obj
-        the initial state of a Rush Hour board
-    states : list
+    board : Board
+        the current state of the Rush Hour board
+    states : list of Board
         a queue to store states you still need to look into
-    archive : set
+    archive : set of str
         keeps track of the states which are already visited
     visited_states : int
         amount of states the algorithm did look at to find a solution
@@ -39,14 +39,14 @@ class BreadthFirst(Algorithm):
         
         Output
         ------
-        board : obj
+        board : Board
             the next state of the board
         '''
         return self.states.pop(0)
 
     def possible_states(self):
         '''
-        Get possible states from current board state and add to list if state is not visited before
+        Get possible states from current board state and add to queue if state is not visited before
         '''
         
         possible_states = self.board.get_states()
@@ -63,8 +63,8 @@ class BreadthFirst(Algorithm):
         
         Output
         ------
-        board : obj
-            final state of Rush Hour board
+        board : Board
+            current state of Rush Hour board
         boolean or None : 
             - True : indicating a solution is found
             - False : indicating no solution is found yet
