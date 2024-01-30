@@ -96,7 +96,7 @@ Other possible arguments:
 - --draw_interval : float
 
     Draw interval for visual board (only used when visualize is True) (default = 0.01)
-    
+
 - --resume : bool
 
     Resume previous (aborted with Ctrl+C) experiment using pickle (default = False) 
@@ -114,5 +114,6 @@ Other possible arguments:
 ## Acknowledgments
 
 * StackOverflow
+* Wouter & Quinten
 * Noa & Luka (TAs)
 * Minor AI - UvA
