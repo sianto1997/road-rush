@@ -98,4 +98,4 @@ class BreadthFirst(Algorithm):
         name : str
             Name of the algorithm
         '''
-        return f'BreadthFirst_Archive{True}_VisitedStates{self.visited_states}'
+        return f'BreadthFirst_VisitedStates{self.visited_states}'
