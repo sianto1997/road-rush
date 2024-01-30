@@ -152,15 +152,15 @@ class Board:
         Parameters
         ----------
         car : Car
-          The car that gets moved
+            The car that gets moved
         steps : int
-          A number between -board_size and board_size
+            A number between -board_size and board_size
         execute : bool 
             Execute the move (default = False)
 
         Output
         ------
-        success : boolean
+        success : bool
             - True if move is made succesfully 
             - False if move is not possible
         '''
@@ -210,7 +210,7 @@ class Board:
 
         Output
         ------
-        List of tuples : 
+        moves : list of tuples
             (car.id, steps)
         '''
         moves = []
