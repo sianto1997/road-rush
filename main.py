@@ -1,7 +1,6 @@
 import argparse
 from code.classes.runner import Runner
 from code.algorithms.random import Random, MoveMethods
-from code.algorithms.amber_manual import AmberManual
 from code.algorithms.greedy import Greedy
 from code.algorithms.breadthfirst import BreadthFirst
 from code.algorithms.branch_bound import BranchAndBound
@@ -25,7 +24,6 @@ def main(input, algorithm, amount_of_moves, output_directory, amount_of_experime
     - draw_interval (float): The interval between moves in the visualization
     - resume (bool): Resume previous experiment
     '''
-
     kwargs = {}
     if move_method >= 0:
         kwargs['move_method'] = move_method

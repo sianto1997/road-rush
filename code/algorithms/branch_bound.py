@@ -30,7 +30,9 @@ class BranchAndBound(Algorithm):
         self.states = [copy.deepcopy(self.board)]
 
         self.best_solution = None
-        self.archive = defaultdict(lambda: float('inf'))
+
+        # Taking the maximum depth as te optimal solution of Random
+        self.archive = defaultdict(lambda: 538)# float('inf'))
         
         self.visited_states = 0
         self.depth = float('inf')
