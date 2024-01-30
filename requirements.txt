@@ -1,12 +1,7 @@
 matplotlib
 numpy
 pandas
-random
-pickle
 argparse
-copy
 typing
-enum
-os
 datetime
 seaborn

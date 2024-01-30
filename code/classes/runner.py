@@ -10,10 +10,13 @@ from code.classes.board import Board
 from code.classes.board_visualization import BoardVisualization
 
 class Runner:
+    '''
+    This class runs an experiment
+
+    
+    '''
     def __init__(self, max_moves, amount_of_experiments, input_file, output_directory, output_check50, visualize, draw_interval, algorithm_type, save_threshold, **kwargs):
         '''
-        Initializing runner
-
         Attributes
         ----------
         max_moves : int
