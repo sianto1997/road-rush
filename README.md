@@ -14,7 +14,7 @@ pip install -r requirements.txt
 
 ### Structure
 
-Alle Python scripts staan in de folder Code. In de map Data zitten alle input waardes en in de map resultaten worden alle resultaten opgeslagen door de code.
+All code (except main.py) is located in the folder code. In the folder Data all the input boards reside. The results of the experiments are located in the output folder.
 
 ### Testing
 
