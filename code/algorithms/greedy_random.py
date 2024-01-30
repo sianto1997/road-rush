@@ -13,30 +13,30 @@ class GreedyRandom(Algorithm):
     Attributes
     ----------
     board : Board
-        the current state of the Rush Hour board
+        The current state of the Rush Hour board
     best_state : Board
-        the best state until now
+        The best state until now
     best_score : int
-        the score of the best state until now
+        The score of the best state until now
     states : list of Board
-        a stack to store states you still need to look into
+        A stack to store states you still need to look into
     archive : set of int
-        keeps track of the states which are already visited
+        Keeps track of the states which are already visited
     visited_states : int
-        amount of states the algorithm did look at to find a solution
+        Amount of states the algorithm did look at to find a solution
     state_cache : set of int
-        the last N states (N = max_state_cache_size) used for determining whether a state can be visited
+        The last N states (N = max_state_cache_size) used for determining whether a state can be visited
     max_state_cache_size : int
-        the maximum amount of states in the state cache
+        The maximum amount of states in the state cache
     '''
     def __init__(self, board, max_state_cache_size = 3):
         '''
         Parameters
         ----------
         board : Board
-            the initial state of a Rush Hour board
+            The initial state of a Rush Hour board
         max_state_cache_size : int
-            the maximum of unavailable prior states to progress to (default = 3)
+            The maximum of unavailable prior states to progress to (default = 3)
         '''
         self.score = Score()
         self.board = board
@@ -64,11 +64,11 @@ class GreedyRandom(Algorithm):
         Output
         ------
         board : Board
-            current state of Rush Hour board
+            Current state of Rush Hour board
         solved : bool or None
-            - True : indicating a solution is found
-            - False : indicating no solution is found yet
-            - None: : no solution is found at all
+            - True : Indicating a solution is found
+            - False : Indicating no solution is found yet
+            - None: : No solution is found at all
         '''
         solvable = self.board.solve()
         if solvable:
@@ -129,6 +129,6 @@ class GreedyRandom(Algorithm):
         Output
         ------
         name : str
-            name of the algorithm
+            Name of the algorithm
         '''
         return f'GreedyRandom_VisitedStates{self.visited_states}'
