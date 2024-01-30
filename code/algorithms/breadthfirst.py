@@ -62,7 +62,7 @@ class BreadthFirst(Algorithm):
 
     def run(self):
         '''
-        Run the BreadthFirst algorithm until all possible states are visited
+        Run one iteration of the BreadthFirst algorithm until all possible states are visited
         
         Output
         ------
