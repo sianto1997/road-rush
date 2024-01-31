@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
-
+import numpy as numpy
+import matplotlib.image as image
 
 class BoardVisualization():
     '''
@@ -22,14 +23,22 @@ class BoardVisualization():
         '''
         self.initialized = False
         self.draw_interval = draw_interval
+        
 
     def init_visualization(self):
         '''
         Initializes the board so that only one display is created
         '''
         self.canvas = plt.figure(figsize = [self.board.size + 0.5, self.board.size + 0.5])
-        self.canvas.patch.set_facecolor('gray')
+        self.canvas.patch.set_facecolor('#6D738D')
         self.ax = self.canvas.add_subplot()
+        self.subplot = self.canvas.add_subplot()
+        im = image.imread('assets/red_car.png')
+        # self.subplot = self.canvas.subplots(1)
+        self.subplot.set_axis_off()
+
+    # self.ax.imshow(im, aspect='auto', extent=(car.column, car.row, 2, 1), zorder=-1)
+        self.subplot.imshow(im, aspect='equal', extent=(1, 3, 1, 2), zorder=-1)
         self.initialized = True
     
     def replace(self, board):
@@ -98,12 +107,15 @@ class BoardVisualization():
         ---------
         car : Car
             The car to draw
-        '''      
-        if car.orientation == 'H': 
+        '''
+        if car.id == 'X':
+            self.subplot.set_position([0.055 + (0.155 * (car.get_pos() - 1)), 0, 0.27, 1.148])
+            return
+        elif car.orientation == 'H': 
             car_drawing = plt.Rectangle((car.column, car.row), car.length, 1, facecolor = car.colour, edgecolor = 'black', lw = 5)
         else:
             car_drawing = plt.Rectangle((car.column, car.row), 1, car.length, facecolor = car.colour, edgecolor = 'black', lw = 5)
         
         self.ax.add_patch(car_drawing)
 
-        plt.text(car.column + 0.5, car.row + 0.5, car.id, fontsize = 10)
+        self.ax.text(car.column + 0.5, car.row + 0.5, car.id, fontsize = 10)

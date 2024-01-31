@@ -56,16 +56,19 @@ class Random(Algorithm):
             - True : Indicating a solution is found
             - False : Indicating no solution is found yet
         '''
-        car_index = random.randint(0, len(self.board.cars) - 1)
+        move_valid = False
 
-        if MoveMethod(self.move_method) == MoveMethod.RandomAll:
-            steps = random.randint(- self.board.size, self.board.size)
-        else:
-            steps = random.randint(- self.move_method, self.move_method)
+        while not move_valid:
+            car_index = random.randint(0, len(self.board.cars) - 1)
 
-        car = self.board.get_car_by_index(car_index)
+            if MoveMethod(self.move_method) == MoveMethod.RandomAll:
+                steps = random.randint(- self.board.size, self.board.size)
+            else:
+                steps = random.randint(- self.move_method, self.move_method)
+
+            car = self.board.get_car_by_index(car_index)
+            move_valid = self.board.move(car, steps, False)
         self.board.move(car, steps)
-
         return self.board, self.board.solve()
 
     def get_name(self):
