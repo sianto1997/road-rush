@@ -28,7 +28,7 @@ class Replay(Algorithm):
         self.i = 0
         self.moves = pd.read_csv(input) 
         self.size = len(self.moves)
-        # print(self.moves, self.size)
+        
 
     def run(self):
         if self.i < self.size:
