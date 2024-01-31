@@ -1,2 +1,3 @@
-moves,states,algorithm
+Moves,States,Algorithm
 21,44478,BranchAndBound
+21,30998,BranchAndBound(opt)
