@@ -5,7 +5,7 @@ import pandas as pd
 
 df = pd.read_csv('algoritmes_data.csv')
 
-df_melted = pd.melt(df, id_vars=['Algorithm', 'Board'], value_vars=['Moves', 'States'], var_name='Results', value_name='Count')
+df_melted = pd.melt(df, id_vars=['Algorithm'], value_vars=['Moves', 'States'], var_name='Results', value_name='Count')
 
 colors = {'Moves': 'orange', 'States': 'red'}
 
