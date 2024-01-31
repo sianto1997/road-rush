@@ -1,0 +1,4 @@
+Moves,States,Board,Algorithm
+141,318,6x6, Greedy
+21,44478,6x6,BranchAndBound 
+21,523,6x6,BreadthFirst

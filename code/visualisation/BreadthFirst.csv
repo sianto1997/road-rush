@@ -1,0 +1,4 @@
+moves,states,board,algorithm
+21,523,6x6,BreadthFirst
+
+
