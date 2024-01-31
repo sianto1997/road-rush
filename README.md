@@ -46,10 +46,6 @@ Other possible arguments:
     - BreadthFirst
 
     - BranchAndBound
-    
-    - Greedy
-
-    - GreedyRandom
 
     - GreedyDepthFirst
 
