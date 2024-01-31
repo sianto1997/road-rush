@@ -4,9 +4,30 @@ from code.classes.score import Score
 
 class ManualBoardWalker(Algorithm):
     '''
-    This class is being used to walk on a board manually
+    This class is being used to walk on a board manually (Only used for visualization purposes)
+
+    Attributes
+    ----------
+    board : Board
+        The current board state
+    score : Score  
+        Score class
+    i : int
+        Iterator
+    cars : list of Car
+        A manual list of cars that need to be moved
+    moves : list of int
+        A manual list of moves (min - board.size, max + board.size)
+    moves2 : list of Board
+        All possible states possible from initial board state 
     '''
     def __init__(self, board : Board):
+        '''
+        Parameters
+        ----------
+        board : Board
+            The initial board state
+        '''
         self.board = board
         self.score = Score()
         self.i = 0
@@ -25,24 +46,33 @@ class ManualBoardWalker(Algorithm):
         print(f'start {self.score.calculate_value(self.board)}')
 
     def run(self):
-        print(f'run {self.score.calculate_value(self.board)}')
+        '''
+        Run one iteration of the manual board walker
+        '''
+        # Run manual moves if available
         if self.i < len(self.cars):
             car = self.cars[self.i]
             move = self.moves[self.i]
-            # print(car, move)
             print(self.board.move(car, move))
 
             self.i += 1
             return self.board, False
+        # Run moves possible from begin state
         elif self.i < len(self.moves2):
-            # print(car, move)
-            # print(self.board.move(car, move))
             self.board = self.moves2.pop()
             self.i += 1
             return self.board, False
+        # Always quit and do not save, even if solution is found
         else:
-            # Quit
             return self.board, None
 
     def get_name(self):
+        '''
+        Get name of the algorithm to save CSV-file
+        
+        Output
+        ------
+        name : str
+            Name of the algorithm
+        '''
         return 'ManualBoardWalker'

@@ -41,4 +41,12 @@ class Replay(Algorithm):
             return self.board, None
 
     def get_name(self):
+        '''
+        Get name of the algorithm to save CSV-file
+        
+        Output
+        ------
+        name : str
+            Name of the algorithm
+        '''
         return 'Replay'
