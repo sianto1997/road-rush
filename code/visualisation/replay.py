@@ -31,13 +31,16 @@ class Replay(Algorithm):
         
 
     def run(self):
+        '''
+        Run one iteration of replay
+        '''
         if self.i < self.size:
             self.board.move(self.board.get_car_by_id(self.moves.iloc[self.i].car), self.moves.iloc[self.i].move)
 
             self.i += 1
             return self.board, False
         else:
-            # Quit
+            # Quit always without solution (to avoid saving result)
             return self.board, None
 
     def get_name(self):
