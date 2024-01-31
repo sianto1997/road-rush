@@ -32,13 +32,13 @@ class BoardVisualization():
         self.canvas = plt.figure(figsize = [self.board.size + 0.5, self.board.size + 0.5])
         self.canvas.patch.set_facecolor('#6D738D')
         self.ax = self.canvas.add_subplot()
-        self.subplot = self.canvas.add_subplot()
-        im = image.imread('assets/red_car.png')
-        # self.subplot = self.canvas.subplots(1)
-        self.subplot.set_axis_off()
+        
+        if self.board.size == 6:
+            self.subplot = self.canvas.add_subplot()
+            im = image.imread('assets/red_car.png')
+            self.subplot.set_axis_off()
+            self.subplot.imshow(im, aspect='equal', extent=(1, 3, 1, 2), zorder=-1)
 
-    # self.ax.imshow(im, aspect='auto', extent=(car.column, car.row, 2, 1), zorder=-1)
-        self.subplot.imshow(im, aspect='equal', extent=(1, 3, 1, 2), zorder=-1)
         self.initialized = True
     
     def replace(self, board):

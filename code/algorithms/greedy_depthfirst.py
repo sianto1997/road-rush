@@ -17,8 +17,6 @@ class GreedyDepthFirst(Algorithm):
         The best state until now
     best_score : int
         The score of the best state until now
-    level_score : int
-        The average score of a the current level
     states : list of Board
         A stack to store states you still need to look into
     archive : set of int
@@ -38,13 +36,16 @@ class GreedyDepthFirst(Algorithm):
         self.board = copy.deepcopy(board)
         
         self.best_state = self.board
-        self.best_score = [- math.inf]
-        self.level_score = [- math.inf]
+        self.best_score = - math.inf
+        self.worst_score = math.inf
         
         self.states = [copy.deepcopy(self.board)]
 
         self.archive = set()
         self.archive.add(self.board.__repr__())
+
+        self.state_cache = []
+        self.state_cache_limit = 3
         
         self.visited_states = 0
     
@@ -55,11 +56,15 @@ class GreedyDepthFirst(Algorithm):
         Output
         ------
         board : Board
-            The next state of the board
+            The next or current state of the board
         '''
         new_state = self.states.pop()
-        if len(new_state.archive) > len(self.best_score):
-            self.best_score.append(- math.inf)
+        if new_state not in self.state_cache:
+            self.state_cache.append(new_state)
+            if len(self.state_cache) > self.state_cache_limit:
+                self.state_cache.pop()
+        else:
+            new_state = self.board
 
         return new_state
 
@@ -67,31 +72,17 @@ class GreedyDepthFirst(Algorithm):
         '''
         Get possible states from current board state and add to stack if state is not visited before
         '''
+        score_boundary = self.best_score - 128
+
         # Check if board is as good as best score of the current depth
-        if self.score.calculate_value(self.board) == self.best_score[len(self.board.archive) - 1]:
+        if self.score.calculate_value(self.board) >= score_boundary:
             possible_states = self.board.get_states()
-            scores = []
-            archive = set()
-            states = []
 
             for state in possible_states:
                 # Use representation to make algorithm faster
                 if state.__repr__() not in self.archive:
-                    states.append(state)
-                    archive.add(state.__repr__())
-                    scores.append(self.score.calculate_value(state))
-
-            score = - math.inf
-
-            if len(scores) > 0:
-                score = sum(scores) / len(scores)
-
-            # Comparing the scores with the 75 percent of the average level score
-            if len(self.board.archive) < 100 or score >= self.level_score[len(self.level_score) - 1] * 0.75:
-                self.level_score.append(score)
-
-                self.states.extend(states)
-                self.archive.update(archive)
+                    self.states.append(state)
+                    self.archive.add(state.__repr__())
 
     def run(self):
         '''
@@ -112,14 +103,17 @@ class GreedyDepthFirst(Algorithm):
             return self.board, None
         else:
             
-            # Bet next state through dequeue
+            # Get next state through dequeue
             self.board = self.get_next_state()
             board_score = self.score.calculate_value(self.board)
             self.visited_states += 1
 
-            if board_score >= self.best_score[len(self.board.archive) - 1] or board_score >= self.level_score[len(self.board.archive) - 1]: #(sum(self.best_score) / len(self.best_score)) * 5:
-                self.best_score[len(self.board.archive) -1] = board_score
+            if board_score > self.best_score:
+                self.best_score = board_score
                 self.best_state = copy.deepcopy(self.board)
+
+            if board_score < self.worst_score:
+                self.worst_score = board_score
 
             self.visited_states += 1
             
