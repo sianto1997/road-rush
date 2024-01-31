@@ -3,7 +3,7 @@ class Score:
     Creates a score for the board
 
     Attributes
-    ---------    
+    ----------
     score_positive_component_exponent_base : int
         The base of the exponent used in positive component of score (default = 2) 
     score_positive_component_maximum_exponent : int
@@ -18,11 +18,11 @@ class Score:
     score_negative_component_exponent_base : int 
         The base of the exponent used in negative component of score (default = 2)
     score_negative_component_maximum_exponent : int
-        The maximum exponent of 2 for the score of the negative component (default = 4, which translates to 16 as max value)
+        The maximum exponent of 2 (score_negative_component_exponent_base) for the score of the negative component (default = 4, which translates to 16 as max value)
     score_negative_component_amount_of_levels : int
         The amount of levels deep to explore obstructions as part of the negative component, the score halves each level (default = 3)
     ''' 
-    def __init__(self, score_positive_component_exponent_base = 2, score_positive_component_maximum_exponent = 8, score_positive_component_minimum_exponent = 5, score_positive_component_calculate_possible_position = True, score_negative_component_red_car_only_first = False, score_negative_component_exponent_base = 2, score_negative_component_maximum_exponent = 4, score_negative_component_amount_of_levels = 4):
+    def __init__(self, score_positive_component_exponent_base = 2, score_positive_component_maximum_exponent = 8, score_positive_component_minimum_exponent = 5, score_positive_component_calculate_possible_position = True, score_negative_component_red_car_only_first = True, score_negative_component_exponent_base = 2, score_negative_component_maximum_exponent = 4, score_negative_component_amount_of_levels = 3):
         self.score_positive_component_exponent_base = score_positive_component_exponent_base
         self.score_positive_component_maximum_exponent = score_positive_component_maximum_exponent
         self.score_positive_component_minimum_exponent = score_positive_component_minimum_exponent
@@ -96,17 +96,13 @@ class Score:
         obstructors = []
 
         # All results of the red car (only looks forward for the red car)
-        if self.score_negative_component_red_car_only_first:
-            obstructors_of_red_car = self.obstructed_by(self.board.red_car, True, False)
-        else:
-            obstructors_of_red_car = self.obstructed_by(self.board.red_car, True, True)
+        obstructors_of_red_car = self.obstructed_by(self.board.red_car, True, self.score_negative_component_red_car_only_first)
 
         if obstructors_of_red_car != None:
-            # obstructors.extend(obstructors_of_red_car)
+            obstructors.extend(obstructors_of_red_car)
             # level = self.board.red_car.get_pos()
             level = self.score_negative_component_amount_of_levels
             for (obstructor, position_to_clear) in obstructors:
-                # level += level - position_to_clear
                 score += self.calculate_negative_component_of_score_recursive(level - 1, obstructor, position_to_clear, self.board.red_car, set([self.board.red_car.id, obstructor.id]))
 
         return score
@@ -116,7 +112,7 @@ class Score:
         The recursive function helping calculate the negative component of the score
 
         Parameters
-        ------
+        ----------
         levels_to_go : int
             Lowers every step, stops when the level reaches 0
         current_obstruction : Car
@@ -133,11 +129,12 @@ class Score:
             clearance_multiplier = 1
             can_be_cleared = self.obstruction_can_be_cleared(obstructor, position_to_clear, obstructed)
 
-            if not can_be_cleared:
+            if not can_be_cleared and levels_to_go != self.score_negative_component_amount_of_levels:
                 clearance_multiplier = -1
-                add_to_current =  (self.score_negative_component_exponent_base ** (levels_to_go + self.score_negative_component_diff_amount_of_levels_maximum) * clearance_multiplier)
-            else:
-                add_to_current =  (self.score_negative_component_exponent_base ** (self.score_negative_component_amount_of_levels - levels_to_go) * clearance_multiplier)
+
+            add_to_current =  (self.score_negative_component_exponent_base ** (levels_to_go + self.score_negative_component_diff_amount_of_levels_maximum) * clearance_multiplier)
+            # else:
+                # add_to_current =  (self.score_negative_component_exponent_base ** (self.score_negative_component_amount_of_levels - levels_to_go) * clearance_multiplier)
             
             score += add_to_current
             
@@ -164,15 +161,15 @@ class Score:
                             passed_obstructions.add(obstruction.id)
                             child_scores.append(self.calculate_negative_component_of_score_recursive(levels_to_go - 1, obstruction, position_to_clear, obstructor, passed_obstructions))
                     
-                    if len(child_scores) > 0:
-                        if max(child_scores) > 0:
-                            score += max(child_scores)
-                        else:
-                            score += sum(child_scores)
+                    # if len(child_scores) > 0:
+                    #     if max(child_scores) > 0:
+                    #         score += max(child_scores)
+                    #     else:
+                    score += sum(child_scores)
 
                 else:
                     score += self.score_negative_component_exponent_base ** ((levels_to_go - 1) + self.score_negative_component_diff_amount_of_levels_maximum)
-            
+        # print(score)  
         return score
 
     def obstructed_by(self, car, forwards=True, only_first=True):

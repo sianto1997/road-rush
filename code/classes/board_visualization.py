@@ -108,7 +108,7 @@ class BoardVisualization():
         car : Car
             The car to draw
         '''
-        if car.id == 'X':
+        if self.board.size == 6 and car.id == 'X':
             self.subplot.set_position([0.055 + (0.155 * (car.get_pos() - 1)), 0, 0.27, 1.148])
             return
         elif car.orientation == 'H': 

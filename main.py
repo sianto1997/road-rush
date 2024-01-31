@@ -3,11 +3,9 @@ import pickle
 
 from code.classes.runner import Runner
 from code.algorithms.random import Random
-from code.algorithms.greedy import Greedy
 from code.algorithms.breadthfirst import BreadthFirst
 from code.algorithms.branch_bound import BranchAndBound
 from code.algorithms.greedy_depthfirst import GreedyDepthFirst
-from code.algorithms.greedy_random import GreedyRandom
 from code.visualisation.manual_board_walker import ManualBoardWalker
 from code.visualisation.replay import Replay
 
@@ -68,17 +66,13 @@ def switch(algorithm = ''):
         The algorithm to be used. If no matching algorithm is found the Random algorithm will be returned
 
     '''
-    if algorithm == 'Greedy':
-        return Greedy
-    elif algorithm == 'GreedyDepthFirst':
+    if algorithm == 'GreedyDepthFirst':
         return GreedyDepthFirst
     elif algorithm == 'GreedyRandom':
-        return GreedyRandom
-    elif algorithm == 'BreadthFirst':
         return BreadthFirst
     elif algorithm == 'BranchAndBound':
         return BranchAndBound
-    elif algorithm == 'mbw':
+    elif algorithm == 'MBW':
         return ManualBoardWalker
     elif algorithm == 'Replay':
         return Replay
