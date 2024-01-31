@@ -48,6 +48,14 @@ class ManualBoardWalker(Algorithm):
     def run(self):
         '''
         Run one iteration of the manual board walker
+        
+        Output
+        ------
+        board : Board
+            Current state of Rush Hour board
+        solved : bool or None 
+            - False : indicating no solution is found yet (all but last iteration)
+            - None: : no solution is found at all (last iteration)
         '''
         # Run manual moves if available
         if self.i < len(self.cars):

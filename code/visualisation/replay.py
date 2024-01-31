@@ -33,6 +33,14 @@ class Replay(Algorithm):
     def run(self):
         '''
         Run one iteration of replay
+
+        Output
+        ------
+        board : Board
+            Current state of Rush Hour board
+        solved : bool or None 
+            - False : indicating no solution is found yet (all but last iteration)
+            - None: : no solution is found at all (last iteration)
         '''
         if self.i < self.size:
             self.board.move(self.board.get_car_by_id(self.moves.iloc[self.i].car), self.moves.iloc[self.i].move)
