@@ -46,10 +46,6 @@ Other possible arguments:
     - BreadthFirst
 
     - BranchAndBound
-    
-    - Greedy
-
-    - GreedyRandom
 
     - GreedyDepthFirst
 
@@ -61,7 +57,7 @@ Other possible arguments:
 
         Required extra parameter --replay_input
 
-    - mbw (ManualBoardWalker) 
+    - MBW (ManualBoardWalker) 
 
         Only used for visualization purposes
 

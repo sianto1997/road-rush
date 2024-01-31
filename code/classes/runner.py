@@ -151,9 +151,9 @@ class Runner:
 
         # Print the top solutions for comparison to other experiments 
         print(sorted(moves)[:5])
-
-        df = pd.DataFrame(moves, columns=['move']) 
-        df.to_csv(f'output/experiments_summaries/{self.file_name}_{algorithm.get_name()}_S{self.start_time}_E{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv', index=False)
+        if len(moves) > 0:
+            df = pd.DataFrame(moves, columns=['move']) 
+            df.to_csv(f'output/experiments_summaries/{self.file_name}_{algorithm.get_name()}_S{self.start_time}_E{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv', index=False)
 
         self.clean_object()
 
