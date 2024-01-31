@@ -55,6 +55,11 @@ Other possible arguments:
 
     - Random
 
+    - Replay
+        
+        Replay a solution gathered earlier (only usable in combination with --visualize)
+        Required extra parameter --replay_input
+
     - mbw (ManualBoardWalker) 
 
         Only used for visualization purposes
@@ -101,6 +106,9 @@ Other possible arguments:
 
     Resume previous (aborted with Ctrl+C) experiment using pickle (default = False) 
 
+- --replay_input : str
+
+    The path and filename of a result to replay (example 'output/6x6_1/Rushhour6x6_1.csv_BreadthFirst_VisitedStates523_True_M21_S21_2024-01-30_16-24-48.csv'). Only usable in combination with the Replay algorithm.
 
 
 

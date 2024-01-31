@@ -21,7 +21,7 @@ class ManualBoardWalker(Algorithm):
         if self.i < len(self.cars):
             car = self.cars[self.i]
             move = self.moves[self.i]
-            self.board.pause(50000)
+            self.board.pause(10)
             print(self.board.move(car, move))
 
             self.i += 1
@@ -31,4 +31,4 @@ class ManualBoardWalker(Algorithm):
             return True
 
     def get_name(self):
-        return 'AmberManual'
+        return 'ManualBoardWalker'

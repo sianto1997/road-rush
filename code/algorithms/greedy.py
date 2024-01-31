@@ -86,7 +86,7 @@ class Greedy(Algorithm):
 
         self.state_cache.append(self.board.__repr__())
         self.states.append(copy.deepcopy(self.board))
-        print(f'Board chosen {self.board.__repr__()}')
+        print(f'Board chosen {self.board.__repr__()} score: {self.score.calculate_value(self.board)}')
         return self.board, False
         
         
